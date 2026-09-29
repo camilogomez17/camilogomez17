@@ -8,6 +8,13 @@ export default function ProjectsPage() {
       href: "/resume",
       cta: "View Store",
       target: "_blank",
+    },
+    {
+      title: "Habit Analytics",
+      description: "Track habits and analyze them.",
+      href: "/habitAnalytics",
+      cta: "View App",
+      target: "_blank",
     }
   ];
 
