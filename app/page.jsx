@@ -23,7 +23,7 @@ export default function HomePage() {
             fontWeight: 300,
             fontSize: "clamp(40px, 10vw, 72px)",
             letterSpacing: "clamp(0.12em, 1.2vw, 0.25em)",
-            color: "#d4c9b0",
+            color: "white",
             lineHeight: 1.05,
           }}
         >
@@ -35,7 +35,7 @@ export default function HomePage() {
             fontWeight: 300,
             fontSize: "clamp(40px, 10vw, 72px)",
             letterSpacing: "clamp(0.12em, 1.2vw, 0.25em)",
-            color: "#d4c9b0",
+            color: "white",
             lineHeight: 1.05,
           }}
         >
