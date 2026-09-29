@@ -61,7 +61,7 @@ export default function Page() {
         e.preventDefault();
         const start = new Date(form.start), end = new Date(form.end);
         if (!form.action.trim() || !Number.isFinite(+start) || !Number.isFinite(+end) ||
-            !form.start.startsWith(local(start).slice(0, 16)) || !form.end.startsWith(local(end).slice(0, 16)) ||
+            !form.start.startsWith(local(+start).slice(0, 16)) || !form.end.startsWith(local(+end).slice(0, 16)) ||
             Math.round((+end - +start) / 1000) < 1) {
             setError("Enter an action and valid times at least one second apart."); return;
         }
@@ -83,7 +83,7 @@ export default function Page() {
     function stopTimer() {
         if (!timer) return;
         const end = new Date(Math.max(Date.now(), Date.parse(timer) + 1000));
-        setForm(f => ({ ...f, start: local(timer), end: local(end) }));
+        setForm(f => ({ ...f, start: local(timer), end: local(+end) }));
         localStorage.removeItem(TIMER); setTimer(null);
     }
     function importFile(e: ChangeEvent<HTMLInputElement>) {
