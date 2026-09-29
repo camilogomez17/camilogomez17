@@ -33,8 +33,6 @@ export default function Page() {
     const [query, setQuery] = useState("");
     const [day, setDay] = useState("");
     const [timer, setTimer] = useState<string | null>(null);
-    const [journalDay, setJournalDay] = useState("");
-    const [journal, setJournal] = useState("");
 
     useEffect(() => {
         try {
@@ -45,9 +43,6 @@ export default function Page() {
             }
             setTimer(localStorage.getItem(TIMER));
             setForm(blank());
-            const today = local(Date.now()).slice(0, 10);
-            setJournalDay(today);
-            setJournal(stored?.journals.find(x => x.date === today)?.text || "");
             setReady(true);
         } catch (e) { setError(e instanceof Error ? e.message : "Browser storage is unavailable."); }
     }, []);
@@ -101,7 +96,6 @@ export default function Page() {
     const days = [...new Set(found.map(x => local(x.start).slice(0, 10)))];
     const activeDay = days.includes(day) ? day : days[0];
     const visible = found.filter(x => local(x.start).startsWith(activeDay || "\0"));
-    const journalText = data.journals.find(x => x.date === activeDay)?.text;
 
     return <main className="ha">
         <style>{`
@@ -186,10 +180,6 @@ export default function Page() {
                 </form>
                 {!edit && (timer ? <button onClick={stopTimer}>Stop timer and fill times</button> : <button disabled={!ready} onClick={startTimer}>Start timer</button>)}
             </section>
-            <section><h2>Daily retrospective</h2><label>Date<input type="date" value={journalDay} onChange={e => { setJournalDay(e.target.value); setJournal(data.journals.find(x => x.date === e.target.value)?.text || ""); }} /></label>
-                <textarea value={journal} onChange={e => setJournal(e.target.value)} placeholder="What mattered today?" />
-                <button disabled={!ready || !journalDay} onClick={() => commit({ ...data, journals: [...data.journals.filter(x => x.date !== journalDay), ...(journal.trim() ? [{ date: journalDay, text: journal.trim(), updatedAt: new Date().toISOString() }] : [])] })}>Save retrospective</button>
-            </section>
         </> : <>
             <section><h2>Explore {found.length} actions</h2><input aria-label="Search actions" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search actions, tags, and context" />
                 <p className="muted">Total time: {found.reduce((n, x) => n + seconds(x), 0)} seconds</p>
@@ -200,7 +190,6 @@ export default function Page() {
                     <button onClick={() => { if (confirm(`Delete “${x.action}”?`)) commit({ ...data, events: data.events.filter(e => e.id !== x.id) }); }}>Delete</button>
                 </div>)}{!visible.length && <p>No matching actions.</p>}
             </section>
-            {journalText && <section><h2>Retrospective · {activeDay}</h2><p>{journalText}</p></section>}
         </>}
         <section><h2>Backup</h2><button disabled={!ready} onClick={() => download("habit-analytics.json", JSON.stringify(data, null, 2))}>Export JSON</button>
             <label className="file">Import JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label></section>
