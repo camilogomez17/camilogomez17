@@ -103,7 +103,8 @@ export default function Page() {
       .ha {
         --white: #f5f5f7; --secondary: #a1a1a6; --line: #303033;
         --display: var(--font-valencia, "HA Valencia"), Georgia, serif;
-        min-height: 100vh; padding: 0 max(24px, calc((100vw - 920px)/2)) 100px;
+        width: 100%; max-width: 920px; min-width: 0; min-height: 100vh;
+        margin: 0 auto; padding: 0 24px 100px;
         color: var(--white); background: #000;
         font: 15px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
         -webkit-font-smoothing: antialiased;
