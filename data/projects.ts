@@ -27,4 +27,13 @@ export const projects: Project[] = [
     homeScene: "book",
     showInHomeFeed: true,
   },
+  {
+    title: "Habit Analytics",
+    description: "A privacy-first habit tracker for recording actions, timing, tags, context, and exploring your patterns over time.",
+    href: "/habitAnalytics",
+    cta: "Open app",
+    homeQuote: "`Measure what you do, then learn from the pattern.`",
+    homeScene: "timer",
+    showInHomeFeed: true,
+  },
 ];
