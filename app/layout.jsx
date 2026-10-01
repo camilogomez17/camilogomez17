@@ -2,10 +2,6 @@ import "./globals.css";
 
 import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
-
-import AdSense from "@/components/AdSense";
-import GlobalThemeSync from "@/components/GlobalThemeSync";
-import ThemeInitScript from "@/components/ThemeInitScript";
 import NavSearch from "@/components/NavSearch";
 import { projects } from "@/data/projects";
 import { Analytics } from "@vercel/analytics/next";
@@ -24,7 +20,8 @@ export const metadata = {
     default: "c6m1lo",
     template: "%s | Camilo Gomez",
   },
-  description: "Portfolio and personal website of my projects, skills, and experience.",
+  description:
+    "Portfolio and personal website of my projects, skills, and experience.",
   robots: {
     index: true,
     follow: true,
@@ -42,7 +39,8 @@ export const metadata = {
   keywords: ["Camilo Gomez", "C6m1lo", "portfolio", "projects", "resume"],
   openGraph: {
     title: "c6m1lo",
-    description: "Portfolio and personal website of my projects, skills, and experience.",
+    description:
+      "Portfolio and personal website of my projects, skills, and experience.",
     url: SITE_URL,
     siteName: "c6m1lo",
     images: [
@@ -78,23 +76,31 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning className={valencia.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
-        <ThemeInitScript />
-        <AdSense pId="ca-pub-9659879669905345" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9659879669905345"
+          crossorigin="anonymous"
+        ></script>
       </head>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        <GlobalThemeSync />
 
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
-            <p><a href="https://www.c6m1lo.com">C6M1LO</a></p>
+            <p>
+              <a href="https://www.c6m1lo.com">C6M1LO</a>
+            </p>
             <div className="nav-left">
               <NavSearch items={searchItems} />
             </div>
@@ -115,7 +121,9 @@ export default function RootLayout({ children }) {
 
         <footer className="site-footer">
           <div className="content footer-row">
-            <p>© {new Date().getFullYear()} CAMILO VALENCIA. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} CAMILO VALENCIA. All rights reserved.
+            </p>
             <div className="footer-links">
               <a className="footer-link" href="/privacy">
                 Privacy Policy
