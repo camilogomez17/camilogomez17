@@ -36,16 +36,6 @@ export const metadata = {
 export default function Resume() {
   return (
     <article className="resume-page">
-      <header className="resume-hero">
-        <div className="resume-arch" aria-hidden="true" />
-        <div className="resume-hero-content">
-          <p className="resume-eyebrow">CAMILO VALENCIA · MMXXVI</p>
-          <h1>Résumé</h1>
-          <div className="resume-rule" aria-hidden="true"><span>✦</span></div>
-          <p className="resume-intro">A foundation in software engineering, front-end development, and devOps.</p>
-        </div>
-      </header>
-
       <div className="resume-body">
         <section className="resume-section" aria-labelledby="profiles-heading">
           <div className="resume-section-heading">
