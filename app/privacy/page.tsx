@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           <article className="info-card">
             <h2 className="text-xl font-semibold">Information processed when you visit</h2>
             <p className="muted mt-2">
-              The hosting provider may process technical request information, such as IP address, browser and device details, requested pages, timestamps, and security logs, to deliver and protect the site. The site also uses Vercel Analytics to understand aggregate website usage and improve the experience. These providers process information under their own terms and privacy documentation.
+              The hosting provider may process technical request information, such as IP address, browser and device details, requested pages, timestamps, and security logs, to deliver and protect the site. The current layout does not render a first-party analytics dashboard. The hosting provider processes technical information under its own terms and privacy documentation.
             </p>
           </article>
 
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
           <article className="info-card">
             <h2 className="text-xl font-semibold">How information is used and shared</h2>
             <p className="muted mt-2">
-              Information may be processed to operate, secure, maintain, understand usage of, and advertise on this site. Information may also be processed by the hosting, analytics, and advertising providers described above. I do not sell personal information directly. This statement does not limit processing performed independently by those providers under their own policies or disclosures required by law.
+              Information may be processed to operate, secure, maintain, and advertise on this site. If you email me, the message and any details you include will also be processed by the email providers involved in sending and receiving it. Information may also be processed by the hosting, analytics, and advertising providers described above. I do not sell personal information directly. This statement does not limit processing performed independently by those providers under their own policies or disclosures required by law.
             </p>
           </article>
 
