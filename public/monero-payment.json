@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "asset": "XMR",
+  "network": "mainnet",
+  "payment_method": "monero",
+  "address": "47DtnHXfCGoPhw1PLC2ZZjTuTjAEa987fYgiD9FcRTvm1vaFwxuDJFsZKBjfvvigbjaxTd8bMHK5z6M5mvfChgYzFYvACzi",
+  "address_type": "public_receiving_address",
+  "notes": "Public receiving address only. This file does not authorize payments, provide a private key, or prove that a payment has been received. Verify the address and network before sending funds."
+}
