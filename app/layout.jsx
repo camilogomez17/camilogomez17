@@ -39,7 +39,7 @@ export const metadata = {
   openGraph: {
     title: "c6m1lo",
     description:
-      "Portfolio and personal website of my projects, skills, and experience.",
+      "Camilo Valencia is a software engineering student building practical web tools. Explore project notes, Habit Analytics, and technical skills.",
     url: SITE_URL,
     siteName: "c6m1lo",
     images: [
