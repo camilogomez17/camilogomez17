@@ -103,6 +103,20 @@ export default function Page() {
             }
         }).catch((e) => setError(e instanceof Error ? e.message : "Could not import that JSON backup."));
     }
+    function clearAllData() {
+        if (!confirm("Delete all actions and journal entries saved in this browser? Export a backup first if you want to keep them.")) return;
+        if (commit(empty)) {
+            try {
+                localStorage.removeItem(TIMER);
+                setTimer(null);
+                setEdit(null);
+                setForm(blank());
+                setTab("Record");
+            } catch {
+                setError("Records were cleared, but the saved timer could not be removed.");
+            }
+        }
+    }
     const found = useMemo(() => data.events.filter(x =>
         `${x.action} ${x.context} ${x.tags.join(" ")}`.toLowerCase().includes(query.toLowerCase())
     ).sort((a, b) => b.start.localeCompare(a.start)), [data.events, query]);
@@ -205,7 +219,11 @@ export default function Page() {
                 </div>)}{!visible.length && <p>No matching actions.</p>}
             </section>
         </>}
-        <section><h2>Backup</h2><button disabled={!ready} onClick={() => download("habit-analytics.json", JSON.stringify(data, null, 2))}>Export JSON</button>
-            <label className="file">Import JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label></section>
+        <section><h2>Backup and data controls</h2>
+            <p className="muted">Records stay in this browser's local storage. Export a JSON backup before clearing browser data or switching devices. Imports are limited to 2 MB and validated before replacing existing records.</p>
+            <button disabled={!ready} onClick={() => download("habit-analytics.json", JSON.stringify(data, null, 2))}>Export JSON</button>
+            <label className="file">Import JSON backup<input aria-label="Import JSON backup" type="file" accept=".json,application/json" onChange={importFile} /></label>
+            <button disabled={!ready || (!data.events.length && !data.journals.length)} onClick={clearAllData}>Delete all saved data</button>
+        </section>
     </main>;
 }
