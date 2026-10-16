@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "description": "Machine-readable discovery metadata for this website. Payment information is public; no private keys are provided.",
+  "payments": {
+    "monero": {
+      "endpoint": "/monero-payment.json",
+      "network": "mainnet",
+      "currency": "XMR",
+      "purpose": "public_receiving_address"
+    }
+  }
+}
