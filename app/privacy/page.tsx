@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           <article className="info-card">
             <h2 className="text-xl font-semibold">Information processed when you visit</h2>
             <p className="muted mt-2">
-              The hosting provider may process technical request information, such as IP address, browser and device details, requested pages, timestamps, and security logs, to deliver and protect the site. The current layout does not render a first-party analytics dashboard. The hosting provider processes technical information under its own terms and privacy documentation.
+              The hosting provider may process technical request information, such as IP address, browser and device details, requested pages, timestamps, and security logs, to deliver and protect the site. This site does not currently run a separate first-party analytics service. The hosting provider processes technical information under its own terms and privacy documentation.
             </p>
           </article>
 
