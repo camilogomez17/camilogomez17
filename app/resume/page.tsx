@@ -36,6 +36,17 @@ export const metadata = {
 export default function Resume() {
   return (
     <article className="resume-page">
+      <header className="resume-hero">
+        <div className="resume-arch" aria-hidden="true" />
+        <div className="resume-hero-content">
+          <p className="resume-eyebrow">Software engineering · Portfolio résumé</p>
+          <h1>Camilo<br />Valencia</h1>
+          <div className="resume-rule"><span>PROFILE</span></div>
+          <p className="resume-intro">
+            Software engineering student building practical web applications and learning through iterative development, testing, and deployment.
+          </p>
+        </div>
+      </header>
       <div className="resume-body">
         <section className="resume-section" aria-labelledby="profiles-heading">
           <div className="resume-section-heading">

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
 import NavSearch from "@/components/NavSearch";
 import { projects } from "@/data/projects";
-import { Analytics } from "@vercel/analytics/next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
@@ -16,12 +15,13 @@ const valencia = Cormorant_Garamond({
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: {
     default: "c6m1lo",
     template: "%s | Camilo Gomez",
   },
   description:
-    "Portfolio and personal website of my projects, skills, and experience.",
+    "Camilo Valencia is a software engineering student building practical web tools. Explore project notes, Habit Analytics, and technical skills.",
   robots: {
     index: true,
     follow: true,
@@ -40,7 +40,7 @@ export const metadata = {
   openGraph: {
     title: "c6m1lo",
     description:
-      "Portfolio and personal website of my projects, skills, and experience.",
+      "Camilo Valencia is a software engineering student building practical web tools. Explore project notes, Habit Analytics, and technical skills.",
     url: SITE_URL,
     siteName: "c6m1lo",
     images: [
@@ -63,7 +63,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   const searchItems = [
     { label: "Home", href: "/" },
-    { label: "Buy A Website", href: "/website" },
     ...projects
       .map((project) => ({ label: project.title, href: project.href }))
       .filter((item) => item.href?.startsWith("/")),
@@ -99,7 +98,7 @@ export default function RootLayout({ children }) {
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
             <p>
-              <a href="https://www.c6m1lo.com">C6M1LO</a>
+              <Link href="/">C6M1LO</Link>
             </p>
             <div className="nav-left">
               <NavSearch items={searchItems} />

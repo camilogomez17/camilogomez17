@@ -12,19 +12,19 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Bible App",
-    description: "A simple Bible reading app built with React and Next.js.",
-    href: "/bible",
+    title: "Habit Analytics",
+    description: "A browser-based activity log with timestamps, tags, notes, search, date filtering, a session timer, and JSON backup/import.",
+    href: "/habitAnalytics",
     cta: "Open app",
-    showInHomeFeed: false,
+    homeQuote: "Record what you do, then explore your patterns over time.",
+    homeScene: "timer",
+    showInHomeFeed: true,
   },
   {
-    title: "Journal App",
-    description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
-    href: "/journal",
-    cta: "Open app",
-    homeQuote: "`Write clearly enough to understand your own patterns over time.`",
-    homeScene: "book",
-    showInHomeFeed: true,
+    title: "Résumé",
+    description: "Education, technical skills, and professional profile links.",
+    href: "/resume",
+    cta: "View résumé",
+    showInHomeFeed: false,
   },
 ];
