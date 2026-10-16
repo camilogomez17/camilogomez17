@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { MAX_BACKUP_BYTES, validateBackup } from "@/lib/habit-analytics-validation.js";
 
 type Entry = { id: string; action: string; start: string; end: string; tags: string[]; context: string; createdAt: string; updatedAt: string };
 type Journal = { date: string; text: string; updatedAt: string };
@@ -36,15 +37,18 @@ export default function Page() {
 
     useEffect(() => {
         try {
-            const stored = JSON.parse(localStorage.getItem(KEY) || "null") as Database | null;
-            if (stored) {
-                if (!Array.isArray(stored.events) || !Array.isArray(stored.journals)) throw Error("Saved data is unreadable. Export a backup before clearing browser data.");
-                setData(stored);
-            }
+            const raw = localStorage.getItem(KEY);
+            if (raw) setData(validateBackup(JSON.parse(raw)) as Database);
             setTimer(localStorage.getItem(TIMER));
             setForm(blank());
             setReady(true);
-        } catch (e) { setError(e instanceof Error ? e.message : "Browser storage is unavailable."); }
+        } catch (e) {
+            setError(e instanceof Error
+                ? "Saved data could not be loaded safely: " + e.message + " You can import a valid backup to recover."
+                : "Browser storage is unavailable.");
+        } finally {
+            setReady(true);
+        }
     }, []);
 
     function commit(next: Database) {
@@ -55,17 +59,21 @@ export default function Page() {
     function save(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const start = new Date(form.start), end = new Date(form.end);
-        if (!form.action.trim() || !Number.isFinite(+start) || !Number.isFinite(+end) ||
+        const tags = [...new Set(form.tags.split(",").map(x => x.trim()).filter(Boolean))];
+        if (!form.action.trim() || form.action.trim().length > 200 ||
+            form.context.length > 5000 || tags.length > 30 || tags.some(tag => tag.length > 80) ||
+            (!edit && data.events.length >= 10_000) ||
+            !Number.isFinite(+start) || !Number.isFinite(+end) ||
             !form.start.startsWith(local(+start).slice(0, 16)) || !form.end.startsWith(local(+end).slice(0, 16)) ||
             Math.round((+end - +start) / 1000) < 1) {
-            setError("Enter an action and valid times at least one second apart."); return;
+            setError("Check the action, time range, and field limits (200 characters per action, 5,000 per context, 30 tags of up to 80 characters, and 10,000 records)."); return;
         }
         const old = data.events.find(x => x.id === edit);
         const now = new Date().toISOString();
         const item = {
             id: old?.id || crypto.randomUUID(), action: form.action.trim(),
             start: start.toISOString(), end: end.toISOString(),
-            tags: [...new Set(form.tags.split(",").map(x => x.trim()).filter(Boolean))],
+            tags,
             context: form.context.trim(), createdAt: old?.createdAt || now, updatedAt: now
         };
         const events = old ? data.events.map(x => x.id === edit ? item : x) : [...data.events, item];
@@ -84,11 +92,16 @@ export default function Page() {
     function importFile(e: ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]; e.target.value = "";
         if (!file) return;
+        if (file.size > MAX_BACKUP_BYTES) {
+            setError("Backup files must be 2 MB or smaller.");
+            return;
+        }
         file.text().then(text => {
-            const next = JSON.parse(text) as Database;
-            if (next.version !== 1 || !Array.isArray(next.events) || !Array.isArray(next.journals)) throw Error("Invalid backup.");
-            if (confirm(`Replace current data with ${next.events.length} entries?`)) commit(next);
-        }).catch(() => setError("Could not import that JSON backup."));
+            const next = validateBackup(JSON.parse(text)) as Database;
+            if (confirm(`Replace current data with ${next.events.length} actions and ${next.journals.length} journal entries? Export your current data first if you want to keep it.`)) {
+                commit(next);
+            }
+        }).catch((e) => setError(e instanceof Error ? e.message : "Could not import that JSON backup."));
     }
     const found = useMemo(() => data.events.filter(x =>
         `${x.action} ${x.context} ${x.tags.join(" ")}`.toLowerCase().includes(query.toLowerCase())
@@ -173,10 +186,10 @@ export default function Page() {
         {tab === "Record" ? <>
             <section><h2>{edit ? "Edit action" : "Record action"}</h2>
                 <form onSubmit={save}>
-                    <label>Action<input required value={form.action} onChange={e => change("action", e.target.value)} placeholder="What did you do?" /></label>
+                    <label>Action<input required maxLength={200} value={form.action} onChange={e => change("action", e.target.value)} placeholder="What did you do?" /></label>
                     <div className="row"><label>Start<input type="datetime-local" step="1" required value={form.start} onChange={e => change("start", e.target.value)} /></label><label>End<input type="datetime-local" step="1" required value={form.end} onChange={e => change("end", e.target.value)} /></label></div>
-                    <label>Tags, separated by commas<input value={form.tags} onChange={e => change("tags", e.target.value)} /></label>
-                    <label>Context<textarea value={form.context} onChange={e => change("context", e.target.value)} placeholder="Intention, outcome, interruptions..." /></label>
+                    <label>Tags, separated by commas<input maxLength={2500} value={form.tags} onChange={e => change("tags", e.target.value)} /></label>
+                    <label>Context<textarea maxLength={5000} value={form.context} onChange={e => change("context", e.target.value)} placeholder="Intention, outcome, interruptions..." /></label>
                     <button disabled={!ready}>Save action</button>{edit && <button type="button" onClick={() => { setEdit(null); setForm(blank()); }}>Cancel edit</button>}
                 </form>
                 {!edit && (timer ? <button onClick={stopTimer}>Stop timer and fill times</button> : <button disabled={!ready} onClick={startTimer}>Start timer</button>)}
