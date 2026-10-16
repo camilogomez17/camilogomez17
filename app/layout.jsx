@@ -21,7 +21,7 @@ export const metadata = {
     template: "%s | Camilo Gomez",
   },
   description:
-    "Portfolio and personal website of my projects, skills, and experience.",
+    "Camilo Valencia is a software engineering student building practical web tools. Explore project notes, Habit Analytics, and technical skills.",
   robots: {
     index: true,
     follow: true,
@@ -63,7 +63,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   const searchItems = [
     { label: "Home", href: "/" },
-    { label: "Buy A Website", href: "/website" },
     ...projects
       .map((project) => ({ label: project.title, href: project.href }))
       .filter((item) => item.href?.startsWith("/")),
