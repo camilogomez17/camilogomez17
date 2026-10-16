@@ -15,6 +15,7 @@ const valencia = Cormorant_Garamond({
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: {
     default: "c6m1lo",
     template: "%s | Camilo Gomez",
@@ -97,7 +98,7 @@ export default function RootLayout({ children }) {
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
             <p>
-              <a href="https://www.c6m1lo.com">C6M1LO</a>
+              <Link href="/">C6M1LO</Link>
             </p>
             <div className="nav-left">
               <NavSearch items={searchItems} />
