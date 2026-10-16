@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
 import NavSearch from "@/components/NavSearch";
 import { projects } from "@/data/projects";
-import { Analytics } from "@vercel/analytics/next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
