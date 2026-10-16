@@ -29,7 +29,7 @@ const skills = [
 ];
 
 export const metadata = {
-  title: "Résumé",
+  title: "Resume",
   description: "Technical skills and profile links for recruiters and potential employers.",
 };
 
