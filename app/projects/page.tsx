@@ -74,13 +74,13 @@ export default function ProjectsPage() {
         <div className="case-study-topline"><span>02 / LEARNING SYSTEM</span><span>INTERACTIVE PROTOTYPE</span></div>
         <div className="case-study-grid">
           <div className="case-study-main">
-            <h2>Study Next</h2>
+            <h2>study.py</h2>
             <p className="case-study-summary">
               An adaptive diagnostic that asks programming questions, estimates skill gaps,
               and recommends the next topic in a Python full-stack curriculum.
             </p>
             <div className="case-study-actions">
-              <Link className="resume-button resume-button-primary" href="/study-next">Run assessment ↗</Link>
+              <Link className="resume-button resume-button-primary" href="/study.py">Run assessment ↗</Link>
               <a className="resume-button" href="https://github.com/camilogomez17/camilogomez17" target="_blank" rel="noreferrer">View source ↗</a>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function ProjectsPage() {
         </div>
         <div className="case-study-footer">
           <span>NEXT STEPS: FASTAPI / POSTGRESQL / PRACTICE TASKS</span>
-          <Link href="/study-next">Open prototype ↗</Link>
+          <Link href="/study.py">Open prototype ↗</Link>
         </div>
       </article>
 
