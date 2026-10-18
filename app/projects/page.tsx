@@ -72,12 +72,11 @@ export default function ProjectsPage() {
 
       <section className="projects-next">
         <p className="resume-eyebrow">CURRENT FOCUS</p>
-        <h2>Frontend engineering, then deeper systems.</h2>
+        <h2>Frontend JavaScript, Python Backend.</h2>
         <p>
           My current frontend stack is TypeScript, React, and Next.js. I am learning Python
           as my next step toward backend development, with a focus on APIs, data modeling,
-          testing, and reliable server-side behavior. I will add further projects here as
-          they are implemented and ready to demonstrate.
+          testing, and reliable server-side behavior.
         </p>
       </section>
     </div>
