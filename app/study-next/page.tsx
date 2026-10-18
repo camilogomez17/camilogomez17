@@ -75,6 +75,67 @@ const learningChapters: LearningChapter[] = [
 ];
 
 
+// Curriculum outline based on the W3Schools Python tutorial navigation.
+// These are curriculum entries only; dedicated question banks will be added later.
+const curriculumLessons: Record<string, string[]> = {
+  "python_intro.asp": ["What is Python?", "What can Python do?", "Why Python?", "Python syntax compared with other languages"],
+  "python_getstarted.asp": ["Install Python", "Check the Python version", "Run Python from the command line", "Write and run a first script", "Use a code editor or IDE"],
+  "python_syntax.asp": ["Execute Python syntax", "Python indentation", "Python statements", "Python syntax compared with other languages"],
+  "python_output.asp": ["The print() function", "Print multiple values", "Print without a newline", "Output variables and expressions"],
+  "python_comments.asp": ["Single-line comments", "Multi-line comments", "Use comments to explain code"],
+  "python_variables.asp": ["Create variables", "Variable names", "Assign multiple values", "Output variables", "Global variables", "The global keyword"],
+  "python_datatypes.asp": ["Built-in data types", "Get the type with type()", "Set a data type", "Type-specific constructors"],
+  "python_numbers.asp": ["Integer numbers", "Floating-point numbers", "Complex numbers", "Random numbers"],
+  "python_casting.asp": ["Convert to int", "Convert to float", "Convert to str"],
+  "python_strings.asp": ["Strings", "Strings as arrays", "Loop through a string", "String length", "Check a string", "String slicing", "Modify strings", "Concatenate strings", "Format strings", "Escape characters", "String methods"],
+  "python_booleans.asp": ["Boolean values", "Evaluate expressions", "Return Boolean values"],
+  "python_operators.asp": ["Arithmetic operators", "Assignment operators", "Comparison operators", "Logical operators", "Identity operators", "Membership operators", "Bitwise operators", "Operator precedence"],
+  "python_lists.asp": ["Create lists", "Access list items", "Change list items", "Add list items", "Remove list items", "Loop through lists", "List comprehension", "Sort lists", "Copy lists", "Join lists", "List methods"],
+  "python_tuples.asp": ["Create tuples", "Access tuple items", "Update tuples", "Unpack tuples", "Loop through tuples", "Join tuples", "Tuple methods"],
+  "python_sets.asp": ["Create sets", "Access set items", "Add set items", "Remove set items", "Loop through sets", "Join sets", "Set methods"],
+  "python_dictionaries.asp": ["Create dictionaries", "Access dictionary items", "Change dictionary items", "Add dictionary items", "Remove dictionary items", "Loop through dictionaries", "Copy dictionaries", "Nested dictionaries", "Dictionary methods"],
+  "python_conditions.asp": ["if statements", "elif statements", "else statements", "Shorthand if / else", "Combine conditions with and", "Combine conditions with or", "Nested if statements", "The pass statement"],
+  "python_match.asp": ["Match statements", "Match values", "Match multiple values", "Use a default case", "Match with conditions"],
+  "python_while_loops.asp": ["The while loop", "The break statement", "The continue statement", "The else clause in loops"],
+  "python_for_loops.asp": ["Loop through a list", "Loop through a string", "The break statement", "The continue statement", "The range() function", "Else in for loops", "Nested loops", "The pass statement"],
+  "python_functions.asp": ["Define a function", "Call a function", "Function arguments", "Number of arguments", "Arbitrary arguments (*args)", "Keyword arguments", "Arbitrary keyword arguments (**kwargs)", "Default parameter values", "Return values", "Pass statements in functions", "Positional-only arguments", "Keyword-only arguments", "Unpack arguments"],
+  "python_range.asp": ["range() with one argument", "range() with start and stop", "range() with a step", "Convert a range to a list"],
+  "python_lambda.asp": ["Create a lambda function", "Lambda with multiple arguments", "Use lambda inside another function"],
+  "python_recursion.asp": ["Recursive functions", "Base cases", "Recursive calls", "Avoid infinite recursion"],
+  "python_generators.asp": ["Generator functions", "The yield keyword", "Iterate over generator values", "Generator expressions"],
+  "python_arrays.asp": ["Create and access arrays", "Modify array values", "Add and remove array items", "Loop through arrays", "Array methods"],
+  "python_iterators.asp": ["Iterable objects", "Create an iterator", "The iter() function", "The next() function", "Build a custom iterator"],
+  "python_modules.asp": ["Import a module", "Use module functions", "Create a module", "Rename modules with as", "Built-in modules", "Explore names with dir()", "Import from a module"],
+  "python_scope.asp": ["Local scope", "Function scope", "Global scope", "The global keyword", "Nonlocal scope"],
+  "python_decorators.asp": ["Understand decorators", "Decorate a function", "Preserve function metadata", "Decorators with arguments"],
+  "python_classes.asp": ["Create a class", "Create objects", "The __init__() method", "The self parameter", "Object methods", "Modify object properties", "Delete object properties", "Delete objects", "The pass statement", "Class and instance attributes", "Class methods", "Static methods", "Magic methods"],
+  "python_inheritance.asp": ["Create a child class", "The super() function", "Add child-class properties", "Override methods", "Multiple inheritance"],
+  "python_polymorphism.asp": ["Function polymorphism", "Class polymorphism", "Inheritance and polymorphism", "Duck typing"],
+  "python_encapsulation.asp": ["Public attributes", "Protected naming conventions", "Private name mangling", "Properties and controlled access"],
+  "python_datetime.asp": ["Import datetime", "Display dates", "Create date objects", "Format dates with strftime()"],
+  "python_math.asp": ["Built-in math functions", "The math module", "Constants", "Rounding and absolute values"],
+  "python_json.asp": ["JSON syntax", "Parse JSON with loads()", "Convert to JSON with dumps()", "Format JSON output", "Sort JSON keys"],
+  "python_regex.asp": ["Regular-expression syntax", "The re module", "Search for a match", "Find all matches", "Split strings", "Replace matches", "Metacharacters", "Special sequences", "Sets and ranges", "Match objects"],
+  "python_pip.asp": ["What is pip?", "Install packages", "Use installed packages", "List installed packages", "Uninstall packages"],
+  "python_try_except.asp": ["Handle exceptions", "The try block", "The except block", "The else block", "The finally block", "Raise exceptions", "Built-in exception types"],
+  "python_string_formatting.asp": ["Format strings", "F-strings", "Placeholders and modifiers", "Format values"],
+  "python_none.asp": ["The None value", "Check for None", "Functions that return None"],
+  "python_user_input.asp": ["Read user input", "Convert input values", "Validate user input"],
+  "python_virtualenv.asp": ["Why use a virtual environment?", "Create a virtual environment", "Activate and deactivate", "Install project dependencies", "Freeze dependencies"],
+  "python_file_handling.asp": ["Open files", "Read files", "Read lines", "Close files", "Write to files", "Append to files", "Create files", "Delete files", "Check file and directory paths", "Work with directories"],
+  "python_numpy.asp": ["Install NumPy", "Create arrays", "Array indexing", "Array slicing", "Array data types", "Copy and view arrays", "Array shape and reshape", "Iterate arrays", "Join and split arrays", "Search and sort arrays", "Filter arrays", "Random numbers"],
+  "python_pandas.asp": ["Install pandas", "Series", "DataFrames", "Read CSV files", "Read JSON files", "Analyze DataFrames", "Clean empty cells", "Clean wrong data", "Remove duplicates", "Data correlations", "Plotting"],
+  "python_scipy.asp": ["Install SciPy", "Constants", "Sparse data", "Graphs", "Spatial data", "Mathematical functions", "Statistical functions"],
+  "python_matplotlib.asp": ["Install Matplotlib", "Pyplot", "Plotting", "Markers", "Line styles", "Labels and titles", "Grid", "Subplots", "Scatter plots", "Bar charts", "Histograms", "Pie charts"],
+  "python_ml_getting_started.asp": ["What is machine learning?", "Data sets", "Mean, median, and mode", "Standard deviation", "Percentiles", "Data distribution", "Normal data distribution", "Scatter plots", "Linear regression", "Polynomial regression", "Multiple regression", "Scale data", "Train/test split", "Decision trees", "Confusion matrix", "Hierarchical clustering", "Logistic regression"],
+  "python_mysql_getstarted.asp": ["Install a MySQL driver", "Connect to MySQL", "Create a database", "Create a table", "Insert records", "Select records", "Select with filters", "Sort results", "Delete records", "Update records", "Limit results", "Join tables"],
+  "python_mongodb_getstarted.asp": ["Install PyMongo", "Connect to MongoDB", "Create a database", "Create a collection", "Insert documents", "Find documents", "Filter results", "Sort results", "Delete documents", "Update documents", "Limit results"],
+  "django_intro.php": ["Install Django", "Create a project", "Create an app", "Create a view", "URL routing", "Templates", "Models", "Migrations", "Admin site"],
+  "python_dsa.asp": ["Data structures and algorithms overview", "Big O notation", "Arrays", "Linked lists", "Stacks", "Queues", "Hash tables", "Trees", "Binary search trees", "Graphs", "Sorting algorithms", "Searching algorithms", "Recursion"],
+};
+
+
+
 type LessonQuestionData = { prompt: string; correct: string; partial: string; incorrect: string };
 
 const lessonQuestionData: Record<string, LessonQuestionData> = {
@@ -329,7 +390,7 @@ export default function StudyNextPage() {
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
       <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>SKILL PRACTICE / PYTHON</span></header>
-      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Build mastery one question at a time—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">{totalQuestionCount} PRACTICE QUESTIONS</span><span className="sn-chip">SELF-PACED</span></div></section>
+      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Browse the Python curriculum by chapter and individual lesson. This step maps the full learning path; dedicated question banks come next.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">{learningChapters.length} CHAPTERS</span><span className="sn-chip">{Object.values(curriculumLessons).reduce((total, lessons) => total + lessons.length, 0)} LESSONS MAPPED</span><span className="sn-chip">SELF-PACED</span></div></section>
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
           {!current ? <>
@@ -341,7 +402,7 @@ export default function StudyNextPage() {
             {progressLoaded && attemptedCount > 0 && <p style={{color:"#777",fontSize:10,marginTop:10}}>PROGRESS SAVED ON THIS DEVICE</p>}
             {(showAllLessons ? groups : groups.slice(0,4)).map(([category, chapters]) => <div key={category} style={{marginTop:20}}>
               <div style={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid #252525",paddingBottom:8,color:"#aaa"}}><span>{category}</span><span>{chapters.filter(chapter => lessonProgress[chapter.href]?.mastered).length}/{chapters.length}</span></div>
-              {chapters.map(chapter => { const progress = lessonProgress[chapter.href]; const score = progress?.mastered ? 2 : progress?.level || progress?.attempts ? 1 : undefined; return <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"22px 1fr auto",gap:8,width:"100%",padding:"11px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:score === 2 ? "#fff" : "#777"}}>{score === undefined ? "○" : score === 2 ? "✓" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{progress?.mastered ? "MASTERED" : progress?.level ? `LEVEL ${progress.level + 1}/3` : progress?.attempts ? "REVIEW" : "PRACTICE"}</span></button>; })}
+              {chapters.map(chapter => { const progress = lessonProgress[chapter.href]; const score = progress?.mastered ? 2 : progress?.level || progress?.attempts ? 1 : undefined; const subLessons = curriculumLessons[chapter.href] ?? []; return <div key={chapter.href}><button onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"22px 1fr auto",gap:8,width:"100%",padding:"11px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:score === 2 ? "#fff" : "#777"}}>{score === undefined ? "○" : score === 2 ? "✓" : "↻"}</span><span>{chapter.title}<span style={{display:"block",fontSize:10,color:"#777",marginTop:2}}>{subLessons.length} lessons</span></span><span style={{fontSize:9,color:"#777"}}>{progress?.mastered ? "MASTERED" : progress?.level ? `LEVEL ${progress.level + 1}/3` : progress?.attempts ? "REVIEW" : "PRACTICE"}</span></button><div style={{padding:"5px 0 9px 30px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(145px,1fr))",gap:"4px 12px"}}>{subLessons.map((lesson, lessonIndex) => <a key={lesson} href={"https://www.w3schools.com/python/" + chapter.href + "#lesson-" + (lessonIndex + 1)} target="_blank" rel="noreferrer" style={{fontSize:10,color:"#858585",textDecoration:"none",padding:"3px 0"}}>{String(lessonIndex + 1).padStart(2,"0")} / {lesson}</a>)}</div></div>; })}
             </div>)}
             <button className="sn-action sn-secondary" onClick={() => setShowAllLessons(!showAllLessons)}>{showAllLessons ? "Show fewer lessons ↑" : "Show all lessons ↓"}</button>
           </> : <>
