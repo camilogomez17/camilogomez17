@@ -134,36 +134,31 @@ const lessonQuestionData: Record<string, LessonQuestionData> = {
   "python_dsa.asp": { prompt: "What do data structures and algorithms help you reason about?", correct: "How data is organized and how efficiently operations solve a problem", partial: "How to choose a website's accent color", incorrect: "How to write package metadata only" },
 };
 
-const questions: Question[] = learningChapters.map((chapter, index) => {
+const questionSets: Record<string, Question[]> = Object.fromEntries(learningChapters.map((chapter, index) => {
   const data = lessonQuestionData[chapter.href];
-  const baseChoices = [
-    { label: data.correct, score: 2 },
-    { label: data.partial, score: 1 },
-    { label: data.incorrect, score: 0 },
+  const stages = [
+    { prompt: data.prompt, correct: data.correct, partial: data.partial, incorrect: data.incorrect, explanation: `The key idea in ${chapter.title} is: ${data.correct}. Keep this distinction in mind as you practice.` },
+    { prompt: `Misconception check: which statement about ${chapter.title} is the misconception?`, correct: data.incorrect, partial: data.partial, incorrect: data.correct, explanation: `The misconception is “${data.incorrect}”. The accurate idea is: ${data.correct}.` },
+    { prompt: `Challenge: you're teaching ${chapter.title} to another Python learner. Which statement should they remember?`, correct: data.correct, partial: data.partial, incorrect: data.incorrect, explanation: `Remember this core idea: ${data.correct}. The other options either confuse the topic with a related idea or describe it inaccurately.` },
   ];
-  const offset = index % baseChoices.length;
-  const orderedChoices = [...baseChoices.slice(offset), ...baseChoices.slice(0, offset)];
-  return {
-    id: chapter.href,
-    skill: chapter.skills[0],
-    title: chapter.title,
-    prompt: data.prompt,
-    choices: orderedChoices.map(choice => ({
-      ...choice,
-      feedback: choice.score === 2
-        ? `Correct. Your answer shows a solid signal for ${chapter.title}.`
-        : choice.score === 1
-          ? `Partially correct. Review the W3Schools ${chapter.title} chapter to reinforce this concept.`
-          : `This answer suggests a gap in ${chapter.title}. Review the linked chapter before moving on.`,
-    })),
-    explanation: `Review the W3Schools ${chapter.title} chapter to strengthen this skill.`,
-    prerequisites: [],
-  };
-});
+  const questions = stages.map((stage, level) => {
+    const choices = [{ label: stage.correct, score: 2 }, { label: stage.partial, score: 1 }, { label: stage.incorrect, score: 0 }];
+    const offset = (index + level) % choices.length;
+    const ordered = [...choices.slice(offset), ...choices.slice(0, offset)];
+    return {
+      id: `${chapter.href}-level-${level + 1}`, skill: chapter.skills[0], title: chapter.title, prompt: stage.prompt,
+      choices: ordered.map(choice => ({ ...choice, feedback: choice.score === 2 ? `Correct. You passed level ${level + 1} for ${chapter.title}.` : choice.score === 1 ? "Partially correct. Review the distinction and try this level again." : "Not quite. Read the explanation, then try this level again." })),
+      explanation: stage.explanation, prerequisites: [],
+    } satisfies Question;
+  });
+  return [chapter.href, questions];
+}));
+
+type LessonProgress = { level: number; attempts: number; correct: number; mastered: boolean };
 
 export default function StudyNextPage() {
   const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
-  const [answered, setAnswered] = useState<Record<string, number>>({});
+  const [lessonProgress, setLessonProgress] = useState<Record<string, LessonProgress>>({});
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [showAllLessons, setShowAllLessons] = useState(false);
   const [lastLessonId, setLastLessonId] = useState<string | null>(null);
@@ -171,12 +166,15 @@ export default function StudyNextPage() {
 
   useEffect(() => {
     try {
-      const saved = window.localStorage.getItem("study-next-progress-v1");
+      const saved = window.localStorage.getItem("study-next-progress-v2") ?? window.localStorage.getItem("study-next-progress-v1");
       if (saved) {
-        const parsed = JSON.parse(saved) as { answered?: Record<string, number>; lastLessonId?: string | null; showAllLessons?: boolean };
-        if (parsed.answered && typeof parsed.answered === "object") {
-          const validAnswers = Object.fromEntries(Object.entries(parsed.answered).filter(([id, score]) => learningChapters.some(chapter => chapter.href === id) && [0, 1, 2].includes(score)));
-          setAnswered(validAnswers);
+        const parsed = JSON.parse(saved) as { lessonProgress?: Record<string, LessonProgress>; answered?: Record<string, number>; lastLessonId?: string | null; showAllLessons?: boolean };
+        if (parsed.lessonProgress && typeof parsed.lessonProgress === "object") {
+          const validProgress = Object.fromEntries(Object.entries(parsed.lessonProgress).filter(([id, value]) => learningChapters.some(chapter => chapter.href === id) && value && Number.isInteger(value.level) && value.level >= 0 && value.level <= 3 && Number.isFinite(value.attempts) && Number.isFinite(value.correct)).map(([id, value]) => [id, { level: Math.max(0, Math.min(3, value.level)), attempts: Math.max(0, value.attempts), correct: Math.max(0, value.correct), mastered: value.level >= 3 || value.mastered === true }]));
+          setLessonProgress(validProgress);
+        } else if (parsed.answered && typeof parsed.answered === "object") {
+          const migrated = Object.fromEntries(Object.entries(parsed.answered).filter(([id, score]) => learningChapters.some(chapter => chapter.href === id) && [0, 1, 2].includes(score)).map(([id, score]) => [id, { level: score === 2 ? 1 : 0, attempts: 1, correct: score === 2 ? 1 : 0, mastered: false }]));
+          setLessonProgress(migrated);
         }
         if (parsed.lastLessonId && learningChapters.some(chapter => chapter.href === parsed.lastLessonId)) setLastLessonId(parsed.lastLessonId);
         if (typeof parsed.showAllLessons === "boolean") setShowAllLessons(parsed.showAllLessons);
@@ -191,20 +189,23 @@ export default function StudyNextPage() {
   useEffect(() => {
     if (!progressLoaded) return;
     try {
-      window.localStorage.setItem("study-next-progress-v1", JSON.stringify({ answered, lastLessonId, showAllLessons }));
+      window.localStorage.setItem("study-next-progress-v2", JSON.stringify({ lessonProgress, lastLessonId, showAllLessons }));
     } catch {
       // The lesson experience still works if browser storage is unavailable.
     }
-  }, [answered, lastLessonId, showAllLessons, progressLoaded]);
-  const current = questions.find(question => question.id === selectedChapter) ?? null;
-  const completedCount = Object.keys(answered).length;
-  const correctCount = Object.values(answered).filter(score => score === 2).length;
-  const activeCategory = current ? learningChapters.find(chapter => chapter.href === current.id)?.category : null;
+  }, [lessonProgress, lastLessonId, showAllLessons, progressLoaded]);
+  const currentProgress = selectedChapter ? lessonProgress[selectedChapter] : undefined;
+  const current = selectedChapter ? questionSets[selectedChapter]?.[Math.min(currentProgress?.level ?? 0, 2)] ?? null : null;
+  const attemptedCount = Object.values(lessonProgress).filter(progress => progress.attempts > 0).length;
+  const masteredCount = Object.values(lessonProgress).filter(progress => progress.mastered).length;
+  const totalAttempts = Object.values(lessonProgress).reduce((total, progress) => total + progress.attempts, 0);
+  const correctCount = Object.values(lessonProgress).reduce((total, progress) => total + progress.correct, 0);
+  const activeCategory = selectedChapter ? learningChapters.find(chapter => chapter.href === selectedChapter)?.category : null;
   const groups = useMemo(() => { const result = new Map<string, LearningChapter[]>(); learningChapters.forEach(chapter => result.set(chapter.category, [...(result.get(chapter.category) ?? []), chapter])); return [...result.entries()]; }, []);
-  function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); }
-  function answerQuestion(choice: Choice) { if (!current || selectedChoice !== null) return; setSelectedChoice(choice.score); setAnswered(previous => ({ ...previous, [current.id]: choice.score })); }
-  function nextLesson() { if (!current) return; const index = learningChapters.findIndex(chapter => chapter.href === current.id); const next = learningChapters.slice(index + 1).find(chapter => answered[chapter.href] === undefined) ?? learningChapters.find(chapter => answered[chapter.href] === undefined); if (next) openLesson(next.href); else { setSelectedChapter(null); setSelectedChoice(null); } }
-  function resetProgress() { setAnswered({}); setSelectedChapter(null); setSelectedChoice(null); setLastLessonId(null); }
+  function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); setLessonProgress(previous => { const progress = previous[id]; return progress?.mastered ? { ...previous, [id]: { ...progress, level: 0, mastered: false } } : previous; }); }
+  function answerQuestion(choice: Choice) { if (!current || !selectedChapter || selectedChoice !== null) return; setSelectedChoice(choice.score); setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; return { ...previous, [selectedChapter]: { ...progress, attempts: progress.attempts + 1, correct: progress.correct + (choice.score === 2 ? 1 : 0) } }; }); }
+  function continueQuestion() { if (!selectedChapter || selectedChoice !== 2) return; setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; const level = Math.min(3, progress.level + 1); return { ...previous, [selectedChapter]: { ...progress, level, mastered: level >= 3 } }; }); setSelectedChoice(null); if ((currentProgress?.level ?? 0) >= 2) { setSelectedChapter(null); setSelectedChoice(null); } }
+  function resetProgress() { setLessonProgress({}); setSelectedChapter(null); setSelectedChoice(null); setLastLessonId(null); }
   return (
     <main className="sn-page">
       <style jsx global>{`
@@ -257,29 +258,29 @@ export default function StudyNextPage() {
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
           {!current ? <>
-            <div className="sn-panel-head"><span className="sn-label">Choose a lesson</span><span className="sn-count">{completedCount} / {learningChapters.length} tried</span></div>
-            <div className="sn-progress"><span style={{ width: ((completedCount / learningChapters.length) * 100) + "%" }} /></div>
+            <div className="sn-panel-head"><span className="sn-label">Choose a lesson</span><span className="sn-count">{masteredCount} / {learningChapters.length} mastered</span></div>
+            <div className="sn-progress"><span style={{ width: ((masteredCount / learningChapters.length) * 100) + "%" }} /></div>
             <h2 className="sn-question">What do you want to work on?</h2><p style={{color:"#888"}}>Choose a topic to get immediate feedback. Your progress updates as you go.</p>
             {lastLessonId && <button className="sn-action" style={{marginTop:12}} onClick={() => openLesson(lastLessonId)}>Resume {learningChapters.find(chapter => chapter.href === lastLessonId)?.title ?? "last lesson"} →</button>}
             {!progressLoaded && <p style={{color:"#777",fontSize:10,marginTop:10}}>RESTORING YOUR PROGRESS…</p>}
-            {progressLoaded && completedCount > 0 && <p style={{color:"#777",fontSize:10,marginTop:10}}>PROGRESS SAVED ON THIS DEVICE</p>}
+            {progressLoaded && attemptedCount > 0 && <p style={{color:"#777",fontSize:10,marginTop:10}}>PROGRESS SAVED ON THIS DEVICE</p>}
             {(showAllLessons ? groups : groups.slice(0,4)).map(([category, chapters]) => <div key={category} style={{marginTop:20}}>
-              <div style={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid #252525",paddingBottom:8,color:"#aaa"}}><span>{category}</span><span>{chapters.filter(chapter => answered[chapter.href] !== undefined).length}/{chapters.length}</span></div>
-              {chapters.map(chapter => { const score = answered[chapter.href]; return <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"22px 1fr auto",gap:8,width:"100%",padding:"11px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:score === 2 ? "#fff" : "#777"}}>{score === undefined ? "○" : score === 2 ? "✓" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{score === undefined ? "PRACTICE" : score === 2 ? "CORRECT" : "REVIEW"}</span></button>; })}
+              <div style={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid #252525",paddingBottom:8,color:"#aaa"}}><span>{category}</span><span>{chapters.filter(chapter => lessonProgress[chapter.href]?.mastered).length}/{chapters.length}</span></div>
+              {chapters.map(chapter => { const progress = lessonProgress[chapter.href]; const score = progress?.mastered ? 2 : progress?.level || progress?.attempts ? 1 : undefined; return <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"22px 1fr auto",gap:8,width:"100%",padding:"11px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:score === 2 ? "#fff" : "#777"}}>{score === undefined ? "○" : score === 2 ? "✓" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{progress?.mastered ? "MASTERED" : progress?.level ? `LEVEL ${progress.level + 1}/3` : progress?.attempts ? "REVIEW" : "PRACTICE"}</span></button>; })}
             </div>)}
             <button className="sn-action sn-secondary" onClick={() => setShowAllLessons(!showAllLessons)}>{showAllLessons ? "Show fewer lessons ↑" : "Show all lessons ↓"}</button>
           </> : <>
-            <div className="sn-panel-head"><span className="sn-label">{activeCategory} / {current.title}</span><span className="sn-count">{completedCount} / {learningChapters.length}</span></div>
-            <div className="sn-progress"><span style={{width: ((completedCount / learningChapters.length) * 100) + "%"}} /></div>
-            <p className="sn-label">QUICK PRACTICE · 1 QUESTION</p><h2 className="sn-question">{current.prompt}</h2>
+            <div className="sn-panel-head"><span className="sn-label">{activeCategory} / {current.title}</span><span className="sn-count">{masteredCount} / {learningChapters.length} mastered</span></div>
+            <div className="sn-progress"><span style={{width: ((attemptedCount / learningChapters.length) * 100) + "%"}} /></div>
+            <p className="sn-label">LEVEL {(currentProgress?.level ?? 0) + 1} OF 3 · {["RECALL", "MISCONCEPTION CHECK", "CHALLENGE"][currentProgress?.level ?? 0]}</p><h2 className="sn-question">{current.prompt}</h2>
             <div className="sn-choices">{current.choices.map((choice,index) => <button key={choice.label} disabled={selectedChoice !== null} className={"sn-choice" + (selectedChoice === choice.score ? " is-selected" : "")} onClick={() => answerQuestion(choice)}><span style={{color:"#777",marginRight:12}}>{String.fromCharCode(65+index)}.</span>{choice.label}</button>)}</div>
-            {selectedChoice !== null && <div className="sn-feedback" role="status"><strong>{selectedChoice === 2 ? "Correct." : selectedChoice === 1 ? "Partially correct." : "Not quite."}</strong><p>{selectedChoice === 2 ? "You understand the key idea in " + current.title + "." : current.explanation}</p><p style={{marginTop:8}}>Score: {selectedChoice === 2 ? "2/2" : selectedChoice === 1 ? "1/2" : "0/2"}.</p><a style={{color:"#eee",textDecoration:"underline"}} href={"https://www.w3schools.com/python/" + current.id} target="_blank" rel="noreferrer">Review lesson ↗</a></div>}
-            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={nextLesson}>Next lesson →</button>}</div>
+            {selectedChoice !== null && <div className="sn-feedback" role="status"><strong>{selectedChoice === 2 ? "Correct." : selectedChoice === 1 ? "Partially correct." : "Not quite."}</strong><p>{selectedChoice === 2 ? "You understand the key idea in " + current.title + "." : current.explanation}</p><p style={{marginTop:8}}>{selectedChoice === 2 ? "Level complete. Continue to the next stage." : "You need a correct answer to advance. Try again when ready."}</p><a style={{color:"#eee",textDecoration:"underline"}} href={"https://www.w3schools.com/python/" + selectedChapter} target="_blank" rel="noreferrer">Review lesson ↗</a></div>}
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={selectedChoice === 2 ? continueQuestion : () => setSelectedChoice(null)}>{selectedChoice === 2 ? ((currentProgress?.level ?? 0) >= 2 ? "Complete lesson ✓" : "Next level →") : "Try again ↻"}</button>}</div>
           </>}
         </section>
         <aside style={{display:"grid",gap:14}}>
-          <section className="sn-panel"><p className="sn-label">YOUR PROGRESS</p><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginTop:14}}><div style={{border:"1px solid #292929",padding:12}}><strong style={{display:"block",fontSize:22,fontWeight:500}}>{completedCount}</strong><span style={{fontSize:9,color:"#777"}}>LESSONS TRIED</span></div><div style={{border:"1px solid #292929",padding:12}}><strong style={{display:"block",fontSize:22,fontWeight:500}}>{completedCount ? Math.round(correctCount/completedCount*100) : 0}%</strong><span style={{fontSize:9,color:"#777"}}>CORRECT FIRST TRY</span></div></div><p style={{marginTop:16,color:"#999",fontSize:11}}>Overall progress · {Math.round(completedCount/learningChapters.length*100)}%</p><div className="sn-progress"><span style={{width:(completedCount/learningChapters.length*100)+"%"}} /></div>{completedCount > 0 && <button className="sn-action sn-secondary" onClick={resetProgress}>Reset progress ↻</button>}</section>
-          <section className="sn-panel"><p className="sn-label">RECOMMENDED NEXT</p>{learningChapters.filter(chapter => answered[chapter.href] !== 2).slice(0,5).map(chapter => <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"20px 1fr auto",gap:8,width:"100%",padding:"10px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:"#777"}}>{answered[chapter.href] === undefined ? "○" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{answered[chapter.href] === undefined ? "NEW" : "REVIEW"}</span></button>)}</section>
+          <section className="sn-panel"><p className="sn-label">YOUR PROGRESS</p><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginTop:14}}><div style={{border:"1px solid #292929",padding:12}}><strong style={{display:"block",fontSize:22,fontWeight:500}}>{attemptedCount}</strong><span style={{fontSize:9,color:"#777"}}>LESSONS TRIED</span></div><div style={{border:"1px solid #292929",padding:12}}><strong style={{display:"block",fontSize:22,fontWeight:500}}>{totalAttempts ? Math.round(correctCount/totalAttempts*100) : 0}%</strong><span style={{fontSize:9,color:"#777"}}>ANSWER ACCURACY</span></div></div><p style={{marginTop:16,color:"#999",fontSize:11}}>Mastery · {Math.round(masteredCount/learningChapters.length*100)}%</p><div className="sn-progress"><span style={{width:(masteredCount/learningChapters.length*100)+"%"}} /></div>{attemptedCount > 0 && <button className="sn-action sn-secondary" onClick={resetProgress}>Reset progress ↻</button>}</section>
+          <section className="sn-panel"><p className="sn-label">RECOMMENDED NEXT</p>{learningChapters.filter(chapter => !lessonProgress[chapter.href]?.mastered).slice(0,5).map(chapter => <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"20px 1fr auto",gap:8,width:"100%",padding:"10px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:"#777"}}>{lessonProgress[chapter.href]?.level ? "↻" : "○"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{lessonProgress[chapter.href]?.attempts ? "CONTINUE" : "NEW"}</span></button>)}</section>
         </aside>
       </div>
       <footer className="sn-footer"><span>INSTANT FEEDBACK / SAVED ON THIS DEVICE</span><span>LEARN — PRACTICE — REPEAT</span></footer>
