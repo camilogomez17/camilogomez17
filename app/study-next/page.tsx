@@ -154,6 +154,76 @@ const questionSets: Record<string, Question[]> = Object.fromEntries(learningChap
   return [chapter.href, questions] as const;
 }));
 
+
+// The first lesson uses its own authored question bank. Add lessons here one at a time;
+// each lesson can have its own question count, rather than being forced into three templates.
+function authoredQuestion(
+  id: string,
+  title: string,
+  prompt: string,
+  correct: string,
+  partial: string,
+  incorrect: string,
+  explanation: string,
+): Question {
+  return {
+    id,
+    skill: "python",
+    title,
+    prompt,
+    choices: [
+      { label: correct, score: 2, feedback: "Correct. You can move to the next question." },
+      { label: partial, score: 1, feedback: "Partially correct. Review the distinction and try again." },
+      { label: incorrect, score: 0, feedback: "Not quite. Review the explanation and try again." },
+    ],
+    explanation,
+    prerequisites: [],
+  };
+}
+
+questionSets["python_intro.asp"] = [
+  authoredQuestion(
+    "python_intro-use-cases", "Introduction",
+    "Which task is Python designed to help with?",
+    "Automating a repetitive task and building a web application",
+    "Styling a page with CSS only",
+    "Replacing every database with a programming language",
+    "Python is a general-purpose language used for web development, automation, software, scripting, and data work.",
+  ),
+  authoredQuestion(
+    "python_intro-portability", "Introduction",
+    "A teammate uses macOS and you use Windows. Why can you both work with Python?",
+    "Python is available on multiple operating systems",
+    "Python code only runs when copied into a web browser",
+    "Python programs are tied to one specific computer brand",
+    "Python is available on common operating systems, including Windows, macOS, and Linux, though environment-specific details can still matter.",
+  ),
+  authoredQuestion(
+    "python_intro-interpreter", "Introduction",
+    "What does it mean that Python uses an interpreter?",
+    "A Python implementation can execute code through its runtime instead of requiring you to manually compile every script first",
+    "Python code is automatically converted into a database table",
+    "Every Python statement must be translated by a human before it runs",
+    "Python is commonly described as interpreted: its runtime executes the program, which supports quick experimentation. Implementation details can vary.",
+  ),
+  authoredQuestion(
+    "python_intro-indentation", "Introduction",
+    "What does indentation do in Python?",
+    "It marks the body of blocks such as functions, loops, and conditionals",
+    "It is only decorative whitespace and never affects code",
+    "It tells Python which database server to connect to",
+    "Python uses indentation to define code blocks, so consistent indentation is part of the program's structure.",
+  ),
+  authoredQuestion(
+    "python_intro-paradigms", "Introduction",
+    "A project uses functions, objects, and step-by-step procedures. Which statement about Python is correct?",
+    "Python supports procedural, object-oriented, and functional programming styles",
+    "Python requires every program to use classes and objects",
+    "Python supports only one programming style: sequential print statements",
+    "Python supports several programming styles, allowing developers to choose approaches appropriate to the problem.",
+  ),
+];
+
 type LessonProgress = { level: number; attempts: number; correct: number; mastered: boolean };
 
 export default function StudyNextPage() {
@@ -170,7 +240,7 @@ export default function StudyNextPage() {
       if (saved) {
         const parsed = JSON.parse(saved) as { lessonProgress?: Record<string, LessonProgress>; answered?: Record<string, number>; lastLessonId?: string | null; showAllLessons?: boolean };
         if (parsed.lessonProgress && typeof parsed.lessonProgress === "object") {
-          const validProgress = Object.fromEntries(Object.entries(parsed.lessonProgress).filter(([id, value]) => learningChapters.some(chapter => chapter.href === id) && value && Number.isInteger(value.level) && value.level >= 0 && value.level <= 3 && Number.isFinite(value.attempts) && Number.isFinite(value.correct)).map(([id, value]) => [id, { level: Math.max(0, Math.min(3, value.level)), attempts: Math.max(0, value.attempts), correct: Math.max(0, value.correct), mastered: value.level >= 3 || value.mastered === true }]));
+          const validProgress = Object.fromEntries(Object.entries(parsed.lessonProgress).filter(([id, value]) => learningChapters.some(chapter => chapter.href === id) && value && Number.isInteger(value.level) && value.level >= 0 && value.level <= (questionSets[id]?.length ?? 0) && Number.isFinite(value.attempts) && Number.isFinite(value.correct)).map(([id, value]) => [id, { level: Math.max(0, Math.min(3, value.level)), attempts: Math.max(0, value.attempts), correct: Math.max(0, value.correct), mastered: value.level >= (questionSets[id]?.length ?? 1) || value.mastered === true }]));
           setLessonProgress(validProgress);
         } else if (parsed.answered && typeof parsed.answered === "object") {
           const migrated = Object.fromEntries(Object.entries(parsed.answered).filter(([id, score]) => learningChapters.some(chapter => chapter.href === id) && [0, 1, 2].includes(score)).map(([id, score]) => [id, { level: score === 2 ? 1 : 0, attempts: 1, correct: score === 2 ? 1 : 0, mastered: false }]));
@@ -195,16 +265,17 @@ export default function StudyNextPage() {
     }
   }, [lessonProgress, lastLessonId, showAllLessons, progressLoaded]);
   const currentProgress = selectedChapter ? lessonProgress[selectedChapter] : undefined;
-  const current = selectedChapter ? questionSets[selectedChapter]?.[Math.min(currentProgress?.level ?? 0, 2)] ?? null : null;
+  const current = selectedChapter ? questionSets[selectedChapter]?.[Math.min(currentProgress?.level ?? 0, (questionSets[selectedChapter]?.length ?? 1) - 1)] ?? null : null;
   const attemptedCount = Object.values(lessonProgress).filter(progress => progress.attempts > 0).length;
   const masteredCount = Object.values(lessonProgress).filter(progress => progress.mastered).length;
   const totalAttempts = Object.values(lessonProgress).reduce((total, progress) => total + progress.attempts, 0);
   const correctCount = Object.values(lessonProgress).reduce((total, progress) => total + progress.correct, 0);
+  const totalQuestionCount = Object.values(questionSets).reduce((total, questions) => total + questions.length, 0);
   const activeCategory = selectedChapter ? learningChapters.find(chapter => chapter.href === selectedChapter)?.category : null;
   const groups = useMemo(() => { const result = new Map<string, LearningChapter[]>(); learningChapters.forEach(chapter => result.set(chapter.category, [...(result.get(chapter.category) ?? []), chapter])); return [...result.entries()]; }, []);
   function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); setLessonProgress(previous => { const progress = previous[id]; return progress?.mastered ? { ...previous, [id]: { ...progress, level: 0 } } : previous; }); }
   function answerQuestion(choice: Choice) { if (!current || !selectedChapter || selectedChoice !== null) return; setSelectedChoice(choice.score); setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; return { ...previous, [selectedChapter]: { ...progress, attempts: progress.attempts + 1, correct: progress.correct + (choice.score === 2 ? 1 : 0) } }; }); }
-  function continueQuestion() { if (!selectedChapter || selectedChoice !== 2) return; setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; const level = Math.min(3, progress.level + 1); return { ...previous, [selectedChapter]: { ...progress, level, mastered: progress.mastered || level >= 3 } }; }); setSelectedChoice(null); if ((currentProgress?.level ?? 0) >= 2) { setSelectedChapter(null); setSelectedChoice(null); } }
+  function continueQuestion() { if (!selectedChapter || selectedChoice !== 2) return; setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; const level = Math.min(questionSets[selectedChapter]?.length ?? 1, progress.level + 1); return { ...previous, [selectedChapter]: { ...progress, level, mastered: progress.mastered || level >= (questionSets[selectedChapter]?.length ?? 1) } }; }); setSelectedChoice(null); if ((currentProgress?.level ?? 0) >= (questionSets[selectedChapter]?.length ?? 1) - 1) { setSelectedChapter(null); setSelectedChoice(null); } }
   function resetProgress() { setLessonProgress({}); setSelectedChapter(null); setSelectedChoice(null); setLastLessonId(null); }
   return (
     <main className="sn-page">
@@ -254,7 +325,7 @@ export default function StudyNextPage() {
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
       <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>SKILL PRACTICE / PYTHON</span></header>
-      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Build mastery through three short stages—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">162 PRACTICE STAGES</span><span className="sn-chip">SELF-PACED</span></div></section>
+      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Build mastery through three short stages—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">{totalQuestionCount} PRACTICE QUESTIONS</span><span className="sn-chip">SELF-PACED</span></div></section>
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
           {!current ? <>
@@ -272,10 +343,10 @@ export default function StudyNextPage() {
           </> : <>
             <div className="sn-panel-head"><span className="sn-label">{activeCategory} / {current.title}</span><span className="sn-count">{masteredCount} / {learningChapters.length} mastered</span></div>
             <div className="sn-progress"><span style={{width: ((attemptedCount / learningChapters.length) * 100) + "%"}} /></div>
-            <p className="sn-label">LEVEL {(currentProgress?.level ?? 0) + 1} OF 3 · {["RECALL", "MISCONCEPTION CHECK", "CHALLENGE"][currentProgress?.level ?? 0]}</p><h2 className="sn-question">{current.prompt}</h2>
+            <p className="sn-label">QUESTION {(currentProgress?.level ?? 0) + 1} OF {questionSets[selectedChapter]?.length ?? 1} · PRACTICE</p><h2 className="sn-question">{current.prompt}</h2>
             <div className="sn-choices">{current.choices.map((choice,index) => <button key={choice.label} disabled={selectedChoice !== null} className={"sn-choice" + (selectedChoice === choice.score ? " is-selected" : "")} onClick={() => answerQuestion(choice)}><span style={{color:"#777",marginRight:12}}>{String.fromCharCode(65+index)}.</span>{choice.label}</button>)}</div>
             {selectedChoice !== null && <div className="sn-feedback" role="status"><strong>{selectedChoice === 2 ? "Correct." : selectedChoice === 1 ? "Partially correct." : "Not quite."}</strong><p>{current.explanation}</p><p style={{marginTop:8}}>{selectedChoice === 2 ? "Level complete. Continue to the next stage." : "You need a correct answer to advance. Try again when ready."}</p><a style={{color:"#eee",textDecoration:"underline"}} href={"https://www.w3schools.com/python/" + selectedChapter} target="_blank" rel="noreferrer">Review lesson ↗</a></div>}
-            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={selectedChoice === 2 ? continueQuestion : () => setSelectedChoice(null)}>{selectedChoice === 2 ? ((currentProgress?.level ?? 0) >= 2 ? "Complete lesson ✓" : "Next level →") : "Try again ↻"}</button>}</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={selectedChoice === 2 ? continueQuestion : () => setSelectedChoice(null)}>{selectedChoice === 2 ? ((currentProgress?.level ?? 0) >= (questionSets[selectedChapter]?.length ?? 1) - 1 ? "Complete lesson ✓" : "Next question →") : "Try again ↻"}</button>}</div>
           </>}
         </section>
         <aside style={{display:"grid",gap:14}}>
