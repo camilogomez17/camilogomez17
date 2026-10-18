@@ -204,7 +204,7 @@ export default function StudyNextPage() {
   function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); }
   function answerQuestion(choice: Choice) { if (!current || selectedChoice !== null) return; setSelectedChoice(choice.score); setAnswered(previous => ({ ...previous, [current.id]: choice.score })); }
   function nextLesson() { if (!current) return; const index = learningChapters.findIndex(chapter => chapter.href === current.id); const next = learningChapters.slice(index + 1).find(chapter => answered[chapter.href] === undefined) ?? learningChapters.find(chapter => answered[chapter.href] === undefined); if (next) openLesson(next.href); else { setSelectedChapter(null); setSelectedChoice(null); } }
-  function resetProgress() { setAnswered({}); setSelectedChapter(null); setSelectedChoice(null); }
+  function resetProgress() { setAnswered({}); setSelectedChapter(null); setSelectedChoice(null); setLastLessonId(null); }
   return (
     <main className="sn-page">
       <style jsx global>{`
