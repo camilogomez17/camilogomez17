@@ -172,77 +172,19 @@ const questions: Question[] = learningChapters.map((chapter, index) => {
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
 
 export default function StudyNextPage() {
-  const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [currentId, setCurrentId] = useState<string | null>(null);
-  const [showResult, setShowResult] = useState(false);
-  const [lastFeedback, setLastFeedback] = useState("");
-
-  const scores = useMemo(() => {
-    const values: Record<string, number[]> = {};
-    for (const question of questions) {
-      const score = answers[question.id];
-      if (score !== undefined) (values[question.skill] ??= []).push(score);
-    }
-    return Object.fromEntries(skills.map(skill => {
-      const items = values[skill.id] ?? [];
-      return [skill.id, items.length ? items.reduce((a, b) => a + b, 0) / (items.length * 2) : null];
-    })) as Record<string, number | null>;
-  }, [answers]);
-
-  const answered = Object.keys(answers).length;
-  const current = questions.find(q => q.id === currentId) ?? null;
-  const nextQuestion = useMemo(() => {
-    const remaining = questions.filter(q => answers[q.id] === undefined);
-    if (!remaining.length) return null;
-    const prerequisitePenalty = (q: Question) => q.prerequisites.reduce((total, id) => {
-      const score = scores[id];
-      return total + (score === null || score === undefined ? 0.15 : (1 - score) * 0.7);
-    }, 0);
-    return [...remaining].sort((a, b) => {
-      const aScore = scores[a.skill];
-      const bScore = scores[b.skill];
-      const aPriority = skills.find(s => s.id === a.skill)?.weight ?? 1;
-      const bPriority = skills.find(s => s.id === b.skill)?.weight ?? 1;
-      const aWeakness = aScore === null || aScore === undefined ? 0.25 : 1 - aScore;
-      const bWeakness = bScore === null || bScore === undefined ? 0.25 : 1 - bScore;
-      return (bPriority + bWeakness + prerequisitePenalty(b)) - (aPriority + aWeakness + prerequisitePenalty(a));
-    })[0];
-  }, [answers, scores]);
-
-  const recommendedChapters = useMemo(() => {
-    const ranked = learningChapters
-      .map((chapter, index) => ({
-        ...chapter,
-        score: answers[chapter.href] ?? 0,
-        index,
-      }))
-      .filter(chapter => chapter.score < 2)
-      .sort((a, b) => a.score - b.score || a.index - b.index)
-      .slice(0, 10);
-    return ranked;
-  }, [answers]);
-
-  function startOrContinue() {
-    if (showResult) return;
-    if (currentId) return;
-    if (nextQuestion) setCurrentId(nextQuestion.id);
-  }
-
-  function choose(score: number, feedback: string) {
-    if (!current) return;
-    setAnswers(previous => ({ ...previous, [current.id]: score }));
-    setLastFeedback(feedback);
-    setCurrentId(null);
-    if (answered + 1 >= questions.length) setShowResult(true);
-  }
-
-  function restart() {
-    setAnswers({});
-    setCurrentId(null);
-    setShowResult(false);
-    setLastFeedback("");
-  }
-
+  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
+  const [answered, setAnswered] = useState<Record<string, number>>({});
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [showAllLessons, setShowAllLessons] = useState(false);
+  const current = questions.find(question => question.id === selectedChapter) ?? null;
+  const completedCount = Object.keys(answered).length;
+  const correctCount = Object.values(answered).filter(score => score === 2).length;
+  const activeCategory = current ? learningChapters.find(chapter => chapter.href === current.id)?.category : null;
+  const groups = useMemo(() => { const result = new Map<string, LearningChapter[]>(); learningChapters.forEach(chapter => result.set(chapter.category, [...(result.get(chapter.category) ?? []), chapter])); return [...result.entries()]; }, []);
+  function openLesson(id: string) { setSelectedChapter(id); setSelectedChoice(null); }
+  function answerQuestion(choice: Choice) { if (!current || selectedChoice !== null) return; setSelectedChoice(choice.score); setAnswered(previous => ({ ...previous, [current.id]: choice.score })); }
+  function nextLesson() { if (!current) return; const index = learningChapters.findIndex(chapter => chapter.href === current.id); const next = learningChapters.slice(index + 1).find(chapter => answered[chapter.href] === undefined) ?? learningChapters.find(chapter => answered[chapter.href] === undefined); if (next) openLesson(next.href); else { setSelectedChapter(null); setSelectedChoice(null); } }
+  function resetProgress() { setAnswered({}); setSelectedChapter(null); setSelectedChoice(null); }
   return (
     <main className="sn-page">
       <style jsx global>{`
@@ -290,75 +232,34 @@ export default function StudyNextPage() {
         .sn-footer { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; margin-top:20px; color:#666; font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
-
-      <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>ADAPTIVE ASSESSMENT</span></header>
-      <section className="sn-hero">
-        <p className="sn-kicker">Python full-stack / diagnostic engine</p>
-        <h1>What should you<br />learn next?</h1>
-        <p>Answer one question for each curriculum chapter. Your results identify the specific lessons to review, ranked by your demonstrated understanding.</p>
-        <div className="sn-meta"><span className="sn-chip">PYTHON</span><span className="sn-chip">FASTAPI</span><span className="sn-chip">POSTGRESQL</span><span className="sn-chip">TESTING</span></div>
-      </section>
-
-      {!showResult ? (
+      <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>SKILL PRACTICE / PYTHON</span></header>
+      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Practice a lesson in under a minute—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">54 LESSONS</span><span className="sn-chip">SELF-PACED</span></div></section>
+      <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
-          <div className="sn-panel-head"><span className="sn-label">Knowledge interview</span><span className="sn-count">{answered} / {questions.length} answered</span></div>
-          <div className="sn-progress"><span style={{ width: `${(answered / questions.length) * 100}%` }} /></div>
-          {!current ? (
-            <>
-              <p className="sn-label">NEXT DIAGNOSTIC</p>
-              <p className="sn-question">{answered === 0 ? "Let's establish your starting point." : "Your previous answer has updated the next question priority."}</p>
-              <p style={{ color: "#888" }}>Each question tests one W3Schools chapter. Choose the answer that best matches your current understanding.</p>
-              <button className="sn-action" onClick={startOrContinue}>{answered === 0 ? "Begin assessment →" : "Continue →"}</button>
-              {lastFeedback ? <p className="sn-feedback">{lastFeedback}</p> : null}
-            </>
-          ) : (
-            <>
-              <p className="sn-label">{current.title}</p>
-              <h2 className="sn-question">{current.prompt}</h2>
-              <div className="sn-choices">
-                {current.choices.map(choice => <button className="sn-choice" key={choice.label} onClick={() => choose(choice.score, choice.feedback)}>{choice.label}</button>)}
-              </div>
-              <p className="sn-footer"><span>Skill: {skills.find(s => s.id === current.skill)?.label}</span><span>Selection changes the next question</span></p>
-            </>
-          )}
+          {!current ? <>
+            <div className="sn-panel-head"><span className="sn-label">Choose a lesson</span><span className="sn-count">{completedCount} / {learningChapters.length} tried</span></div>
+            <div className="sn-progress"><span style={{ width: ((completedCount / learningChapters.length) * 100) + "%" }} /></div>
+            <h2 className="sn-question">What do you want to work on?</h2><p style={{color:"#888"}}>Choose a topic to get immediate feedback. Your progress updates as you go.</p>
+            {(showAllLessons ? groups : groups.slice(0,4)).map(([category, chapters]) => <div key={category} style={{marginTop:20}}>
+              <div style={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid #252525",paddingBottom:8,color:"#aaa"}}><span>{category}</span><span>{chapters.filter(chapter => answered[chapter.href] !== undefined).length}/{chapters.length}</span></div>
+              {chapters.map(chapter => { const score = answered[chapter.href]; return <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"22px 1fr auto",gap:8,width:"100%",padding:"11px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:score === 2 ? "#fff" : "#777"}}>{score === undefined ? "○" : score === 2 ? "✓" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{score === undefined ? "PRACTICE" : score === 2 ? "CORRECT" : "REVIEW"}</span></button>; })}
+            </div>)}
+            <button className="sn-action sn-secondary" onClick={() => setShowAllLessons(!showAllLessons)}>{showAllLessons ? "Show fewer lessons ↑" : "Show all lessons ↓"}</button>
+          </> : <>
+            <div className="sn-panel-head"><span className="sn-label">{activeCategory} / {current.title}</span><span className="sn-count">{completedCount} / {learningChapters.length}</span></div>
+            <div className="sn-progress"><span style={{width: ((completedCount / learningChapters.length) * 100) + "%"}} /></div>
+            <p className="sn-label">QUICK PRACTICE · 1 QUESTION</p><h2 className="sn-question">{current.prompt}</h2>
+            <div className="sn-choices">{current.choices.map((choice,index) => <button key={choice.label} disabled={selectedChoice !== null} className={"sn-choice" + (selectedChoice === choice.score ? " is-selected" : "")} onClick={() => answerQuestion(choice)}><span style={{color:"#777",marginRight:12}}>{String.fromCharCode(65+index)}.</span>{choice.label}</button>)}</div>
+            {selectedChoice !== null && <div className="sn-feedback" role="status"><strong>{selectedChoice === 2 ? "Correct." : selectedChoice === 1 ? "Partially correct." : "Not quite."}</strong><p>{selectedChoice === 2 ? "You understand the key idea in " + current.title + "." : current.explanation}</p><p style={{marginTop:8}}>Score: {selectedChoice === 2 ? "2/2" : selectedChoice === 1 ? "1/2" : "0/2"}.</p><a style={{color:"#eee",textDecoration:"underline"}} href={"https://www.w3schools.com/python/" + current.id} target="_blank" rel="noreferrer">Review lesson ↗</a></div>}
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={nextLesson}>Next lesson →</button>}</div>
+          </>}
         </section>
-      ) : (
-        <section className="sn-panel">
-          <p className="sn-label">Assessment complete</p>
-          <h2 className="sn-question">Your learning gaps.</h2>
-          <div className="sn-rec">
-            <p className="sn-label">RECOMMENDED CHAPTERS / W3SCHOOLS PYTHON</p>
-            <h3>What to study next</h3>
-            <p>Each chapter has its own question and score. These are the lessons where your answers showed gaps or partial understanding.</p>
-            {recommendedChapters.length ? (
-              <ol className="sn-chapters">
-                {recommendedChapters.map((chapter, index) => (
-                  <li key={chapter.href}>
-                    <span className="sn-chapter-number">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="sn-chapter-copy"><span className="sn-chapter-category">{chapter.category} · {chapter.score === 0 ? "Needs review" : "Developing"}</span><a href={`https://www.w3schools.com/python/${chapter.href}`} target="_blank" rel="noreferrer">{chapter.title} ↗</a></span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="sn-chapter-note">No clear chapter gaps were identified by this assessment. Try the coding exercises to check practical understanding.</p>
-            )}
-            <p className="sn-chapter-note">Each lesson is assessed by one question. Scores are directional rather than proof of mastery. W3Schools chapter links open in a new tab.</p>
-          </div>
-          <div className="sn-skill-list">
-            {skills.map(skill => {
-              const score = scores[skill.id];
-              const percent = score === null ? 0 : clamp(Math.round(score * 100), 0, 100);
-              return <div className="sn-skill-row" key={skill.id}>
-                <span className="sn-skill-name">{skill.label}</span><span className="sn-skill-value">{score === null ? "Not assessed" : `${percent}% signal`}</span>
-                <div className="sn-meter"><span style={{ width: `${percent}%` }} /></div>
-              </div>;
-            })}
-          </div>
-          <button className="sn-action" onClick={restart}>Retake assessment ↻</button>
-          <p className="sn-feedback">This prototype uses one rule-based question per chapter. Results are directional, not proof of mastery. Progress is stored only for this local session.</p>
-        </section>
-      )}
-      <footer className="sn-footer"><span>RULE-BASED PROTOTYPE / LOCAL SESSION</span><span>01 — ASSESS / 02 — RECOMMEND / 03 — PRACTICE</span></footer>
+        <aside style={{display:"grid",gap:14}}>
+          <section className="sn-panel"><p className="sn-label">YOUR PROGRESS</p><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginTop:14}}><div style={{border:"1px solid #292929",padding:12}}><strong style={{display:"block",fontSize:22,fontWeight:500}}>{completedCount}</strong><span style={{fontSize:9,color:"#777"}}>LESSONS TRIED</span></div><div style={{border:"1px solid #292929",padding:12}}><strong style={{display:"block",fontSize:22,fontWeight:500}}>{completedCount ? Math.round(correctCount/completedCount*100) : 0}%</strong><span style={{fontSize:9,color:"#777"}}>CORRECT FIRST TRY</span></div></div><p style={{marginTop:16,color:"#999",fontSize:11}}>Overall progress · {Math.round(completedCount/learningChapters.length*100)}%</p><div className="sn-progress"><span style={{width:(completedCount/learningChapters.length*100)+"%"}} /></div>{completedCount > 0 && <button className="sn-action sn-secondary" onClick={resetProgress}>Reset progress ↻</button>}</section>
+          <section className="sn-panel"><p className="sn-label">RECOMMENDED NEXT</p>{learningChapters.filter(chapter => answered[chapter.href] !== 2).slice(0,5).map(chapter => <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"20px 1fr auto",gap:8,width:"100%",padding:"10px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:"#777"}}>{answered[chapter.href] === undefined ? "○" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{answered[chapter.href] === undefined ? "NEW" : "REVIEW"}</span></button>)}</section>
+        </aside>
+      </div>
+      <footer className="sn-footer"><span>INSTANT FEEDBACK / LOCAL SESSION</span><span>LEARN — PRACTICE — REPEAT</span></footer>
     </main>
   );
 }
