@@ -1191,7 +1191,8 @@ pre {
   letter-spacing: -.075em;
   font-weight: 500;
 }
-.sim-resume h1 span { color: #686868; }
+.sim-resume h1,
+.sim-resume h1 span { color: #ffffff; }
 .sim-intro {
   display: grid;
   gap: 3px;
