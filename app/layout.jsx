@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
             <p>
-              <Link href="/">C6M1LO</Link>
+              <Link href="/">CAMILO</Link>
             </p>
             <div className="nav-left">
               <NavSearch items={searchItems} />
