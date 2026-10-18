@@ -136,6 +136,64 @@ const questions: Question[] = [
   },
 ];
 
+
+type LearningTopic = { title: string; category: string; skill: string; href: string };
+
+const learningTopics: LearningTopic[] = [
+  { title: "Introduction", category: "Python basics", skill: "python", href: "python_intro.asp" },
+  { title: "Get Started", category: "Python basics", skill: "python", href: "python_getstarted.asp" },
+  { title: "Syntax", category: "Python basics", skill: "python", href: "python_syntax.asp" },
+  { title: "Print Output", category: "Python basics", skill: "python", href: "python_output.asp" },
+  { title: "Comments", category: "Python basics", skill: "python", href: "python_comments.asp" },
+  { title: "Variables", category: "Python basics", skill: "python", href: "python_variables.asp" },
+  { title: "Data Types", category: "Python basics", skill: "python", href: "python_datatypes.asp" },
+  { title: "Numbers", category: "Python basics", skill: "python", href: "python_numbers.asp" },
+  { title: "Casting", category: "Python basics", skill: "python", href: "python_casting.asp" },
+  { title: "Strings", category: "Python basics", skill: "python", href: "python_strings.asp" },
+  { title: "Booleans", category: "Python basics", skill: "python", href: "python_booleans.asp" },
+  { title: "Operators", category: "Python basics", skill: "python", href: "python_operators.asp" },
+  { title: "Lists", category: "Data structures", skill: "python", href: "python_lists.asp" },
+  { title: "Tuples", category: "Data structures", skill: "python", href: "python_tuples.asp" },
+  { title: "Sets", category: "Data structures", skill: "python", href: "python_sets.asp" },
+  { title: "Dictionaries", category: "Data structures", skill: "python", href: "python_dictionaries.asp" },
+  { title: "If...Else", category: "Control flow", skill: "python", href: "python_conditions.asp" },
+  { title: "Match", category: "Control flow", skill: "python", href: "python_match.asp" },
+  { title: "While Loops", category: "Control flow", skill: "python", href: "python_while_loops.asp" },
+  { title: "For Loops", category: "Control flow", skill: "python", href: "python_for_loops.asp" },
+  { title: "Functions", category: "Control flow", skill: "python", href: "python_functions.asp" },
+  { title: "Range", category: "Control flow", skill: "python", href: "python_range.asp" },
+  { title: "Lambda", category: "Control flow", skill: "python", href: "python_lambda.asp" },
+  { title: "Recursion", category: "Control flow", skill: "python", href: "python_recursion.asp" },
+  { title: "Iterators", category: "Intermediate Python", skill: "python", href: "python_iterators.asp" },
+  { title: "Generators", category: "Intermediate Python", skill: "python", href: "python_generators.asp" },
+  { title: "Modules", category: "Intermediate Python", skill: "python", href: "python_modules.asp" },
+  { title: "Scope", category: "Intermediate Python", skill: "python", href: "python_scope.asp" },
+  { title: "Decorators", category: "Intermediate Python", skill: "python", href: "python_decorators.asp" },
+  { title: "Classes and Objects", category: "Object-oriented Python", skill: "python", href: "python_classes.asp" },
+  { title: "Inheritance", category: "Object-oriented Python", skill: "python", href: "python_inheritance.asp" },
+  { title: "Polymorphism", category: "Object-oriented Python", skill: "python", href: "python_polymorphism.asp" },
+  { title: "Encapsulation", category: "Object-oriented Python", skill: "python", href: "python_encapsulation.asp" },
+  { title: "Dates", category: "Python utilities", skill: "python", href: "python_datetime.asp" },
+  { title: "Math", category: "Python utilities", skill: "python", href: "python_math.asp" },
+  { title: "JSON", category: "Data exchange", skill: "http", href: "python_json.asp" },
+  { title: "Regular Expressions", category: "Python utilities", skill: "python", href: "python_regex.asp" },
+  { title: "PIP", category: "Environment and packages", skill: "deployment", href: "python_pip.asp" },
+  { title: "Try...Except", category: "Errors and reliability", skill: "testing", href: "python_try_except.asp" },
+  { title: "String Formatting", category: "Python utilities", skill: "python", href: "python_string_formatting.asp" },
+  { title: "None", category: "Python basics", skill: "python", href: "python_none.asp" },
+  { title: "User Input", category: "Python basics", skill: "python", href: "python_user_input.asp" },
+  { title: "Virtual Environments", category: "Environment and packages", skill: "deployment", href: "python_virtualenv.asp" },
+  { title: "File Handling", category: "Files and storage", skill: "integration", href: "python_file_handling.asp" },
+  { title: "NumPy", category: "Data libraries", skill: "sql", href: "python_numpy.asp" },
+  { title: "Pandas", category: "Data libraries", skill: "sql", href: "python_pandas.asp" },
+  { title: "SciPy", category: "Data libraries", skill: "sql", href: "python_scipy.asp" },
+  { title: "Matplotlib", category: "Data visualization", skill: "sql", href: "python_matplotlib.asp" },
+  { title: "Machine Learning", category: "Data science", skill: "sql", href: "python_machine_learning.asp" },
+  { title: "MySQL", category: "Databases", skill: "sql", href: "python_mysql.asp" },
+  { title: "MongoDB", category: "Databases", skill: "sql", href: "python_mongodb.asp" },
+  { title: "Django", category: "Web development", skill: "fastapi", href: "python_django.asp" },
+];
+
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
 
 export default function StudyNextPage() {
@@ -183,6 +241,18 @@ export default function StudyNextPage() {
       return { ...skill, score, unmet, priority: skill.weight + (score === null ? 0.6 : 1 - score) + unmet.length * 0.5 };
     }).sort((a, b) => b.priority - a.priority);
     return ranked.find(skill => skill.score === null || skill.score < 0.75) ?? ranked[0];
+  }, [scores]);
+
+  const recommendedTopics = useMemo(() => {
+    return [...learningTopics]
+      .sort((a, b) => {
+        const aScore = scores[a.skill];
+        const bScore = scores[b.skill];
+        const aValue = aScore === null || aScore === undefined ? -1 : aScore;
+        const bValue = bScore === null || bScore === undefined ? -1 : bScore;
+        return aValue - bValue;
+      })
+      .slice(0, 7);
   }, [scores]);
 
   function startOrContinue() {
@@ -242,6 +312,16 @@ export default function StudyNextPage() {
         .sn-rec { border:1px solid #555; padding:20px; margin-top:22px; }
         .sn-rec h3 { margin:9px 0; font-size:24px; letter-spacing:-.04em; }
         .sn-rec p { color:#aaa; }
+        .sn-chapters { margin-top:30px; }
+        .sn-chapters-intro { color:#888; max-width:620px; margin:-10px 0 16px; }
+        .sn-chapter-list { list-style:none; padding:0; margin:0; border-top:1px solid #292929; }
+        .sn-chapter { display:grid; grid-template-columns:32px minmax(0,1fr) minmax(90px,auto); gap:12px; align-items:center; padding:13px 0; border-bottom:1px solid #292929; }
+        .sn-chapter-number,.sn-chapter-category,.sn-chapter-skill { color:#777; font-size:10px; }
+        .sn-chapter-category { display:block; text-transform:uppercase; letter-spacing:.1em; margin-bottom:3px; }
+        .sn-chapter a,.sn-all-chapters { color:#eee; text-decoration:underline; text-underline-offset:4px; }
+        .sn-chapter-skill { text-align:right; }
+        .sn-all-chapters { display:inline-block; margin-top:18px; font-size:11px; }
+        @media (max-width:560px) { .sn-chapter { grid-template-columns:26px minmax(0,1fr); } .sn-chapter-skill { grid-column:2; text-align:left; } }
         .sn-footer { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; margin-top:20px; color:#666; font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
@@ -287,6 +367,26 @@ export default function StudyNextPage() {
             <p>{recommendation.unmet.length ? `Build toward this by reviewing: ${recommendation.unmet.map(id => skills.find(s => s.id === id)?.label).join(", ")}.` : "This topic is a high-value next step based on your current answers."}</p>
             <p style={{ marginTop: 12 }}>Why: this topic has high relevance to the full-stack path and is either not yet demonstrated or has prerequisite gaps.</p>
           </div>
+          <section className="sn-chapters">
+            <div className="sn-panel-head">
+              <span className="sn-label">Recommended W3Schools chapters</span>
+              <span className="sn-count">PICKED FROM YOUR RESULTS</span>
+            </div>
+            <p className="sn-chapters-intro">Start with these chapters, selected from the Python tutorial based on the skills that need the most work.</p>
+            <ol className="sn-chapter-list">
+              {recommendedTopics.map((topic, index) => (
+                <li className="sn-chapter" key={topic.href}>
+                  <span className="sn-chapter-number">{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <span className="sn-chapter-category">{topic.category}</span>
+                    <a href={`https://www.w3schools.com/python/${topic.href}`} target="_blank" rel="noreferrer">{topic.title} ↗</a>
+                  </div>
+                  <span className="sn-chapter-skill">{skills.find(skill => skill.id === topic.skill)?.label}</span>
+                </li>
+              ))}
+            </ol>
+            <a className="sn-all-chapters" href="https://www.w3schools.com/python/" target="_blank" rel="noreferrer">View all Python chapters at W3Schools ↗</a>
+          </section>
           <div className="sn-skill-list">
             {skills.map(skill => {
               const score = scores[skill.id];
