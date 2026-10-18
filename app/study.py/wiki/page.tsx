@@ -143,7 +143,7 @@ export default function StudyPyWikiPage() {
             <p className="wiki-muted">{guide.summary}</p>
             <section className="wiki-section">
               <h3>Key ideas</h3>
-              <ul>{guide.concepts.map((concept) => <li key={concept} style={{marginBottom:8}}>{concept}</li>)}</ul>
+              <ul>{guide.concepts.map((concept: string) => <li key={concept} style={{marginBottom:8}}>{concept}</li>)}</ul>
             </section>
             <section className="wiki-section">
               <h3>Example</h3>
