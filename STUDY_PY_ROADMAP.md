@@ -22,18 +22,18 @@ Build an IXL-inspired Python learning platform with a lesson wiki. Learners brow
 
 ### 1. Curriculum wiki and progress model
 - [ ] Move the curriculum into one canonical data module shared by the wiki, lesson practice, and chapter overview.
-- [ ] Add lesson detail pages with navigation, documentation, examples, and curriculum source links.
-- [ ] Store completion per lesson and derive chapter percentages from lesson records.
+- [x] Add a searchable lesson wiki with documentation, examples, and curriculum source links.
+- [x] Derive chapter percentages from per-lesson records; Print Output now records completion after practice.
 - [ ] Preserve/migrate existing study-next-progress-v1 and study-next-progress-v2 data safely.
 
 ### 2. Lesson-specific practice
-- [ ] Replace chapter-level fallback questions with lesson-specific question banks.
+- [ ] Replace chapter-level fallback questions with lesson-specific question banks. (Vertical slice shipped for all four Print Output lessons.)
 - [ ] Define a stable question contract: prompt, choices, correct answer, explanation, objective, difficulty, and deterministic variant seed.
-- [ ] Add meaningful distractors and semantic tests for each supported question type.
+- [x] Add deterministic Print Output question generation with automated answer-choice and reproducibility tests; expand semantic coverage as more lessons are added.
 - [ ] Add enough variation to reduce repetition without treating random output as correctness evidence.
 
 ### 3. Mastery and learning loop
-- [ ] Set explicit completion/mastery criteria per lesson.
+- [x] Set the first mastery rule: three consecutive correct answers for each Print Output lesson.
 - [ ] Recommend lessons using prerequisite relationships and recent performance.
 - [ ] Let learners retry, review explanations, and revisit completed lessons.
 - [ ] Report progress honestly: distinguish read, practiced, and mastered states.
@@ -44,7 +44,7 @@ Build an IXL-inspired Python learning platform with a lesson wiki. Learners brow
 - [ ] Evaluate whether accounts/backend are needed; keep local-first until cross-device progress or shared data justifies a backend.
 - [ ] Verify production build and deployed route after each meaningful milestone.
 
-## Engineering rules
+### Current vertical slice\n- [x] Print Output chapter: all four lessons have lesson-specific generated questions, explanations, verified answer keys, and local completion tracking.\n- [ ] Extend the same reusable pattern to the next chapter only after CI confirms this slice.\n\n## Engineering rules
 1. Work directly on main as requested; do not create draft branches or PRs unless the user changes this instruction.
 2. Inspect current repository state and CI before each batch.
 3. Prefer small vertical slices that work end-to-end over broad, unverified scaffolding.
