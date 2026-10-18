@@ -220,7 +220,7 @@ export default function Page() {
             </section>
         </>}
         <section><h2>Backup and data controls</h2>
-            <p className="muted">Records stay in this browser's local storage. Export a JSON backup before clearing browser data or switching devices. Imports are limited to 2 MB and validated before replacing existing records.</p>
+            <p className="muted">Records stay in this browser&apos;s local storage. Export a JSON backup before clearing browser data or switching devices. Imports are limited to 2 MB and validated before replacing existing records.</p>
             <button disabled={!ready} onClick={() => download("habit-analytics.json", JSON.stringify(data, null, 2))}>Export JSON</button>
             <label className="file">Import JSON backup<input aria-label="Import JSON backup" type="file" accept=".json,application/json" onChange={importFile} /></label>
             <button disabled={!ready || (!data.events.length && !data.journals.length)} onClick={clearAllData}>Delete all saved data</button>
