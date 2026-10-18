@@ -1,61 +1,83 @@
 import Link from "next/link";
 
-const projects = [
-  {
-    title: "Habit Analytics",
-    description: "A browser-based activity log with timestamps, tags, notes, date filtering, search, a session timer, and JSON backup/import.",
-    href: "/habitAnalytics",
-    cta: "Open app",
-    details: "The app stores its records in browser local storage rather than a remote account. This keeps the current version simple and user-controlled, but records can be lost if browser data is cleared. Export a JSON backup regularly.",
-    technologies: "React, TypeScript, browser local storage",
-  },
-  {
-    title: "Résumé",
-    description: "A web version of my résumé, with education, technical skills, and professional profile links.",
-    href: "/resume",
-    cta: "View résumé",
-    details: "This page provides a concise overview of my software engineering studies, tools, and public professional profiles.",
-    technologies: "Next.js, React, CSS",
-  },
-];
-
 export const metadata = {
   title: "Projects",
-  description: "Working software projects by Camilo Valencia, including Habit Analytics and a web résumé.",
+  description: "Software projects by Camilo Valencia, including implementation details, engineering decisions, and current limitations.",
 };
 
 export default function ProjectsPage() {
   return (
-    <div className="page-wrap">
-      <header className="page-header">
-        <span className="page-kicker">Selected work</span>
-        <h1 className="page-title">Projects and experiments</h1>
-        <p className="muted mt-4 max-w-3xl">
-          I build small web tools to explore practical problems in personal information management, interface design, and software engineering. These projects are actively evolving, so the descriptions below explain the current scope and important limitations rather than promising features that are not yet implemented.
+    <div className="projects-shell">
+      <header className="projects-heading">
+        <p className="resume-eyebrow">SELECTED WORK / 01</p>
+        <h1>Projects<span>.</span></h1>
+        <p>
+          A small collection of working software and experiments. Each project is described
+          by what it does today, how it works, and the engineering trade-offs behind it.
         </p>
       </header>
 
-      <section aria-label="Project descriptions" className="space-y-6">
-        {projects.map((project, index) => (
-          <article key={project.href} className="panel p-6 sm:p-8">
-            <p className="page-kicker">PROJECT {String(index + 1).padStart(2, "0")}</p>
-            <h2 className="mt-3 text-2xl font-semibold">{project.title}</h2>
-            <p className="muted mt-3">{project.description}</p>
-            <h3 className="mt-5 font-semibold">How it works</h3>
-            <p className="muted mt-2">{project.details}</p>
-            <p className="muted mt-3"><strong>Technologies:</strong> {project.technologies}</p>
-            <Link className="primary-link mt-5 inline-block" href={project.href}>{project.cta} →</Link>
-          </article>
-        ))}
-      </section>
+      <article className="case-study">
+        <div className="case-study-topline"><span>01 / FLAGSHIP PROJECT</span><span>WEB APPLICATION</span></div>
+        <div className="case-study-grid">
+          <div className="case-study-main">
+            <h2>Habit Analytics</h2>
+            <p className="case-study-summary">
+              A browser-based activity log for recording sessions and reviewing patterns
+              without requiring a cloud account.
+            </p>
+            <div className="case-study-actions">
+              <Link className="resume-button resume-button-primary" href="/habitAnalytics">Open application ↗</Link>
+              <a className="resume-button" href="https://github.com/camilogomez17/camilogomez17" target="_blank" rel="noreferrer">View source ↗</a>
+            </div>
+          </div>
+          <div className="case-study-facts">
+            <div><span>STACK</span><p>TypeScript, React, Next.js</p></div>
+            <div><span>DATA</span><p>Browser local storage + JSON backup</p></div>
+            <div><span>STATUS</span><p>Working project; actively evolving</p></div>
+          </div>
+        </div>
 
-      <section className="panel mt-8 p-6 sm:p-8">
-        <h2 className="text-2xl font-semibold">What I am learning</h2>
-        <p className="muted mt-3">
-          I am developing skills in JavaScript and TypeScript, React, Next.js, source control with Git, and deploying web applications. Building projects helps me practice breaking a problem into smaller parts, validating input, handling browser state, making interfaces usable on different screen sizes, and explaining technical trade-offs clearly.
-        </p>
-        <p className="muted mt-3">
-          I use project feedback and real testing to identify gaps. Features described as future ideas are not considered available until they are implemented and tested.
+        <div className="case-study-details">
+          <section>
+            <h3>What it does</h3>
+            <ul>
+              <li>Records actions with start/end times, tags, and context notes.</li>
+              <li>Searches entries and filters records by date.</li>
+              <li>Provides a session timer and JSON import/export for backups.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Engineering decisions</h3>
+            <ul>
+              <li>Stores records locally so the current version works without an account or remote database.</li>
+              <li>Validates imported backup structure, record counts, timestamps, and text limits before accepting data.</li>
+              <li>Uses automated validation tests and CI checks for linting, type-checking, and production builds.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Trade-offs and limitations</h3>
+            <ul>
+              <li>Data is scoped to the browser profile; clearing site data can remove saved records.</li>
+              <li>Users should export backups regularly. There is no cloud synchronization or multi-device account system.</li>
+              <li>Validation tests cover backup data rules; broader end-to-end coverage remains an improvement area.</li>
+            </ul>
+          </section>
+        </div>
+        <div className="case-study-footer">
+          <span>NEXT STEPS: EXPAND WORKFLOW TESTS / IMPROVE RECOVERY / GATHER USER FEEDBACK</span>
+          <Link href="/">Back to resume ↑</Link>
+        </div>
+      </article>
+
+      <section className="projects-next">
+        <p className="resume-eyebrow">CURRENT FOCUS</p>
+        <h2>Frontend engineering, then deeper systems.</h2>
+        <p>
+          My current frontend stack is TypeScript, React, and Next.js. I am learning Python
+          as my next step toward backend development, with a focus on APIs, data modeling,
+          testing, and reliable server-side behavior. I will add further projects here as
+          they are implemented and ready to demonstrate.
         </p>
       </section>
     </div>

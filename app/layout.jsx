@@ -17,11 +17,11 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
   title: {
-    default: "c6m1lo",
-    template: "%s | Camilo Gomez",
+    default: "Camilo Valencia — Software Engineer",
+    template: "%s | Camilo Valencia",
   },
   description:
-    "Camilo Valencia is a software engineering student building practical web tools. Explore project notes, Habit Analytics, and technical skills.",
+    "Camilo Valencia is a software engineering student building web applications with TypeScript, React, and Next.js while learning Python for backend development.",
   robots: {
     index: true,
     follow: true,
@@ -38,9 +38,9 @@ export const metadata = {
   },
   keywords: ["Camilo Gomez", "C6m1lo", "portfolio", "projects", "resume"],
   openGraph: {
-    title: "c6m1lo",
+    title: "Camilo Valencia — Software Engineering",
     description:
-      "Camilo Valencia is a software engineering student building practical web tools. Explore project notes, Habit Analytics, and technical skills.",
+      "Resume and software projects by Camilo Valencia. Frontend: TypeScript, React, and Next.js. Backend: Python, currently learning.",
     url: SITE_URL,
     siteName: "c6m1lo",
     images: [
