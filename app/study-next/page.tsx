@@ -356,7 +356,7 @@ function generatedQuestion(
       prompt = `What list is created by list(range(${start}, ${stop}, ${step}))?`;
       correct = `[${values.join(", ")}]`;
       partial = `[${[...values, stop].join(", ")}]`;
-      incorrect = `[${Array.from({ length: stop }, (_, i) => i).join(", ")}]`;
+      incorrect = `[${Array.from({ length: stop - start }, (_, i) => start + i).join(", ")}]`;
       explanation = `range(start, stop, step) includes start but stops before ${stop}, advancing by ${step}. The result is ${correct}.`;
       break;
     }
@@ -378,9 +378,9 @@ function generatedQuestion(
       const index = difficulty === 0 ? 0 : difficulty === 1 ? 2 : -1;
       const answer = word[index < 0 ? word.length + index : index];
       prompt = `What does ${JSON.stringify(word)}[${index}] return?`;
-      correct = JSON.stringify(answer);
-      partial = JSON.stringify(word[(index + 1 + word.length) % word.length]);
-      incorrect = JSON.stringify(word);
+      correct = `"${answer}"`;
+      partial = `"${word[(index + 1 + word.length) % word.length]}"`;
+      incorrect = `"${word}"`;
       explanation = `Strings support indexing like lists. Index ${index} selects the character ${JSON.stringify(answer)}.`;
       break;
     }
