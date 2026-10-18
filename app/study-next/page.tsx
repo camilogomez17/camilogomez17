@@ -171,11 +171,15 @@ function authoredQuestion(
     skill: "python",
     title,
     prompt,
-    choices: [
-      { label: correct, score: 2, feedback: "Correct. You can move to the next question." },
-      { label: partial, score: 1, feedback: "Partially correct. Review the distinction and try again." },
-      { label: incorrect, score: 0, feedback: "Not quite. Review the explanation and try again." },
-    ],
+    choices: (() => {
+      const options = [
+        { label: correct, score: 2, feedback: "Correct. You can move to the next question." },
+        { label: partial, score: 1, feedback: "Partially correct. Review the distinction and try again." },
+        { label: incorrect, score: 0, feedback: "Not quite. Review the explanation and try again." },
+      ];
+      const offset = id.length % options.length;
+      return [...options.slice(offset), ...options.slice(0, offset)];
+    })(),
     explanation,
     prerequisites: [],
   };
@@ -240,7 +244,7 @@ export default function StudyNextPage() {
       if (saved) {
         const parsed = JSON.parse(saved) as { lessonProgress?: Record<string, LessonProgress>; answered?: Record<string, number>; lastLessonId?: string | null; showAllLessons?: boolean };
         if (parsed.lessonProgress && typeof parsed.lessonProgress === "object") {
-          const validProgress = Object.fromEntries(Object.entries(parsed.lessonProgress).filter(([id, value]) => learningChapters.some(chapter => chapter.href === id) && value && Number.isInteger(value.level) && value.level >= 0 && value.level <= (questionSets[id]?.length ?? 0) && Number.isFinite(value.attempts) && Number.isFinite(value.correct)).map(([id, value]) => [id, { level: Math.max(0, Math.min(3, value.level)), attempts: Math.max(0, value.attempts), correct: Math.max(0, value.correct), mastered: value.level >= (questionSets[id]?.length ?? 1) || value.mastered === true }]));
+          const validProgress = Object.fromEntries(Object.entries(parsed.lessonProgress).filter(([id, value]) => learningChapters.some(chapter => chapter.href === id) && value && Number.isInteger(value.level) && value.level >= 0 && value.level <= (questionSets[id]?.length ?? 0) && Number.isFinite(value.attempts) && Number.isFinite(value.correct)).map(([id, value]) => [id, { level: Math.max(0, Math.min(questionSets[id]?.length ?? 0, value.level)), attempts: Math.max(0, value.attempts), correct: Math.max(0, value.correct), mastered: value.level >= (questionSets[id]?.length ?? 1) || value.mastered === true }]));
           setLessonProgress(validProgress);
         } else if (parsed.answered && typeof parsed.answered === "object") {
           const migrated = Object.fromEntries(Object.entries(parsed.answered).filter(([id, score]) => learningChapters.some(chapter => chapter.href === id) && [0, 1, 2].includes(score)).map(([id, score]) => [id, { level: score === 2 ? 1 : 0, attempts: 1, correct: score === 2 ? 1 : 0, mastered: false }]));
@@ -325,7 +329,7 @@ export default function StudyNextPage() {
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
       <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>SKILL PRACTICE / PYTHON</span></header>
-      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Build mastery through three short stages—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">{totalQuestionCount} PRACTICE QUESTIONS</span><span className="sn-chip">SELF-PACED</span></div></section>
+      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Build mastery one question at a time—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">{totalQuestionCount} PRACTICE QUESTIONS</span><span className="sn-chip">SELF-PACED</span></div></section>
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
           {!current ? <>
