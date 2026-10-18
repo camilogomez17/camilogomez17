@@ -397,6 +397,7 @@ export default function StudyNextPage() {
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
       <header className="sn-top"><span>STUDY.PY / LEARNING SYSTEM</span><span>SKILL PRACTICE / PYTHON</span></header>
+      <nav aria-label="Study.py sections" style={{display:"flex",gap:16,marginTop:14,fontSize:11}}><a href="/study.py" style={{color:"#eee"}}>Practice</a><a href="/study.py/wiki" style={{color:"#aaa"}}>Lesson wiki ↗</a></nav>
       <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Practice with generated variations in core Python skills. Each version changes the inputs while calculating its answer from the same tested rule.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">PARAMETERIZED QUESTIONS</span><span className="sn-chip">{learningChapters.length} CHAPTERS</span><span className="sn-chip">{Object.values(curriculumLessons).reduce((total, lessons) => total + lessons.length, 0)} LESSONS MAPPED</span><span className="sn-chip">SELF-PACED</span></div></section>
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
