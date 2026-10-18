@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "bible:download-kjv": "node scripts/download-kjv.mjs",
-    "test": "node --test lib/habit-analytics-validation.test.mjs lib/study-py-question-engine.test.mjs lib/study-py-curriculum.test.mjs"
+    "test": "node --test lib/habit-analytics-validation.test.mjs lib/study-py-question-engine.test.mjs lib/study-py-curriculum.test.mjs lib/study-py-print-output.test.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
