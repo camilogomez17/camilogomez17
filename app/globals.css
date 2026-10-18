@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #080808;
-  --bg-secondary: #0d0d0d;
-  --bg-tertiary: #111111;
+  --bg-primary: #000000;
+  --bg-secondary: #080808;
+  --bg-tertiary: #101010;
   --border-subtle: #1a1a1a;
   --border-default: #242424;
   --border-accent: #ffffff22;
