@@ -13,15 +13,7 @@ type Question = {
   prerequisites: string[];
 };
 
-const skills = [
-  { id: "python", label: "Python fundamentals", weight: 1.2, prerequisites: [] },
-  { id: "http", label: "HTTP & REST", weight: 1.1, prerequisites: ["python"] },
-  { id: "fastapi", label: "FastAPI", weight: 1.3, prerequisites: ["python", "http"] },
-  { id: "sql", label: "SQL & data modeling", weight: 1.2, prerequisites: ["python"] },
-  { id: "integration", label: "Backend integration", weight: 1.4, prerequisites: ["fastapi", "sql"] },
-  { id: "testing", label: "Testing & reliability", weight: 1, prerequisites: ["fastapi"] },
-  { id: "deployment", label: "Deployment", weight: 0.9, prerequisites: ["integration", "testing"] },
-];
+
 
 type LearningChapter = { title: string; category: string; href: string; skills: string[] };
 
