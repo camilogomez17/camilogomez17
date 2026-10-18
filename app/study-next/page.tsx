@@ -23,120 +23,6 @@ const skills = [
   { id: "deployment", label: "Deployment", weight: 0.9, prerequisites: ["integration", "testing"] },
 ];
 
-const questions: Question[] = [
-  {
-    id: "py-functions", skill: "python", title: "Python foundations", prompt: "A function receives a list and needs to return a new list without changing the original. What is the safest starting point?",
-    choices: [
-      { label: "Create a new list and build the result", score: 2, feedback: "Correct. A new list avoids mutating the caller's data." },
-      { label: "Change each item in the original list", score: 0, feedback: "That mutates the input and can create unexpected side effects." },
-      { label: "Use a global variable for the result", score: 0, feedback: "A global variable adds shared state and makes the function harder to test." },
-    ],
-    explanation: "Functions, collections, and predictable data flow are foundations for backend logic.",
-    prerequisites: [],
-  },
-  {
-    id: "py-errors", skill: "python", title: "Error handling", prompt: "A file may not exist. How should your code handle that possibility?",
-    choices: [
-      { label: "Catch the expected exception and handle it deliberately", score: 2, feedback: "Correct. Handle specific exceptions and define a useful fallback." },
-      { label: "Catch every exception and silently ignore it", score: 0, feedback: "Silencing all errors hides bugs and makes failures difficult to diagnose." },
-      { label: "Assume the file is always present", score: 0, feedback: "External state is not guaranteed; code should handle expected failures." },
-    ],
-    explanation: "Backend services need clear error paths and predictable behavior when dependencies fail.",
-    prerequisites: [],
-  },
-  {
-    id: "http-status", skill: "http", title: "HTTP basics", prompt: "A client successfully creates a new record. Which status code is the best fit?",
-    choices: [
-      { label: "201 Created", score: 2, feedback: "Correct. 201 communicates that a resource was created." },
-      { label: "404 Not Found", score: 0, feedback: "404 means the requested resource could not be found." },
-      { label: "500 Internal Server Error", score: 0, feedback: "500 signals an unexpected server failure." },
-    ],
-    explanation: "Knowing HTTP methods, status codes, and request/response shapes is essential before building APIs.",
-    prerequisites: ["python"],
-  },
-  {
-    id: "http-methods", skill: "http", title: "API design", prompt: "Which HTTP method is normally used to retrieve a list of records without changing them?",
-    choices: [
-      { label: "GET", score: 2, feedback: "Correct. GET retrieves a representation and should not change server state." },
-      { label: "POST", score: 0, feedback: "POST commonly submits data or creates a resource." },
-      { label: "DELETE", score: 0, feedback: "DELETE requests removal of a resource." },
-    ],
-    explanation: "Clear API conventions make services easier to use and maintain.",
-    prerequisites: ["python"],
-  },
-  {
-    id: "fastapi-validation", skill: "fastapi", title: "FastAPI validation", prompt: "An endpoint expects a request body with a name and an integer quantity. How should you validate it?",
-    choices: [
-      { label: "Define a Pydantic request model with typed fields", score: 2, feedback: "Correct. FastAPI uses Pydantic models to validate and document request bodies." },
-      { label: "Accept any dictionary and trust the caller", score: 0, feedback: "Unvalidated input can cause incorrect data and runtime errors." },
-      { label: "Parse the raw request body manually for every endpoint", score: 1, feedback: "It can work, but typed request models are safer and reduce repeated code." },
-    ],
-    explanation: "FastAPI request models give you validation, useful errors, and generated API documentation.",
-    prerequisites: ["python", "http"],
-  },
-  {
-    id: "fastapi-async", skill: "fastapi", title: "Request handlers", prompt: "When should you use async def in a FastAPI endpoint?",
-    choices: [
-      { label: "When calling awaitable I/O operations with an async-compatible library", score: 2, feedback: "Correct. Async is useful when the work uses non-blocking awaitable operations." },
-      { label: "For every function, because async always makes code faster", score: 0, feedback: "Async is not automatically faster and does not speed up CPU-bound work by itself." },
-      { label: "Only when the endpoint returns JSON", score: 0, feedback: "The response format does not determine whether async is appropriate." },
-    ],
-    explanation: "Understand request lifecycle and I/O before adding concurrency to an API.",
-    prerequisites: ["python", "http"],
-  },
-  {
-    id: "sql-keys", skill: "sql", title: "Relational data", prompt: "You need every activity record to belong to a user. What database feature models that relationship?",
-    choices: [
-      { label: "A foreign key from the activity table to the user table", score: 2, feedback: "Correct. A foreign key expresses the relationship and can enforce referential integrity." },
-      { label: "Copy the user's full profile into every activity row", score: 0, feedback: "Duplicating profile data creates update inconsistencies." },
-      { label: "Put all users and activities into one text field", score: 0, feedback: "That prevents reliable constraints and efficient relational queries." },
-    ],
-    explanation: "Tables, primary keys, foreign keys, and constraints are the basis of dependable persistent storage.",
-    prerequisites: ["python"],
-  },
-  {
-    id: "sql-query", skill: "sql", title: "SQL queries", prompt: "How do you retrieve only records created by a particular user?",
-    choices: [
-      { label: "Use SELECT with a WHERE condition on user_id", score: 2, feedback: "Correct. Filter records using a parameterized query." },
-      { label: "Fetch every row and filter only in the browser", score: 0, feedback: "That wastes bandwidth and may expose records the user should not receive." },
-      { label: "Use ORDER BY user_id", score: 0, feedback: "ORDER BY sorts results; it does not filter them." },
-    ],
-    explanation: "SQL filtering and safe parameter handling matter for performance and access control.",
-    prerequisites: ["python"],
-  },
-  {
-    id: "integration-db", skill: "integration", title: "Persistence", prompt: "Your FastAPI app restarts and all records disappear. What is the likely architectural issue?",
-    choices: [
-      { label: "The records exist only in process memory instead of persistent storage", score: 2, feedback: "Correct. Store durable records in a database such as PostgreSQL." },
-      { label: "The endpoint needs a different HTTP status code", score: 0, feedback: "A status code cannot make in-memory data persistent." },
-      { label: "The frontend needs more CSS", score: 0, feedback: "Styling does not affect server-side data persistence." },
-    ],
-    explanation: "A full-stack app needs a clear boundary between UI state, API logic, and durable database storage.",
-    prerequisites: ["fastapi", "sql"],
-  },
-  {
-    id: "testing", skill: "testing", title: "Automated tests", prompt: "How would you check that an API rejects a request with a missing required field?",
-    choices: [
-      { label: "Write an API test that sends invalid input and checks the response", score: 2, feedback: "Correct. Test both the response status and useful validation details." },
-      { label: "Manually test only the happy path once", score: 0, feedback: "That does not protect validation behavior from regressions." },
-      { label: "Check that the page looks correct", score: 0, feedback: "Visual checks do not verify backend request validation." },
-    ],
-    explanation: "Tests make refactoring safer and document expected behavior.",
-    prerequisites: ["fastapi"],
-  },
-  {
-    id: "deployment", skill: "deployment", title: "Deployment configuration", prompt: "Your app works locally but cannot connect to PostgreSQL after deployment. What should you check first?",
-    choices: [
-      { label: "The deployed DATABASE_URL, network access, and database credentials", score: 2, feedback: "Correct. Production configuration and connectivity differ from local development." },
-      { label: "Whether the browser cache is empty", score: 0, feedback: "Browser cache does not resolve server-to-database connectivity." },
-      { label: "Whether the button has a hover state", score: 0, feedback: "UI styling is unrelated to database connection failures." },
-    ],
-    explanation: "Environment variables, secrets, networking, migrations, and logs are core deployment skills.",
-    prerequisites: ["integration", "testing"],
-  },
-];
-
-
 type LearningChapter = { title: string; category: string; href: string; skills: string[] };
 
 const learningChapters: LearningChapter[] = [
@@ -196,6 +82,93 @@ const learningChapters: LearningChapter[] = [
   { category: "Practice", title: "Python DSA", href: "python_dsa.asp", skills: ["python", "testing"] },
 ];
 
+
+type LessonQuestionData = { prompt: string; correct: string; partial: string; incorrect: string };
+
+const lessonQuestionData: Record<string, LessonQuestionData> = {
+  "python_intro.asp": { prompt: "What is Python primarily used for?", correct: "A general-purpose language for tasks such as web apps, automation, and data analysis", partial: "A language used only to style web pages", incorrect: "A database that stores application records" },
+  "python_getstarted.asp": { prompt: "Which command commonly checks whether Python is installed and shows its version?", correct: "python --version", partial: "python --install", incorrect: "python --browser" },
+  "python_syntax.asp": { prompt: "In Python, what usually marks the beginning of an indented code block?", correct: "A colon after a statement such as if, for, or def, followed by indentation", partial: "Curly braces around the block", incorrect: "A semicolon at the start of each line" },
+  "python_output.asp": { prompt: "How do you display the text Hello in a Python terminal?", correct: "print('Hello')", partial: "console.log('Hello')", incorrect: "echo = 'Hello' without calling anything" },
+  "python_comments.asp": { prompt: "Which syntax starts a single-line Python comment?", correct: "# comment", partial: "// comment", incorrect: "<!-- comment -->" },
+  "python_variables.asp": { prompt: "What happens when you write count = 3 in Python?", correct: "The name count refers to the integer value 3", partial: "It declares a fixed constant that cannot change", incorrect: "It compares count with 3 without assigning anything" },
+  "python_datatypes.asp": { prompt: "Which built-in type represents a sequence of characters such as 'hello'?", correct: "str", partial: "int", incorrect: "bool" },
+  "python_numbers.asp": { prompt: "What is the result of 7 // 2 in Python?", correct: "3, because // performs floor division", partial: "3.5, because // performs ordinary division", incorrect: "1, because // is the modulo operator" },
+  "python_casting.asp": { prompt: "How can you convert the string '42' to an integer?", correct: "int('42')", partial: "str(42)", incorrect: "number('42')" },
+  "python_strings.asp": { prompt: "What does 'Python'[0] return?", correct: "'P', the character at index zero", partial: "'y', because indexing starts at one", incorrect: "The full string 'Python'" },
+  "python_booleans.asp": { prompt: "Which expression evaluates to True?", correct: "5 > 2", partial: "5 < 2", incorrect: "bool('')" },
+  "python_operators.asp": { prompt: "What does the % operator return for 10 % 3?", correct: "1, the remainder after division", partial: "3, the quotient rounded down", incorrect: "30, the product" },
+  "python_lists.asp": { prompt: "How do you add the value 4 to the end of a list named items?", correct: "items.append(4)", partial: "items.add(4)", incorrect: "items.pushBack(4)" },
+  "python_tuples.asp": { prompt: "What is a key property of a Python tuple?", correct: "It is ordered and cannot be modified after creation", partial: "It stores only unique values", incorrect: "It automatically sorts values alphabetically" },
+  "python_sets.asp": { prompt: "Why use a set when removing duplicates from a collection?", correct: "A set stores unique elements", partial: "A set preserves every duplicate in insertion order", incorrect: "A set allows values to be accessed only by integer index" },
+  "python_dictionaries.asp": { prompt: "Given user = {'name': 'Ari'}, how do you retrieve the name value?", correct: "user['name']", partial: "user.name()", incorrect: "user[0]" },
+  "python_conditions.asp": { prompt: "Which structure runs a block only when age is at least 18?", correct: "if age >= 18:", partial: "when age >= 18:", incorrect: "repeat age >= 18:" },
+  "python_match.asp": { prompt: "What is match/case useful for in Python?", correct: "Choosing a branch based on which pattern a value matches", partial: "Repeating a block until a condition becomes false", incorrect: "Declaring a class constructor" },
+  "python_while_loops.asp": { prompt: "What must you watch for in a while loop?", correct: "The loop condition must eventually become false or the loop may never end", partial: "A while loop always runs exactly once", incorrect: "A while loop cannot use variables in its condition" },
+  "python_for_loops.asp": { prompt: "What does for item in items do?", correct: "Runs the block once for each item yielded by items", partial: "Runs only when items is a Boolean True", incorrect: "Creates a new list without iterating" },
+  "python_functions.asp": { prompt: "What does a return statement do inside a function?", correct: "Sends a value back to the caller and ends that function call", partial: "Prints the value to the terminal but returns nothing", incorrect: "Restarts the function from the beginning" },
+  "python_range.asp": { prompt: "What numbers are produced by list(range(2, 5))?", correct: "[2, 3, 4]", partial: "[2, 3, 4, 5]", incorrect: "[0, 1, 2, 3, 4]" },
+  "python_lambda.asp": { prompt: "What is lambda x: x * 2?", correct: "A small anonymous function that returns x multiplied by two", partial: "A loop that repeats twice", incorrect: "A class named x" },
+  "python_recursion.asp": { prompt: "What does a recursive function need to avoid calling itself forever?", correct: "A base case that stops the recursion", partial: "A global variable for every argument", incorrect: "A print statement at the end" },
+  "python_generators.asp": { prompt: "What does yield do in a generator function?", correct: "Produces a value and suspends execution so iteration can resume later", partial: "Returns all values at once and permanently exits", incorrect: "Raises an exception whenever the function is called" },
+  "python_arrays.asp": { prompt: "When is an array-like structure useful compared with unrelated scalar variables?", correct: "When storing and processing a sequence of related values", partial: "When you need to store exactly one named value", incorrect: "When you need to define a conditional branch" },
+  "python_iterators.asp": { prompt: "What does an iterator provide?", correct: "A way to retrieve values one at a time, typically through next()", partial: "A way to sort any collection automatically", incorrect: "A database connection pool" },
+  "python_modules.asp": { prompt: "How do you make functions from a module named math available as math.sqrt(...)?", correct: "import math", partial: "include math", incorrect: "module math()" },
+  "python_scope.asp": { prompt: "What does local scope mean for a variable created inside a function?", correct: "It is normally accessible only within that function", partial: "It is automatically shared with every module", incorrect: "It is stored permanently in the database" },
+  "python_decorators.asp": { prompt: "What is a Python decorator commonly used for?", correct: "Wrapping or extending a function's behavior without rewriting its core body", partial: "Converting every function into a class", incorrect: "Installing a package from the internet" },
+  "python_classes.asp": { prompt: "In a Python class, what is self commonly used to refer to?", correct: "The current instance, allowing access to its attributes and methods", partial: "The parent class in every inheritance chain", incorrect: "The Python interpreter process" },
+  "python_inheritance.asp": { prompt: "What does inheritance allow a class to do?", correct: "Reuse or extend behavior defined by a parent class", partial: "Prevent all methods from being called", incorrect: "Automatically turn instance attributes into database columns" },
+  "python_polymorphism.asp": { prompt: "What is polymorphism in object-oriented programming?", correct: "Different object types can respond to the same operation through their own implementations", partial: "Every object must have exactly the same data", incorrect: "A function can only accept one type of argument" },
+  "python_encapsulation.asp": { prompt: "What is the purpose of encapsulation?", correct: "Keeping an object's state and behavior together while controlling how its internals are accessed", partial: "Making every attribute globally accessible", incorrect: "Combining multiple Python files into one string" },
+  "python_datetime.asp": { prompt: "Which module provides Python date and time objects such as datetime?", correct: "datetime", partial: "calendar only provides the current timestamp", incorrect: "timeparse" },
+  "python_math.asp": { prompt: "How can you access functions such as sqrt from Python's standard math module?", correct: "import math, then call math.sqrt(value)", partial: "Call sqrt(value) without importing or defining it", incorrect: "Use SQL's SELECT SQRT statement in Python code" },
+  "python_json.asp": { prompt: "Which standard-library call converts a JSON string into Python data?", correct: "json.loads(json_text)", partial: "json.dumps(json_text)", incorrect: "json.parseFileOnly(json_text)" },
+  "python_regex.asp": { prompt: "What is a regular expression useful for?", correct: "Matching or extracting text patterns, such as a sequence of digits", partial: "Managing database transactions", incorrect: "Rendering charts from numeric data" },
+  "python_pip.asp": { prompt: "What is pip primarily used for?", correct: "Installing and managing Python packages", partial: "Running SQL migrations automatically", incorrect: "Formatting HTML in a browser" },
+  "python_try_except.asp": { prompt: "How should code handle an expected ValueError?", correct: "Catch ValueError specifically and handle or report the invalid input", partial: "Catch every possible exception and silently ignore it", incorrect: "Assume the error cannot occur" },
+  "python_string_formatting.asp": { prompt: "What does f'Hello, {name}' do when name is 'Mina'?", correct: "Produces the string 'Hello, Mina'", partial: "Produces the literal text 'Hello, {name}' in every case", incorrect: "Converts name to an integer" },
+  "python_none.asp": { prompt: "What does None represent in Python?", correct: "The absence of a value or a deliberate no-result value", partial: "The number zero", incorrect: "An empty string" },
+  "python_user_input.asp": { prompt: "What type of value does input() return by default?", correct: "A string, which may need conversion before numeric calculations", partial: "An integer whenever the user types digits", incorrect: "A Boolean value only" },
+  "python_virtualenv.asp": { prompt: "Why create a virtual environment for a Python project?", correct: "To isolate that project's installed packages and dependencies", partial: "To make the project run without an interpreter", incorrect: "To automatically host the app in production" },
+  "python_file_handling.asp": { prompt: "Why is using with open(...) as file recommended?", correct: "It closes the file reliably when the block exits", partial: "It automatically encrypts every file", incorrect: "It prevents the file from ever raising an exception" },
+  "python_numpy.asp": { prompt: "What is NumPy especially useful for?", correct: "Efficient numerical computing with multidimensional arrays", partial: "Defining URL routes for a web server", incorrect: "Managing Python virtual environments" },
+  "python_pandas.asp": { prompt: "What is a pandas DataFrame?", correct: "A labeled two-dimensional tabular data structure with rows and columns", partial: "A function that starts a web server", incorrect: "A Python package installer" },
+  "python_scipy.asp": { prompt: "What does SciPy add to the Python ecosystem?", correct: "Scientific computing algorithms for areas such as optimization and statistics", partial: "A replacement syntax for Python loops", incorrect: "A browser-based CSS layout engine" },
+  "python_matplotlib.asp": { prompt: "What is Matplotlib commonly used for?", correct: "Creating plots and charts from data", partial: "Validating request bodies for a REST API", incorrect: "Defining relational foreign keys" },
+  "python_ml_getting_started.asp": { prompt: "In a basic machine-learning workflow, what is training data used for?", correct: "Fitting a model so it can learn patterns from examples", partial: "Storing website styles and page layouts", incorrect: "Replacing the need to evaluate model performance" },
+  "python_mysql_getstarted.asp": { prompt: "What is the role of a database connector in Python code that uses MySQL?", correct: "Open a connection and send SQL statements to the database", partial: "Convert Python functions into HTML components", incorrect: "Train a neural network without data" },
+  "python_mongodb_getstarted.asp": { prompt: "How does MongoDB typically organize records?", correct: "As documents grouped into collections", partial: "Only as rows in fixed relational tables", incorrect: "As Python functions inside modules" },
+  "django_intro.php": { prompt: "What is Django?", correct: "A Python web framework that includes tools for building web applications", partial: "A Python-only data visualization library", incorrect: "A SQL query language" },
+  "python_dsa.asp": { prompt: "What do data structures and algorithms help you reason about?", correct: "How data is organized and how efficiently operations solve a problem", partial: "How to choose a website's accent color", incorrect: "How to write package metadata only" },
+};
+
+const questions: Question[] = learningChapters.map((chapter, index) => {
+  const data = lessonQuestionData[chapter.href];
+  const baseChoices = [
+    { label: data.correct, score: 2 },
+    { label: data.partial, score: 1 },
+    { label: data.incorrect, score: 0 },
+  ];
+  const offset = index % baseChoices.length;
+  const orderedChoices = [...baseChoices.slice(offset), ...baseChoices.slice(0, offset)];
+  return {
+    id: chapter.href,
+    skill: chapter.skills[0],
+    title: chapter.title,
+    prompt: data.prompt,
+    choices: orderedChoices.map(choice => ({
+      ...choice,
+      feedback: choice.score === 2
+        ? \`Correct. Your answer shows a solid signal for \${chapter.title}.\`
+        : choice.score === 1
+          ? \`Partially correct. Review the W3Schools \${chapter.title} chapter to reinforce this concept.\`
+          : \`This answer suggests a gap in \${chapter.title}. Review the linked chapter before moving on.\`,
+    })),
+    explanation: \`Review the W3Schools \${chapter.title} chapter to strengthen this skill.\`,
+    prerequisites: [],
+  };
+});
+
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
 
 export default function StudyNextPage() {
@@ -237,15 +210,17 @@ export default function StudyNextPage() {
   }, [answers, scores]);
 
   const recommendedChapters = useMemo(() => {
-    return learningChapters
-      .map(chapter => {
-        const relatedScores = chapter.skills.map(id => scores[id]).filter((score): score is number => score !== null && score !== undefined);
-        const score = relatedScores.length ? relatedScores.reduce((sum, value) => sum + value, 0) / relatedScores.length : 0;
-        return { ...chapter, score };
-      })
-      .sort((a, b) => a.score - b.score)
+    const ranked = learningChapters
+      .map((chapter, index) => ({
+        ...chapter,
+        score: answers[chapter.href] ?? 0,
+        index,
+      }))
+      .filter(chapter => chapter.score < 2)
+      .sort((a, b) => a.score - b.score || a.index - b.index)
       .slice(0, 10);
-  }, [scores]);
+    return ranked;
+  }, [answers]);
 
   function startOrContinue() {
     if (showResult) return;
@@ -320,7 +295,7 @@ export default function StudyNextPage() {
       <section className="sn-hero">
         <p className="sn-kicker">Python full-stack / diagnostic engine</p>
         <h1>What should you<br />learn next?</h1>
-        <p>Answer a short set of questions. The engine adapts the order, estimates your current skills, and recommends the next topic to study.</p>
+        <p>Answer one question for each curriculum chapter. Your results identify the specific lessons to review, ranked by your demonstrated understanding.</p>
         <div className="sn-meta"><span className="sn-chip">PYTHON</span><span className="sn-chip">FASTAPI</span><span className="sn-chip">POSTGRESQL</span><span className="sn-chip">TESTING</span></div>
       </section>
 
@@ -332,7 +307,7 @@ export default function StudyNextPage() {
             <>
               <p className="sn-label">NEXT DIAGNOSTIC</p>
               <p className="sn-question">{answered === 0 ? "Let's establish your starting point." : "Your previous answer has updated the next question priority."}</p>
-              <p style={{ color: "#888" }}>Choose the answer closest to what you can do today, without guessing.</p>
+              <p style={{ color: "#888" }}>Each question tests one W3Schools chapter. Choose the answer that best matches your current understanding.</p>
               <button className="sn-action" onClick={startOrContinue}>{answered === 0 ? "Begin assessment →" : "Continue →"}</button>
               {lastFeedback ? <p className="sn-feedback">{lastFeedback}</p> : null}
             </>
@@ -350,20 +325,20 @@ export default function StudyNextPage() {
       ) : (
         <section className="sn-panel">
           <p className="sn-label">Assessment complete</p>
-          <h2 className="sn-question">Your next learning target.</h2>
+          <h2 className="sn-question">Your learning gaps.</h2>
           <div className="sn-rec">
             <p className="sn-label">RECOMMENDED CHAPTERS / W3SCHOOLS PYTHON</p>
             <h3>What to study next</h3>
-            <p>These chapters are prioritized from your lowest assessment signals. Start at the top and work down.</p>
+            <p>Each chapter has its own question and score. These are the lessons where your answers showed gaps or partial understanding.</p>
             <ol className="sn-chapters">
-              {recommendedChapters.map((chapter, index) => (
+              {(recommendedChapters.length ? recommendedChapters : learningChapters.slice(0, 5).map(chapter => ({ ...chapter, score: 2, index: 0 })).slice(0, 5)).map((chapter, index) => (
                 <li key={chapter.href}>
                   <span className="sn-chapter-number">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="sn-chapter-copy"><span className="sn-chapter-category">{chapter.category}</span><a href={`https://www.w3schools.com/python/${chapter.href}`} target="_blank" rel="noreferrer">{chapter.title} ↗</a></span>
+                  <span className="sn-chapter-copy"><span className="sn-chapter-category">{chapter.category} · {chapter.score === 0 ? "Needs review" : chapter.score === 1 ? "Developing" : "Strong signal"}</span><a href={`https://www.w3schools.com/python/${chapter.href}`} target="_blank" rel="noreferrer">{chapter.title} ↗</a></span>
                 </li>
               ))}
             </ol>
-            <p className="sn-chapter-note">Recommendations are an initial guide based on quiz answers, not a certification of mastery. W3Schools chapter links open in a new tab.</p>
+            <p className="sn-chapter-note">Each lesson is assessed by one question. Scores are directional rather than proof of mastery. W3Schools chapter links open in a new tab.</p>
           </div>
           <div className="sn-skill-list">
             {skills.map(skill => {
@@ -376,7 +351,7 @@ export default function StudyNextPage() {
             })}
           </div>
           <button className="sn-action" onClick={restart}>Retake assessment ↻</button>
-          <p className="sn-feedback">This prototype uses rule-based scoring. Results are directional, not proof of mastery. The next step is to add coding exercises and persist progress in a backend.</p>
+          <p className="sn-feedback">This prototype uses one rule-based question per chapter. Results are directional, not proof of mastery. Progress is stored only for this local session.</p>
         </section>
       )}
       <footer className="sn-footer"><span>RULE-BASED PROTOTYPE / LOCAL SESSION</span><span>01 — ASSESS / 02 — RECOMMEND / 03 — PRACTICE</span></footer>
