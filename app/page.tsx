@@ -59,8 +59,7 @@ export default function HomePage() {
         <p className="sim-kicker">RESUME / SOFTWARE ENGINEERING</p>
         <h1 id="resume-name">Camilo<br /><span>Valencia</span></h1>
         <div className="sim-intro">
-          <p>Frontend engineer in training.</p>
-          <p>Frontend roadmap complete. Backend now in progress.</p>
+          <p>Frontend React.js developer. Python backend.</p>
         </div>
         <nav className="sim-links" aria-label="Contact links">
           {links.map((link) => (
@@ -95,7 +94,7 @@ export default function HomePage() {
             <span className="sim-muted">LIVE BUILD</span>
           </div>
           <h2 id="project-title">Habit Analytics</h2>
-          <p>Log sessions. Filter activity. Export JSON.</p>
+          <p>Visualize your data in 3D using habit tracking and matplotlib.</p>
           <p className="sim-muted">NEXT.JS / REACT / TYPESCRIPT / LOCAL STORAGE</p>
           <div className="sim-links">
             <a href="/habitAnalytics">OPEN PROJECT ↗</a>
@@ -103,52 +102,6 @@ export default function HomePage() {
           </div>
         </section>
       </section>
-
-      <section className="sim-console" aria-labelledby="telemetry-title">
-        <div className="sim-console-head">
-          <div>
-            <p className="sim-kicker">LIVE SELF-ASSESSMENT / 002</p>
-            <h2 id="telemetry-title">Development telemetry<span className="sim-cursor">_</span></h2>
-          </div>
-          <span className="sim-muted">ROADMAP STATUS</span>
-        </div>
-
-        <div className="sim-metrics">
-          <div className="sim-metric">
-            <span className="sim-label">FRONTEND</span>
-            <strong>COMPLETE</strong>
-            <span className="sim-muted">Roadmap finished</span>
-            <div className="sim-meter" role="img" aria-label="Frontend roadmap complete">
-              <span style={{ width: "100%" }} />
-            </div>
-          </div>
-          <div className="sim-metric">
-            <span className="sim-label">BACKEND</span>
-            <strong>INITIALIZING</strong>
-            <span className="sim-muted">Python foundations</span>
-            <div className="sim-meter" role="img" aria-label="Backend learning has started">
-              <span style={{ width: "25%" }} />
-            </div>
-          </div>
-        </div>
-
-        <div className="sim-tracks">
-          <MilestoneTrack title="FRONTEND ROADMAP" items={frontendMilestones} completed={4} />
-          <MilestoneTrack title="BACKEND ROADMAP" items={backendMilestones} completed={1} />
-        </div>
-
-        <div className="sim-log">
-          <p className="sim-label">SYSTEM LOG</p>
-          <p><span>01</span> UI / STATE / ROUTING / DEPLOY — COMPLETE</p>
-          <p><span>02</span> PYTHON — STARTED</p>
-          <p><span>03</span> APIs / DATABASES / AUTH — NEXT</p>
-        </div>
-      </section>
-
-      <footer className="sim-footer">
-        <span>CAMilo VALENCIA / PORTFOLIO</span>
-        <span>BUILDING IN PUBLIC <i className="sim-live-dot" /></span>
-      </footer>
     </main>
   );
 }
