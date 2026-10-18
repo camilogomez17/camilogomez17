@@ -289,12 +289,178 @@ questionSets["python_intro.asp"] = [
   ),
 ];
 
+
+// Deterministic, parameterized question generators. A seed selects new valid inputs;
+// answers are calculated from those inputs rather than authored as unrelated text.
+function generatedQuestion(
+  chapterHref: string,
+  level: number,
+  seed: number,
+): Question | null {
+  const n = Math.abs(seed * 7 + level * 11);
+  let title = "";
+  let prompt = "";
+  let correct = "";
+  let partial = "";
+  let incorrect = "";
+  let explanation = "";
+  const difficulty = Math.min(level, 2);
+
+  switch (chapterHref) {
+    case "python_numbers.asp": {
+      title = "Numbers";
+      const a = 12 + (n % 17);
+      const b = 2 + ((n * 3) % 8);
+      const op = difficulty === 0 ? "+" : difficulty === 1 ? "//" : "%";
+      const answer = op === "+" ? a + b : op === "//" ? Math.floor(a / b) : a % b;
+      const alternate = op === "+" ? a - b : op === "//" ? a / b : Math.floor(a / b);
+      prompt = `What does ${a} ${op} ${b} evaluate to?`;
+      correct = String(answer);
+      partial = String(alternate);
+      incorrect = String(op === "+" ? a * b : op === "//" ? a % b : a - b);
+      explanation = op === "+" ? `Addition combines the values: ${a} + ${b} = ${answer}.` : op === "//" ? `Floor division discards the fractional part: ${a} // ${b} = ${answer}.` : `Modulo returns the remainder: ${a} % ${b} = ${answer}.`;
+      break;
+    }
+    case "python_operators.asp": {
+      title = "Operators";
+      const a = 8 + (n % 13);
+      const b = 2 + ((n * 5) % 7);
+      const op = difficulty === 0 ? "*" : difficulty === 1 ? "%" : "**";
+      const answer = op === "*" ? a * b : op === "%" ? a % b : a ** Math.min(b, 3);
+      const shownB = op === "**" ? Math.min(b, 3) : b;
+      prompt = `What is the result of ${a} ${op} ${shownB}?`;
+      correct = String(answer);
+      partial = String(op === "*" ? a + b : op === "%" ? Math.floor(a / b) : a * shownB);
+      incorrect = String(op === "*" ? a - b : op === "%" ? a * b : a + shownB);
+      explanation = op === "*" ? `The * operator multiplies: ${a} × ${b} = ${answer}.` : op === "%" ? `The % operator returns the remainder after division: ${a} % ${b} = ${answer}.` : `The ** operator raises a number to a power: ${a} ** ${shownB} = ${answer}.`;
+      break;
+    }
+    case "python_lists.asp": {
+      title = "Lists";
+      const values = [3 + n % 5, 10 + (n % 7), 20 + (n % 9), 30 + (n % 11)];
+      const index = difficulty === 0 ? n % values.length : difficulty === 1 ? -1 : -2;
+      const answer = values[index < 0 ? values.length + index : index];
+      prompt = `What value does this code return?  values = [${values.join(", ")}];  print(values[${index}])`;
+      correct = String(answer);
+      partial = String(values[(index + 1 + values.length) % values.length]);
+      incorrect = String(values[0] + values[values.length - 1]);
+      explanation = `Python list indexes start at 0. Negative indexes count backward from the end, so values[${index}] is ${answer}.`;
+      break;
+    }
+    case "python_range.asp": {
+      title = "Range";
+      const start = n % 5;
+      const step = difficulty === 0 ? 1 : difficulty === 1 ? 2 : 3;
+      const stop = start + step * (2 + (n % 3));
+      const values = Array.from({ length: Math.ceil((stop - start) / step) }, (_, i) => start + i * step).filter(value => value < stop);
+      prompt = `What list is created by list(range(${start}, ${stop}, ${step}))?`;
+      correct = `[${values.join(", ")}]`;
+      partial = `[${[...values, stop].join(", ")}]`;
+      incorrect = `[${Array.from({ length: stop }, (_, i) => i).join(", ")}]`;
+      explanation = `range(start, stop, step) includes start but stops before ${stop}, advancing by ${step}. The result is ${correct}.`;
+      break;
+    }
+    case "python_casting.asp": {
+      title = "Casting";
+      const value = 14 + (n % 76);
+      const textValue = String(value);
+      prompt = `Which expression converts the text "${textValue}" to an integer?`;
+      correct = `int("${textValue}")`;
+      partial = `str(${textValue})`;
+      incorrect = `float("${textValue}") + "${textValue}"`;
+      explanation = `int() parses a valid integer string into an int. str() converts in the opposite direction.`;
+      break;
+    }
+    case "python_strings.asp": {
+      title = "Strings";
+      const words = ["planet", "python", "coding", "branch", "future", "kernel"];
+      const word = words[n % words.length];
+      const index = difficulty === 0 ? 0 : difficulty === 1 ? 2 : -1;
+      const answer = word[index < 0 ? word.length + index : index];
+      prompt = `What does ${JSON.stringify(word)}[${index}] return?`;
+      correct = JSON.stringify(answer);
+      partial = JSON.stringify(word[(index + 1 + word.length) % word.length]);
+      incorrect = JSON.stringify(word);
+      explanation = `Strings support indexing like lists. Index ${index} selects the character ${JSON.stringify(answer)}.`;
+      break;
+    }
+    case "python_booleans.asp":
+    case "python_conditions.asp": {
+      title = chapterHref === "python_booleans.asp" ? "Booleans" : "If...Else";
+      const a = 4 + (n % 12);
+      const b = difficulty === 0 ? a : difficulty === 1 ? a + 1 : a - 1;
+      const op = difficulty === 0 ? "==" : difficulty === 1 ? "<" : ">=";
+      const answer = op === "==" ? a === b : op === "<" ? a < b : a >= b;
+      prompt = `What is the value of ${a} ${op} ${b}?`;
+      correct = String(answer);
+      partial = String(!answer);
+      incorrect = "None";
+      explanation = `The comparison ${a} ${op} ${b} evaluates to the Boolean value ${answer}.`;
+      break;
+    }
+    case "python_variables.asp": {
+      title = "Variables";
+      const start = 2 + (n % 9);
+      const change = 1 + (n % 5);
+      const promptOperator = difficulty === 0 ? "+" : difficulty === 1 ? "*" : "-";
+      const answer = promptOperator === "+" ? start + change : promptOperator === "*" ? start * change : start - change;
+      prompt = `What is the final value of x?  x = ${start};  x ${promptOperator}= ${change}`;
+      correct = String(answer);
+      partial = String(start + change);
+      incorrect = String(start);
+      explanation = `The augmented assignment updates x using ${promptOperator}: ${start} ${promptOperator} ${change} = ${answer}.`;
+      break;
+    }
+    case "python_for_loops.asp": {
+      title = "For Loops";
+      const count = 2 + (n % 4);
+      const start = 1 + (n % 5);
+      const values = Array.from({ length: count }, (_, i) => start + i);
+      const answer = values.reduce((sum, value) => sum + value, 0);
+      prompt = `What does this code print?  total = 0;  for value in ${JSON.stringify(values)}: total += value;  print(total)`;
+      correct = String(answer);
+      partial = String(values.length);
+      incorrect = String(values[values.length - 1]);
+      explanation = `The loop visits each value and adds it to total: ${values.join(" + ")} = ${answer}.`;
+      break;
+    }
+    default:
+      return null;
+  }
+
+  const options: Choice[] = [
+    { label: correct, score: 2, feedback: "Correct. The result follows from the values and operation shown." },
+    { label: partial, score: 1, feedback: "Close, but check the operator or indexing rule." },
+    { label: incorrect, score: 0, feedback: "Not quite. Re-evaluate the code one step at a time." },
+  ];
+  const offset = n % options.length;
+  const choices = [...options.slice(offset), ...options.slice(0, offset)];
+  return {
+    id: `${chapterHref}-generated-${level}-${seed}`,
+    skill: "python",
+    title,
+    prompt,
+    choices,
+    explanation,
+    prerequisites: [],
+  };
+}
+
+// Lightweight invariants for generated items: exactly one fully correct option,
+// distinct option labels, and a non-empty explanation. Used before a question is shown.
+function isValidGeneratedQuestion(question: Question): boolean {
+  return question.choices.filter(choice => choice.score === 2).length === 1
+    && new Set(question.choices.map(choice => choice.label)).size === question.choices.length
+    && question.explanation.trim().length > 0;
+}
+
 type LessonProgress = { level: number; attempts: number; correct: number; mastered: boolean };
 
 export default function StudyNextPage() {
   const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
   const [lessonProgress, setLessonProgress] = useState<Record<string, LessonProgress>>({});
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [activeQuestionSeed, setActiveQuestionSeed] = useState(0);
   const [showAllLessons, setShowAllLessons] = useState(false);
   const [lastLessonId, setLastLessonId] = useState<string | null>(null);
   const [progressLoaded, setProgressLoaded] = useState(false);
@@ -330,16 +496,19 @@ export default function StudyNextPage() {
     }
   }, [lessonProgress, lastLessonId, showAllLessons, progressLoaded]);
   const currentProgress = selectedChapter ? lessonProgress[selectedChapter] : undefined;
-  const current = selectedChapter ? questionSets[selectedChapter]?.[Math.min(currentProgress?.level ?? 0, (questionSets[selectedChapter ?? ""]?.length ?? 1) - 1)] ?? null : null;
+  const staticCurrent = selectedChapter ? questionSets[selectedChapter]?.[Math.min(currentProgress?.level ?? 0, (questionSets[selectedChapter ?? ""]?.length ?? 1) - 1)] ?? null : null;
+  const generatedCurrent = selectedChapter ? generatedQuestion(selectedChapter, currentProgress?.level ?? 0, activeQuestionSeed) : null;
+  const candidateCurrent = generatedCurrent && isValidGeneratedQuestion(generatedCurrent) ? generatedCurrent : staticCurrent;
+  const current = candidateCurrent;
   const attemptedCount = Object.values(lessonProgress).filter(progress => progress.attempts > 0).length;
   const masteredCount = Object.values(lessonProgress).filter(progress => progress.mastered).length;
   const totalAttempts = Object.values(lessonProgress).reduce((total, progress) => total + progress.attempts, 0);
   const correctCount = Object.values(lessonProgress).reduce((total, progress) => total + progress.correct, 0);
   const activeCategory = selectedChapter ? learningChapters.find(chapter => chapter.href === selectedChapter)?.category : null;
   const groups = useMemo(() => { const result = new Map<string, LearningChapter[]>(); learningChapters.forEach(chapter => result.set(chapter.category, [...(result.get(chapter.category) ?? []), chapter])); return [...result.entries()]; }, []);
-  function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); setLessonProgress(previous => { const progress = previous[id]; return progress?.mastered ? { ...previous, [id]: { ...progress, level: 0 } } : previous; }); }
+  function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); setActiveQuestionSeed(lessonProgress[id]?.attempts ?? 0); setLessonProgress(previous => { const progress = previous[id]; return progress?.mastered ? { ...previous, [id]: { ...progress, level: 0 } } : previous; }); }
   function answerQuestion(choice: Choice) { if (!current || !selectedChapter || selectedChoice !== null) return; setSelectedChoice(choice.score); setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; return { ...previous, [selectedChapter]: { ...progress, attempts: progress.attempts + 1, correct: progress.correct + (choice.score === 2 ? 1 : 0) } }; }); }
-  function continueQuestion() { if (!selectedChapter || selectedChoice !== 2) return; setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; const level = Math.min(questionSets[selectedChapter ?? ""]?.length ?? 1, progress.level + 1); return { ...previous, [selectedChapter]: { ...progress, level, mastered: progress.mastered || level >= (questionSets[selectedChapter ?? ""]?.length ?? 1) } }; }); setSelectedChoice(null); if ((currentProgress?.level ?? 0) >= (questionSets[selectedChapter ?? ""]?.length ?? 1) - 1) { setSelectedChapter(null); setSelectedChoice(null); } }
+  function continueQuestion() { if (!selectedChapter || selectedChoice !== 2) return; setActiveQuestionSeed(seed => seed + 1); setLessonProgress(previous => { const progress = previous[selectedChapter] ?? { level: 0, attempts: 0, correct: 0, mastered: false }; const level = Math.min(questionSets[selectedChapter ?? ""]?.length ?? 1, progress.level + 1); return { ...previous, [selectedChapter]: { ...progress, level, mastered: progress.mastered || level >= (questionSets[selectedChapter ?? ""]?.length ?? 1) } }; }); setSelectedChoice(null); if ((currentProgress?.level ?? 0) >= (questionSets[selectedChapter ?? ""]?.length ?? 1) - 1) { setSelectedChapter(null); setSelectedChoice(null); } }
   function resetProgress() { setLessonProgress({}); setSelectedChapter(null); setSelectedChoice(null); setLastLessonId(null); }
   return (
     <main className="sn-page">
@@ -389,7 +558,7 @@ export default function StudyNextPage() {
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
       <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>SKILL PRACTICE / PYTHON</span></header>
-      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Browse the Python curriculum by chapter and individual lesson. This step maps the full learning path; dedicated question banks come next.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">{learningChapters.length} CHAPTERS</span><span className="sn-chip">{Object.values(curriculumLessons).reduce((total, lessons) => total + lessons.length, 0)} LESSONS MAPPED</span><span className="sn-chip">SELF-PACED</span></div></section>
+      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Practice with generated variations in core Python skills. Each version changes the inputs while calculating its answer from the same tested rule.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">PARAMETERIZED QUESTIONS</span><span className="sn-chip">{learningChapters.length} CHAPTERS</span><span className="sn-chip">{Object.values(curriculumLessons).reduce((total, lessons) => total + lessons.length, 0)} LESSONS MAPPED</span><span className="sn-chip">SELF-PACED</span></div></section>
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
           {!current ? <>
@@ -407,10 +576,10 @@ export default function StudyNextPage() {
           </> : <>
             <div className="sn-panel-head"><span className="sn-label">{activeCategory} / {current.title}</span><span className="sn-count">{masteredCount} / {learningChapters.length} mastered</span></div>
             <div className="sn-progress"><span style={{width: ((attemptedCount / learningChapters.length) * 100) + "%"}} /></div>
-            <p className="sn-label">QUESTION {(currentProgress?.level ?? 0) + 1} OF {questionSets[selectedChapter ?? ""]?.length ?? 1} · PRACTICE</p><h2 className="sn-question">{current.prompt}</h2>
+            <p className="sn-label">LEVEL {(currentProgress?.level ?? 0) + 1} OF {questionSets[selectedChapter ?? ""]?.length ?? 1} · VARIATION {activeQuestionSeed + 1}</p><h2 className="sn-question">{current.prompt}</h2>
             <div className="sn-choices">{current.choices.map((choice,index) => <button key={choice.label} disabled={selectedChoice !== null} className={"sn-choice" + (selectedChoice === choice.score ? " is-selected" : "")} onClick={() => answerQuestion(choice)}><span style={{color:"#777",marginRight:12}}>{String.fromCharCode(65+index)}.</span>{choice.label}</button>)}</div>
             {selectedChoice !== null && <div className="sn-feedback" role="status"><strong>{selectedChoice === 2 ? "Correct." : selectedChoice === 1 ? "Partially correct." : "Not quite."}</strong><p>{current.explanation}</p><p style={{marginTop:8}}>{selectedChoice === 2 ? "Level complete. Continue to the next stage." : "You need a correct answer to advance. Try again when ready."}</p><a style={{color:"#eee",textDecoration:"underline"}} href={"https://www.w3schools.com/python/" + selectedChapter} target="_blank" rel="noreferrer">Review lesson ↗</a></div>}
-            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={selectedChoice === 2 ? continueQuestion : () => setSelectedChoice(null)}>{selectedChoice === 2 ? ((currentProgress?.level ?? 0) >= (questionSets[selectedChapter ?? ""]?.length ?? 1) - 1 ? "Complete lesson ✓" : "Next question →") : "Try again ↻"}</button>}</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:8}}><button className="sn-action sn-secondary" onClick={() => {setSelectedChapter(null);setSelectedChoice(null);}}>All lessons</button>{selectedChoice !== null && <button className="sn-action" onClick={selectedChoice === 2 ? continueQuestion : () => { setActiveQuestionSeed(seed => seed + 1); setSelectedChoice(null); }}>{selectedChoice === 2 ? ((currentProgress?.level ?? 0) >= (questionSets[selectedChapter ?? ""]?.length ?? 1) - 1 ? "Complete lesson ✓" : "Next question →") : "Try again ↻"}</button>}</div>
           </>}
         </section>
         <aside style={{display:"grid",gap:14}}>
