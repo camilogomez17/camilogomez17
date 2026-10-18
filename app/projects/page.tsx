@@ -9,11 +9,11 @@ export default function ProjectsPage() {
   return (
     <div className="projects-shell">
       <header className="projects-heading">
-        <p className="resume-eyebrow">SELECTED WORK / 01</p>
+        <p className="resume-eyebrow">SELECTED WORK / 02</p>
         <h1>Projects<span>.</span></h1>
         <p>
-          A small collection of working software and experiments. Each project is described
-          by what it does today, how it works, and the engineering trade-offs behind it.
+          Working software and experiments. Each project shows its current capabilities,
+          implementation, and next engineering steps.
         </p>
       </header>
 
@@ -67,6 +67,58 @@ export default function ProjectsPage() {
         <div className="case-study-footer">
           <span>NEXT STEPS: EXPAND WORKFLOW TESTS / IMPROVE RECOVERY / GATHER USER FEEDBACK</span>
           <Link href="/">Back to resume ↑</Link>
+        </div>
+      </article>
+
+      <article className="case-study">
+        <div className="case-study-topline"><span>02 / LEARNING SYSTEM</span><span>INTERACTIVE PROTOTYPE</span></div>
+        <div className="case-study-grid">
+          <div className="case-study-main">
+            <h2>Study Next</h2>
+            <p className="case-study-summary">
+              An adaptive diagnostic that asks programming questions, estimates skill gaps,
+              and recommends the next topic in a Python full-stack curriculum.
+            </p>
+            <div className="case-study-actions">
+              <Link className="resume-button resume-button-primary" href="/study-next">Run assessment ↗</Link>
+              <a className="resume-button" href="https://github.com/camilogomez17/camilogomez17" target="_blank" rel="noreferrer">View source ↗</a>
+            </div>
+          </div>
+          <div className="case-study-facts">
+            <div><span>STACK</span><p>Next.js, React, TypeScript</p></div>
+            <div><span>ENGINE</span><p>Adaptive, rule-based question selection</p></div>
+            <div><span>STATUS</span><p>Frontend prototype; backend planned</p></div>
+          </div>
+        </div>
+        <div className="case-study-details">
+          <section>
+            <h3>What it does</h3>
+            <ul>
+              <li>Assesses Python, HTTP, FastAPI, SQL, integration, testing, and deployment.</li>
+              <li>Changes question priority based on answers and prerequisite gaps.</li>
+              <li>Produces a recommended next topic and a skill-signal summary.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Engineering direction</h3>
+            <ul>
+              <li>Keep the first recommendation engine deterministic and explainable.</li>
+              <li>Move assessment logic into a Python FastAPI service.</li>
+              <li>Persist sessions, responses, curriculum relationships, and progress in PostgreSQL.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Current limitations</h3>
+            <ul>
+              <li>Assessment state is currently held in the page session and is not saved to a database.</li>
+              <li>Multiple-choice answers indicate familiarity, not demonstrated coding mastery.</li>
+              <li>Next milestone: practical exercises, automated tests, and a persistent backend.</li>
+            </ul>
+          </section>
+        </div>
+        <div className="case-study-footer">
+          <span>NEXT STEPS: FASTAPI / POSTGRESQL / PRACTICE TASKS</span>
+          <Link href="/study-next">Open prototype ↗</Link>
         </div>
       </article>
 
