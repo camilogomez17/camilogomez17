@@ -1,116 +1,123 @@
 import Link from "next/link";
 
-const sectionStyle = {
-  maxWidth: "820px",
-  margin: "0 auto",
-  padding: "64px 24px",
-  color: "#d4c9b0",
-  lineHeight: 1.7,
-};
+const profileLinks = [
+  { label: "GitHub", href: "https://github.com/camilogomez17", detail: "Source code" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/camilogomezvalencia", detail: "Professional profile" },
+  { label: "Email", href: "mailto:c6m1lo@proton.me", detail: "Get in touch" },
+];
 
-const headingStyle = {
-  margin: "0 0 16px",
-  color: "#fff",
-  fontFamily: "var(--font-valencia), Georgia, serif",
-  fontSize: "clamp(28px, 5vw, 42px)",
-  fontWeight: 400,
+const stack = [
+  { label: "Frontend", value: "TypeScript · React · Next.js" },
+  { label: "Web fundamentals", value: "JavaScript · HTML · CSS" },
+  { label: "Backend", value: "Python — currently learning" },
+  { label: "Tools & deployment", value: "Git · Linux/Bash · Vercel · AWS" },
+];
+
+export const metadata = {
+  title: "Camilo Valencia — Software Engineering",
+  description: "Resume and selected software projects by Camilo Valencia, a software engineering student focused on TypeScript, React, Next.js, and learning Python for backend development.",
 };
 
 export default function HomePage() {
   return (
-    <div style={{ background: "#080808" }}>
-      <section
-        style={{
-          minHeight: "72svh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          gap: "16px",
-          padding: "72px 24px",
-          background: "#080808",
-        }}
-      >
-        <h1 style={{
-          margin: 0,
-          fontFamily: "var(--font-valencia)",
-          fontWeight: 300,
-          fontSize: "clamp(40px, 10vw, 72px)",
-          letterSpacing: "clamp(0.12em, 1.2vw, 0.25em)",
-          color: "white",
-          lineHeight: 1.05,
-        }}>
-          CAMILO<br />VALENCIA
-        </h1>
-        <div style={{ width: "48px", height: "1px", background: "rgba(212, 201, 176, 0.35)", margin: "8px auto" }} />
-        <p style={{
-          maxWidth: "560px",
-          margin: 0,
-          fontFamily: "var(--font-valencia), Georgia, serif",
-          fontSize: "clamp(18px, 2.4vw, 23px)",
-          color: "rgba(212, 201, 176, 0.75)",
-          lineHeight: 1.6,
-        }}>
-          Software engineering, small useful tools, and experiments in making everyday work clearer.
+    <article className="resume-shell">
+      <header className="resume-topline">
+        <span>INDEPENDENT DEVELOPER / 2026</span>
+        <span className="resume-status"><i aria-hidden="true" /> OPEN TO OPPORTUNITIES</span>
+      </header>
+
+      <section className="resume-intro-block" aria-labelledby="resume-name">
+        <p className="resume-eyebrow">SOFTWARE ENGINEERING STUDENT</p>
+        <h1 id="resume-name">Camilo<br /><span>Valencia.</span></h1>
+        <p className="resume-lede">
+          Building practical web applications with TypeScript, React, and Next.js.
+          Currently learning Python for backend engineering.
         </p>
-        <Link href="/projects" style={{
-          marginTop: "12px",
-          fontFamily: "var(--font-valencia)",
-          fontSize: "12px",
-          letterSpacing: "0.2em",
-          color: "#d4c9b0",
-          border: "1px solid rgba(212, 201, 176, 0.35)",
-          padding: "12px 18px",
-          textDecoration: "none",
-        }}>
-          EXPLORE PROJECTS
-        </Link>
+        <div className="resume-actions">
+          <Link className="resume-button resume-button-primary" href="/projects">Explore projects <span aria-hidden="true">↗</span></Link>
+          <a className="resume-button" href="mailto:c6m1lo@proton.me">Contact me <span aria-hidden="true">↗</span></a>
+        </div>
       </section>
 
-      <section style={{ ...sectionStyle, borderTop: "1px solid rgba(212, 201, 176, 0.18)" }}>
-        <p style={{ margin: "0 0 10px", color: "rgba(212, 201, 176, 0.65)", fontSize: "11px", letterSpacing: "0.2em" }}>ABOUT</p>
-        <h2 style={headingStyle}>Learning by building</h2>
-        <p>
-          I am a software engineering student interested in how systems work and how software can solve practical problems. I use this site to document my work, share projects, and make small tools available for people to try.
-        </p>
-        <p>
-          My approach is iterative: identify a problem, build a focused first version, test it in real use, and improve it when I find limitations. I am especially interested in useful interfaces, browser-based tools, and software that gives people more control over their own information.
-        </p>
-        <p>
-          The projects here are works in progress. Their pages describe what each tool does, how it stores information, and what limitations visitors should understand before using it.
-        </p>
-        <Link href="/resume" style={{ color: "#d4c9b0", textUnderlineOffset: "4px" }}>Read my résumé and technical skills →</Link>
+      <section className="resume-section-block" aria-labelledby="profile-heading">
+        <div className="resume-section-label"><span>01</span><h2 id="profile-heading">Profile</h2></div>
+        <div className="resume-section-content">
+          <p>
+            I am a software engineering student who learns by designing, building, testing,
+            and iterating on useful software. My current work focuses on web interfaces,
+            browser-based tools, data validation, and reliable client-side behavior.
+          </p>
+          <p>
+            I aim to write software that is understandable and maintainable, with clear
+            limitations, thoughtful error handling, and tests for important behavior.
+            I am expanding from frontend development into backend engineering with Python.
+          </p>
+        </div>
       </section>
 
-      <section style={{ ...sectionStyle, borderTop: "1px solid rgba(212, 201, 176, 0.18)" }}>
-        <p style={{ margin: "0 0 10px", color: "rgba(212, 201, 176, 0.65)", fontSize: "11px", letterSpacing: "0.2em" }}>FEATURED PROJECT</p>
-        <h2 style={headingStyle}>Habit Analytics</h2>
-        <p>
-          Habit Analytics is a browser-based activity log for recording what you did, when you did it, and the context around it. Entries can include tags and notes, then be searched and explored by date. A timer can help record a session without manually entering both times.
-        </p>
-        <p>
-          The current version stores entries in the browser's local storage rather than in a remote account. That means the information stays in that browser profile, but it also means clearing browser data can erase it. The app includes JSON export and import so users can make a backup and move their own records.
-        </p>
-        <p>
-          The project explores a simple question: can a lightweight log make patterns in everyday time use easier to inspect without requiring a cloud account?
-        </p>
-        <Link href="/habitAnalytics" style={{ color: "#d4c9b0", textUnderlineOffset: "4px" }}>Open Habit Analytics →</Link>
+      <section className="resume-section-block" aria-labelledby="stack-heading">
+        <div className="resume-section-label"><span>02</span><h2 id="stack-heading">Technical skills</h2></div>
+        <div className="resume-section-content resume-stack">
+          {stack.map((item) => (
+            <div className="resume-stack-row" key={item.label}>
+              <h3>{item.label}</h3><p>{item.value}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section style={{ ...sectionStyle, borderTop: "1px solid rgba(212, 201, 176, 0.18)", paddingBottom: "80px" }}>
-        <h2 style={headingStyle}>Contact and site information</h2>
-        <p>
-          If you find a problem, have a correction, or want to discuss a project, you can contact me by email. This is a personal portfolio, not a substitute for professional legal, financial, medical, or other specialist advice.
-        </p>
-        <p><a href="mailto:c6m1lo@proton.me" style={{ color: "#d4c9b0" }}>c6m1lo@proton.me</a></p>
-        <p style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
-          <Link href="/projects" style={{ color: "#d4c9b0" }}>Projects</Link>
-          <Link href="/privacy" style={{ color: "#d4c9b0" }}>Privacy policy</Link>
-          <Link href="/tos" style={{ color: "#d4c9b0" }}>Terms of service</Link>
-          <Link href="/support" style={{ color: "#d4c9b0" }}>Support</Link>
-        </p>
+      <section className="resume-section-block" aria-labelledby="experience-heading">
+        <div className="resume-section-label"><span>03</span><h2 id="experience-heading">Education</h2></div>
+        <div className="resume-section-content">
+          <div className="resume-education-row">
+            <div><h3>Marcy Labs</h3><p>Software Engineering Fellowship</p></div>
+            <span>2026–2027</span>
+          </div>
+        </div>
       </section>
-    </div>
+
+      <section className="resume-section-block" aria-labelledby="work-heading">
+        <div className="resume-section-label"><span>04</span><h2 id="work-heading">Selected work</h2></div>
+        <div className="resume-section-content">
+          <article className="resume-project">
+            <div className="resume-project-meta"><span>FEATURED PROJECT</span><span>01 / WEB APP</span></div>
+            <h3>Habit Analytics</h3>
+            <p>
+              A local-first activity log for recording sessions with timestamps, tags, and notes,
+              then exploring records through search and date filters. Includes a session timer
+              and JSON backup/import.
+            </p>
+            <p className="resume-project-tech">NEXT.JS · REACT · TYPESCRIPT · LOCAL STORAGE</p>
+            <div className="resume-project-links">
+              <Link href="/habitAnalytics">Live application ↗</Link>
+              <a href="https://github.com/camilogomez17/camilogomez17" target="_blank" rel="noreferrer">Source code ↗</a>
+              <Link href="/projects">Technical notes ↗</Link>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="resume-section-block" aria-labelledby="engineering-heading">
+        <div className="resume-section-label"><span>05</span><h2 id="engineering-heading">Engineering practice</h2></div>
+        <div className="resume-section-content">
+          <ul className="resume-practice-list">
+            <li>Automated checks for linting, TypeScript, tests, and production builds through GitHub Actions.</li>
+            <li>Input validation and backup-file checks for safer handling of user data.</li>
+            <li>Version control, documented limitations, and iterative improvements based on testing.</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer className="resume-contact">
+        <p className="resume-eyebrow">LINKS / CONTACT</p>
+        <div className="resume-contact-links">
+          {profileLinks.map((link) => (
+            <a href={link.href} key={link.label} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}>
+              <span>{link.label}</span><small>{link.detail}</small><b aria-hidden="true">↗</b>
+            </a>
+          ))}
+        </div>
+      </footer>
+    </article>
   );
 }
