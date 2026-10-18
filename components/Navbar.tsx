@@ -50,7 +50,7 @@ export default function Navbar() {
       <div className="site-nav-inner mx-auto max-w-6xl px-5 py-3 sm:px-8">
         <div className="flex items-center justify-between gap-3 sm:gap-6">
           <Link href="/" className="site-nav-brand text-lg font-semibold tracking-tight">
-            c6m1lo
+            camilo
           </Link>
           <button
             type="button"
