@@ -111,7 +111,7 @@ export default function StudyPyWikiPage() {
         <p className="wiki-label">REFERENCE / PRACTICE / PROGRESS</p>
         <h1>Python, explained.</h1>
         <p className="wiki-muted" style={{maxWidth:650}}>A lesson-by-lesson reference for the study.py curriculum. Read the guide, inspect the example, and track which lessons you have reviewed.</p>
-        <div style={{display:"flex",justifyContent:"space-between",gap:12,marginTop:22,color:"#aaa",fontSize:11}}><span>{completedCount} / {totalLessons} lessons reviewed</span><span>{Math.round(completedCount / Math.max(totalLessons,1) * 100)}%</span></div>
+        <div style={{display:"flex",justifyContent:"space-between",gap:12,marginTop:22,color:"#aaa",fontSize:11}}><span>{completedCount} / {totalLessons} lessons reviewed or completed</span><span>{Math.round(completedCount / Math.max(totalLessons,1) * 100)}%</span></div>
         <div className="wiki-progress"><span style={{width:(completedCount / Math.max(totalLessons,1) * 100) + "%"}} /></div>
       </section>
 
@@ -155,11 +155,16 @@ export default function StudyPyWikiPage() {
               <p className="wiki-muted">Before marking this lesson reviewed, explain the key ideas without looking and modify the example yourself.</p>
               <a className="wiki-source" href={guide.sourceUrl} target="_blank" rel="noreferrer">Open the W3Schools reference ↗</a>
               <div>
-                <button className="wiki-button" onClick={toggleComplete}>{completed[lessonKey(selectedChapter.href, guide.lesson)] ? "Mark as not reviewed" : "Mark lesson reviewed"}</button>
-                <a className="wiki-button secondary" href="/study.py">Open practice →</a>
+                {selectedChapter.href === "python_output.asp" ? <>
+                  <a className="wiki-button" href={"/study.py/practice?chapter=" + encodeURIComponent(selectedChapter.href) + "&lesson=" + encodeURIComponent(guide.lesson)}>{completed[lessonKey(selectedChapter.href, guide.lesson)] ? "Practice again ↻" : "Practice this lesson →"}</a>
+                  <span className="wiki-muted" style={{fontSize:11}}>{completed[lessonKey(selectedChapter.href, guide.lesson)] ? "COMPLETED" : "3 correct answers to complete"}</span>
+                </> : <>
+                  <button className="wiki-button" onClick={toggleComplete}>{completed[lessonKey(selectedChapter.href, guide.lesson)] ? "Mark as not reviewed" : "Mark lesson reviewed"}</button>
+                  <a className="wiki-button secondary" href="/study.py">Open practice →</a>
+                </>}
               </div>
             </section>
-            <p className="wiki-warning">Progress currently tracks lessons reviewed. Lesson-specific practice questions and mastery-gated completion are the next implementation milestone; review status is not yet a mastery claim.</p>
+            <p className="wiki-warning">Print Output lessons use three consecutive correct answers for completion. Other chapters still use review tracking while their lesson-specific practice is built.</p>
           </> : <p className="wiki-muted">Select a lesson to open its guide.</p>}
         </article>
       </div>
