@@ -94,10 +94,25 @@ export default function HomePage() {
             <span className="sim-muted">LIVE BUILD</span>
           </div>
           <h2 id="project-title">Habit Analytics</h2>
-          <p>Visualize your data in 3D using habit tracking and matplotlib.</p>
+          <p>Visualize habit data with interactive 3D charts.</p>
           <p className="sim-muted">NEXT.JS / REACT / TYPESCRIPT / LOCAL STORAGE</p>
           <div className="sim-links">
             <a href="/habitAnalytics">OPEN PROJECT ↗</a>
+            <a href="https://github.com/camilogomez17/camilogomez17" target="_blank" rel="noreferrer">SOURCE ↗</a>
+          </div>
+        </section>
+
+        <div className="sim-rule" />
+        <section className="sim-project" aria-labelledby="study-next-title">
+          <div className="sim-project-head">
+            <p className="sim-label">SELECTED PROJECT / 002</p>
+            <span className="sim-muted">INTERACTIVE PROTOTYPE</span>
+          </div>
+          <h2 id="study-next-title">Study Next</h2>
+          <p>Adaptive skills assessment that recommends what to study next.</p>
+          <p className="sim-muted">NEXT.JS / REACT / TYPESCRIPT / LOCAL STATE</p>
+          <div className="sim-links">
+            <a href="/study-next">OPEN PROJECT ↗</a>
             <a href="https://github.com/camilogomez17/camilogomez17" target="_blank" rel="noreferrer">SOURCE ↗</a>
           </div>
         </section>
