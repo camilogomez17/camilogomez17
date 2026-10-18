@@ -20,11 +20,4 @@ export const projects: Project[] = [
     homeScene: "timer",
     showInHomeFeed: true,
   },
-  {
-    title: "Résumé",
-    description: "Education, technical skills, and professional profile links.",
-    href: "/resume",
-    cta: "View résumé",
-    showInHomeFeed: false,
-  },
 ];
