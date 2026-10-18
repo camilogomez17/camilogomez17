@@ -151,7 +151,7 @@ const questionSets: Record<string, Question[]> = Object.fromEntries(learningChap
       explanation: stage.explanation, prerequisites: [],
     } satisfies Question;
   });
-  return [chapter.href, questions];
+  return [chapter.href, questions] as const;
 }));
 
 type LessonProgress = { level: number; attempts: number; correct: number; mastered: boolean };
@@ -254,7 +254,7 @@ export default function StudyNextPage() {
         @media (max-width:560px) { .sn-top { font-size:9px; } .sn-panel-head { align-items:flex-start; } .sn-skill-row { grid-template-columns:minmax(0,1fr) 72px; } }
       `}</style>
       <header className="sn-top"><span>STUDY SYSTEM / 002</span><span>SKILL PRACTICE / PYTHON</span></header>
-      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Practice a lesson in under a minute—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">54 LESSONS</span><span className="sn-chip">SELF-PACED</span></div></section>
+      <section className="sn-hero"><p className="sn-kicker">LEARN · PRACTICE · IMPROVE</p><h1>One skill at a time.</h1><p>Short, focused Python exercises with instant feedback. Build mastery through three short stages—no long diagnostic to finish first.</p><div className="sn-meta"><span className="sn-chip">INSTANT FEEDBACK</span><span className="sn-chip">162 PRACTICE QUESTIONS</span><span className="sn-chip">SELF-PACED</span></div></section>
       <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.5fr) minmax(220px,.8fr)", gap:14, alignItems:"start" }}>
         <section className="sn-panel">
           {!current ? <>
