@@ -169,8 +169,6 @@ const questions: Question[] = learningChapters.map((chapter, index) => {
   };
 });
 
-const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
-
 export default function StudyNextPage() {
   const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
   const [answered, setAnswered] = useState<Record<string, number>>({});
