@@ -123,6 +123,21 @@ export default function Page() {
     const days = [...new Set(found.map(x => local(x.start).slice(0, 10)))];
     const activeDay = days.includes(day) ? day : days[0];
     const visible = found.filter(x => local(x.start).startsWith(activeDay || "\0"));
+    const analytics = useMemo(() => {
+        const actions = new Map<string, { label: string; count: number }>();
+        const hours = Array.from({ length: 24 }, (_, hour) => ({ hour, count: 0 }));
+        for (const event of data.events) {
+            const label = event.action.trim() || "Untitled action";
+            const key = label.toLocaleLowerCase();
+            const current = actions.get(key);
+            actions.set(key, { label: current?.label ?? label, count: (current?.count ?? 0) + 1 });
+            const timestamp = Date.parse(event.start);
+            if (Number.isFinite(timestamp)) hours[new Date(timestamp).getHours()].count += 1;
+        }
+        const topActions = [...actions.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label)).slice(0, 5);
+        const peakHour = hours.reduce((best, item) => item.count > best.count ? item : best, hours[0]);
+        return { topActions, hours, peakHour, total: data.events.length };
+    }, [data.events]);
 
     return <main className="ha">
         <style>{`
@@ -178,6 +193,20 @@ export default function Page() {
       .ha .row label { flex: 1 1 260px; }
       .ha .entry { border-top: 1px solid var(--line); padding: 24px 0 18px; }
       .ha .entry:first-of-type { margin-top: 18px; }
+      .ha .analytics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+      .ha .analytics-card { min-width: 0; padding: 22px; background: #171719; border: 1px solid #303033; border-radius: 16px; }
+      .ha .analytics-card h3 { margin: 0 0 18px; font-size: 16px; letter-spacing: -.02em; }
+      .ha .stat { margin: 0 0 20px; font-size: 34px; font-weight: 600; letter-spacing: -.04em; }
+      .ha .stat small { display: block; margin-top: 3px; color: var(--secondary); font-size: 12px; font-weight: 400; letter-spacing: 0; }
+      .ha .bar-row { display: grid; grid-template-columns: minmax(70px, 1fr) minmax(45px, 2fr) 28px; gap: 9px; align-items: center; margin: 12px 0; font-size: 12px; }
+      .ha .bar-track { height: 7px; overflow: hidden; background: #303033; border-radius: 99px; }
+      .ha .bar-fill { height: 100%; background: #a6b8e8; border-radius: inherit; }
+      .ha .hour-chart { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 5px; align-items: end; height: 112px; margin: 20px 0 8px; }
+      .ha .hour-column { display: flex; height: 100%; flex-direction: column; justify-content: end; align-items: stretch; gap: 6px; min-width: 0; }
+      .ha .hour-bar { min-height: 3px; border-radius: 4px 4px 1px 1px; background: #a6b8e8; }
+      .ha .hour-label { color: var(--secondary); text-align: center; font-size: 10px; }
+      .ha .analytics-empty { color: var(--secondary); font-size: 13px; }
+      @media (max-width: 620px) { .ha .analytics-grid { grid-template-columns: 1fr; } }
       .ha .entry strong { display: inline-block; margin-right: 6px; font-size: 19px; letter-spacing: -.025em; }
       .ha .entry p { margin: 10px 0; }
       .ha .muted { color: var(--secondary); }
@@ -207,6 +236,39 @@ export default function Page() {
                     <button disabled={!ready}>Save action</button>{edit && <button type="button" onClick={() => { setEdit(null); setForm(blank()); }}>Cancel edit</button>}
                 </form>
                 {!edit && (timer ? <button onClick={stopTimer}>Stop timer and fill times</button> : <button disabled={!ready} onClick={startTimer}>Start timer</button>)}
+            </section>
+            <section aria-labelledby="activity-insights-title">
+                <p className="eyebrow">Your patterns</p><h2 id="activity-insights-title">Activity insights</h2>
+                {analytics.total === 0 ? <p className="analytics-empty">Your charts will appear here after you record your first action.</p> : <>
+                    <div className="analytics-grid">
+                        <div className="analytics-card">
+                            <h3>Most frequent actions</h3>
+                            <p className="stat">{analytics.total}<small>total recorded actions</small></p>
+                            {analytics.topActions.map(item => <div className="bar-row" key={item.label} title={item.label}>
+                                <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.label}</span>
+                                <div className="bar-track"><div className="bar-fill" style={{ width: `${item.count / analytics.topActions[0].count * 100}%` }} /></div>
+                                <span>{item.count}</span>
+                            </div>)}
+                        </div>
+                        <div className="analytics-card">
+                            <h3>When you start</h3>
+                            <p className="stat">{analytics.peakHour.count ? `${pad(analytics.peakHour.hour)}:00` : "—"}<small>most common start hour</small></p>
+                            <div className="hour-chart" role="img" aria-label="Recorded action starts by hour, from midnight to 11 PM">
+                                {analytics.hours.slice(0, 12).map(item => <div className="hour-column" key={item.hour} title={`${pad(item.hour)}:00 — ${item.count} actions`}>
+                                    <div className="hour-bar" style={{ height: `${item.count / Math.max(1, ...analytics.hours.map(hour => hour.count)) * 82}%`, opacity: item.count ? 1 : .2 }} />
+                                    <span className="hour-label">{item.hour % 3 === 0 ? pad(item.hour) : ""}</span>
+                                </div>)}
+                            </div>
+                            <div className="hour-chart" role="img" aria-label="Recorded action starts by hour, from noon to 11 PM" style={{ marginTop: 0 }}>
+                                {analytics.hours.slice(12).map(item => <div className="hour-column" key={item.hour} title={`${pad(item.hour)}:00 — ${item.count} actions`}>
+                                    <div className="hour-bar" style={{ height: `${item.count / Math.max(1, ...analytics.hours.map(hour => hour.count)) * 82}%`, opacity: item.count ? 1 : .2 }} />
+                                    <span className="hour-label">{item.hour % 3 === 0 ? pad(item.hour) : ""}</span>
+                                </div>)}
+                            </div>
+                            <p className="muted" style={{ fontSize: 12, marginBottom: 0 }}>Based on each record’s start time, using your local time.</p>
+                        </div>
+                    </div>
+                </>}
             </section>
         </> : <>
             <section><h2>Explore {found.length} actions</h2><input aria-label="Search actions" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search actions, tags, and context" />
