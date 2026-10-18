@@ -309,7 +309,7 @@ function generatedQuestion(
   switch (chapterHref) {
     case "python_numbers.asp": {
       title = "Numbers";
-      const a = 12 + (n % 17);
+      const a = 12 + n;
       const b = 2 + ((n * 3) % 8);
       const op = difficulty === 0 ? "+" : difficulty === 1 ? "//" : "%";
       const answer = op === "+" ? a + b : op === "//" ? Math.floor(a / b) : a % b;
@@ -323,7 +323,7 @@ function generatedQuestion(
     }
     case "python_operators.asp": {
       title = "Operators";
-      const a = 8 + (n % 13);
+      const a = 8 + n;
       const b = 2 + ((n * 5) % 7);
       const op = difficulty === 0 ? "*" : difficulty === 1 ? "%" : "**";
       const answer = op === "*" ? a * b : op === "%" ? a % b : a ** Math.min(b, 3);
@@ -337,7 +337,7 @@ function generatedQuestion(
     }
     case "python_lists.asp": {
       title = "Lists";
-      const values = [3 + n % 5, 10 + (n % 7), 20 + (n % 9), 30 + (n % 11)];
+      const values = [3 + n, 10 + n * 2, 20 + n * 3, 30 + n * 4];
       const index = difficulty === 0 ? n % values.length : difficulty === 1 ? -1 : -2;
       const answer = values[index < 0 ? values.length + index : index];
       prompt = `What value does this code return?  values = [${values.join(", ")}];  print(values[${index}])`;
@@ -349,7 +349,7 @@ function generatedQuestion(
     }
     case "python_range.asp": {
       title = "Range";
-      const start = n % 5;
+      const start = n;
       const step = difficulty === 0 ? 1 : difficulty === 1 ? 2 : 3;
       const stop = start + step * (2 + (n % 3));
       const values = Array.from({ length: Math.ceil((stop - start) / step) }, (_, i) => start + i * step).filter(value => value < stop);
@@ -362,7 +362,7 @@ function generatedQuestion(
     }
     case "python_casting.asp": {
       title = "Casting";
-      const value = 14 + (n % 76);
+      const value = 14 + n;
       const textValue = String(value);
       prompt = `Which expression converts the text "${textValue}" to an integer?`;
       correct = `int("${textValue}")`;
@@ -387,7 +387,7 @@ function generatedQuestion(
     case "python_booleans.asp":
     case "python_conditions.asp": {
       title = chapterHref === "python_booleans.asp" ? "Booleans" : "If...Else";
-      const a = 4 + (n % 12);
+      const a = 4 + n;
       const b = difficulty === 0 ? a : difficulty === 1 ? a + 1 : a - 1;
       const op = difficulty === 0 ? "==" : difficulty === 1 ? "<" : ">=";
       const answer = op === "==" ? a === b : op === "<" ? a < b : a >= b;
@@ -400,7 +400,7 @@ function generatedQuestion(
     }
     case "python_variables.asp": {
       title = "Variables";
-      const start = 2 + (n % 9);
+      const start = 2 + n;
       const change = 1 + (n % 5);
       const promptOperator = difficulty === 0 ? "+" : difficulty === 1 ? "*" : "-";
       const answer = promptOperator === "+" ? start + change : promptOperator === "*" ? start * change : start - change;
@@ -414,10 +414,10 @@ function generatedQuestion(
     case "python_for_loops.asp": {
       title = "For Loops";
       const count = 2 + (n % 4);
-      const start = 1 + (n % 5);
+      const start = 1 + n;
       const values = Array.from({ length: count }, (_, i) => start + i);
       const answer = values.reduce((sum, value) => sum + value, 0);
-      prompt = `What does this code print?  total = 0;  for value in ${JSON.stringify(values)}: total += value;  print(total)`;
+      prompt = `What does this code print?\n\ntotal = 0\nfor value in ${JSON.stringify(values)}:\n    total += value\nprint(total)`;
       correct = String(answer);
       partial = String(values.length);
       incorrect = String(values[values.length - 1]);
