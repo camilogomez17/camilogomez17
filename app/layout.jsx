@@ -18,7 +18,7 @@ export const metadata = {
   alternates: { canonical: "/" },
   title: {
     default: "Camilo Valencia — Software Engineer",
-    template: "%s | Camilo Gomez",
+    template: "%s | Camilo Valencia",
   },
   description:
     "Camilo Valencia is a software engineering student building web applications with TypeScript, React, and Next.js while learning Python for backend development.",
