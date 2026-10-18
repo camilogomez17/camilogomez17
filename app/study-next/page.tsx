@@ -330,14 +330,18 @@ export default function StudyNextPage() {
             <p className="sn-label">RECOMMENDED CHAPTERS / W3SCHOOLS PYTHON</p>
             <h3>What to study next</h3>
             <p>Each chapter has its own question and score. These are the lessons where your answers showed gaps or partial understanding.</p>
-            <ol className="sn-chapters">
-              {(recommendedChapters.length ? recommendedChapters : learningChapters.slice(0, 5).map(chapter => ({ ...chapter, score: 2, index: 0 })).slice(0, 5)).map((chapter, index) => (
-                <li key={chapter.href}>
-                  <span className="sn-chapter-number">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="sn-chapter-copy"><span className="sn-chapter-category">{chapter.category} · {chapter.score === 0 ? "Needs review" : chapter.score === 1 ? "Developing" : "Strong signal"}</span><a href={`https://www.w3schools.com/python/${chapter.href}`} target="_blank" rel="noreferrer">{chapter.title} ↗</a></span>
-                </li>
-              ))}
-            </ol>
+            {recommendedChapters.length ? (
+              <ol className="sn-chapters">
+                {recommendedChapters.map((chapter, index) => (
+                  <li key={chapter.href}>
+                    <span className="sn-chapter-number">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="sn-chapter-copy"><span className="sn-chapter-category">{chapter.category} · {chapter.score === 0 ? "Needs review" : "Developing"}</span><a href={`https://www.w3schools.com/python/${chapter.href}`} target="_blank" rel="noreferrer">{chapter.title} ↗</a></span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="sn-chapter-note">No clear chapter gaps were identified by this assessment. Try the coding exercises to check practical understanding.</p>
+            )}
             <p className="sn-chapter-note">Each lesson is assessed by one question. Scores are directional rather than proof of mastery. W3Schools chapter links open in a new tab.</p>
           </div>
           <div className="sn-skill-list">
