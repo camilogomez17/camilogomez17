@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Choice = { label: string; score: number; feedback: string };
 type Question = {
@@ -166,12 +166,42 @@ export default function StudyNextPage() {
   const [answered, setAnswered] = useState<Record<string, number>>({});
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [showAllLessons, setShowAllLessons] = useState(false);
+  const [lastLessonId, setLastLessonId] = useState<string | null>(null);
+  const [progressLoaded, setProgressLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("study-next-progress-v1");
+      if (saved) {
+        const parsed = JSON.parse(saved) as { answered?: Record<string, number>; lastLessonId?: string | null; showAllLessons?: boolean };
+        if (parsed.answered && typeof parsed.answered === "object") {
+          const validAnswers = Object.fromEntries(Object.entries(parsed.answered).filter(([id, score]) => learningChapters.some(chapter => chapter.href === id) && [0, 1, 2].includes(score)));
+          setAnswered(validAnswers);
+        }
+        if (parsed.lastLessonId && learningChapters.some(chapter => chapter.href === parsed.lastLessonId)) setLastLessonId(parsed.lastLessonId);
+        if (typeof parsed.showAllLessons === "boolean") setShowAllLessons(parsed.showAllLessons);
+      }
+    } catch {
+      window.localStorage.removeItem("study-next-progress-v1");
+    } finally {
+      setProgressLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!progressLoaded) return;
+    try {
+      window.localStorage.setItem("study-next-progress-v1", JSON.stringify({ answered, lastLessonId, showAllLessons }));
+    } catch {
+      // The lesson experience still works if browser storage is unavailable.
+    }
+  }, [answered, lastLessonId, showAllLessons, progressLoaded]);
   const current = questions.find(question => question.id === selectedChapter) ?? null;
   const completedCount = Object.keys(answered).length;
   const correctCount = Object.values(answered).filter(score => score === 2).length;
   const activeCategory = current ? learningChapters.find(chapter => chapter.href === current.id)?.category : null;
   const groups = useMemo(() => { const result = new Map<string, LearningChapter[]>(); learningChapters.forEach(chapter => result.set(chapter.category, [...(result.get(chapter.category) ?? []), chapter])); return [...result.entries()]; }, []);
-  function openLesson(id: string) { setSelectedChapter(id); setSelectedChoice(null); }
+  function openLesson(id: string) { setSelectedChapter(id); setLastLessonId(id); setSelectedChoice(null); }
   function answerQuestion(choice: Choice) { if (!current || selectedChoice !== null) return; setSelectedChoice(choice.score); setAnswered(previous => ({ ...previous, [current.id]: choice.score })); }
   function nextLesson() { if (!current) return; const index = learningChapters.findIndex(chapter => chapter.href === current.id); const next = learningChapters.slice(index + 1).find(chapter => answered[chapter.href] === undefined) ?? learningChapters.find(chapter => answered[chapter.href] === undefined); if (next) openLesson(next.href); else { setSelectedChapter(null); setSelectedChoice(null); } }
   function resetProgress() { setAnswered({}); setSelectedChapter(null); setSelectedChoice(null); }
@@ -230,6 +260,9 @@ export default function StudyNextPage() {
             <div className="sn-panel-head"><span className="sn-label">Choose a lesson</span><span className="sn-count">{completedCount} / {learningChapters.length} tried</span></div>
             <div className="sn-progress"><span style={{ width: ((completedCount / learningChapters.length) * 100) + "%" }} /></div>
             <h2 className="sn-question">What do you want to work on?</h2><p style={{color:"#888"}}>Choose a topic to get immediate feedback. Your progress updates as you go.</p>
+            {lastLessonId && <button className="sn-action" style={{marginTop:12}} onClick={() => openLesson(lastLessonId)}>Resume {learningChapters.find(chapter => chapter.href === lastLessonId)?.title ?? "last lesson"} →</button>}
+            {!progressLoaded && <p style={{color:"#777",fontSize:10,marginTop:10}}>RESTORING YOUR PROGRESS…</p>}
+            {progressLoaded && completedCount > 0 && <p style={{color:"#777",fontSize:10,marginTop:10}}>PROGRESS SAVED ON THIS DEVICE</p>}
             {(showAllLessons ? groups : groups.slice(0,4)).map(([category, chapters]) => <div key={category} style={{marginTop:20}}>
               <div style={{display:"flex",justifyContent:"space-between",borderBottom:"1px solid #252525",paddingBottom:8,color:"#aaa"}}><span>{category}</span><span>{chapters.filter(chapter => answered[chapter.href] !== undefined).length}/{chapters.length}</span></div>
               {chapters.map(chapter => { const score = answered[chapter.href]; return <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"22px 1fr auto",gap:8,width:"100%",padding:"11px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:score === 2 ? "#fff" : "#777"}}>{score === undefined ? "○" : score === 2 ? "✓" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{score === undefined ? "PRACTICE" : score === 2 ? "CORRECT" : "REVIEW"}</span></button>; })}
@@ -249,7 +282,7 @@ export default function StudyNextPage() {
           <section className="sn-panel"><p className="sn-label">RECOMMENDED NEXT</p>{learningChapters.filter(chapter => answered[chapter.href] !== 2).slice(0,5).map(chapter => <button key={chapter.href} onClick={() => openLesson(chapter.href)} style={{display:"grid",gridTemplateColumns:"20px 1fr auto",gap:8,width:"100%",padding:"10px 0",textAlign:"left",color:"#ddd",background:"transparent",border:0,borderBottom:"1px solid #1d1d1d",font:"inherit",cursor:"pointer"}}><span style={{color:"#777"}}>{answered[chapter.href] === undefined ? "○" : "↻"}</span><span>{chapter.title}</span><span style={{fontSize:9,color:"#777"}}>{answered[chapter.href] === undefined ? "NEW" : "REVIEW"}</span></button>)}</section>
         </aside>
       </div>
-      <footer className="sn-footer"><span>INSTANT FEEDBACK / LOCAL SESSION</span><span>LEARN — PRACTICE — REPEAT</span></footer>
+      <footer className="sn-footer"><span>INSTANT FEEDBACK / SAVED ON THIS DEVICE</span><span>LEARN — PRACTICE — REPEAT</span></footer>
     </main>
   );
 }
