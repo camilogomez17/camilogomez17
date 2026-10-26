@@ -1,9 +1,31 @@
-# Camilo Gomez — Software Engineering Portfolio
+# Hi, I'm Camilo Gomez 👋
 
-Personal portfolio and project demos built with Next.js App Router, React, and TypeScript.
+## 👨‍🏫 About Me
 
-## Stack
+- Student at the [Marcy Lab School](https://www.marcylabschool.org/) studying to become a Software Engineer
+- Born in Pereira, Colombia → Raised in NJ/NYC → Currently in Queens, NY.
+- Outside of work I like to cook, work out, and study.
+- Let's connect via LinkedIn. (https://www.linkedin.com/in/camilogomezvalencia)
 
-- **Frontend:** TypeScript, React, Next.js
-- **Backend:** Python
-- **Deployment:** Vercel
+## Tech Stack:
+
+-MERN
+
+### Languages
+
+- JavaScript
+- HTML
+- CSS
+- TypeScript
+- Python
+
+### Frameworks & Libraries
+
+- Node.js
+- React
+- Next.js
+
+### Tools
+
+- Git
+- GitHub
