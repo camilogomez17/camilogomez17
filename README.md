@@ -9,7 +9,7 @@
 
 ## Tech Stack:
 
--MERN
+- MERN
 
 ### Languages
 
