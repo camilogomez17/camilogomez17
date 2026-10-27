@@ -3,7 +3,6 @@ import "./globals.css";
 import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
 import NavSearch from "@/components/NavSearch";
-import { projects } from "@/data/projects";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
@@ -36,11 +35,11 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  keywords: ["Camilo Gomez", "C6m1lo", "portfolio", "projects", "resume"],
+  keywords: ["Camilo Gomez", "C6m1lo", "software engineering", "resume", "TypeScript", "React", "Python"],
   openGraph: {
     title: "Camilo Valencia — Software Engineering",
     description:
-      "Resume and software projects by Camilo Valencia. Frontend: TypeScript, React, and Next.js. Backend: Python, currently learning.",
+      "Software engineering resume for Camilo Valencia. Frontend: TypeScript, React, and Next.js. Backend: Python, currently learning.",
     url: SITE_URL,
     siteName: "c6m1lo",
     images: [
@@ -63,9 +62,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   const searchItems = [
     { label: "Home", href: "/" },
-    ...projects
-      .map((project) => ({ label: project.title, href: project.href }))
-      .filter((item) => item.href?.startsWith("/")),
     { label: "Support", href: "/support" },
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms of Service", href: "/tos" },
@@ -107,8 +103,8 @@ export default function RootLayout({ children }) {
               <Link className="nav-link" href="/">
                 Home
               </Link>
-              <Link className="nav-link" href="/projects">
-                Projects
+              <Link className="nav-link" href="/">
+                Resume
               </Link>
             </div>
           </div>
