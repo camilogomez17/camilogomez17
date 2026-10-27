@@ -1240,6 +1240,17 @@ pre {
 }
 .sim-skill-row span:first-child { color: #707070; }
 .sim-skill-row span:last-child { color: #d4d4d4; }
+.sim-learning-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 13px 0;
+  border-bottom: 1px solid #222;
+}
+.sim-learning-row h2 { margin: 0 0 5px; font-size: 13px; }
+.sim-learning-row p { color: #aaa; font-size: 10px; line-height: 1.6; }
+.sim-learning-status { color: #777; font-size: 8px; letter-spacing: .08em; white-space: nowrap; }
 .sim-project > p:not(.sim-label) { margin-top: 7px; color: #b5b5b5; }
 .sim-project .sim-muted { margin-top: 12px; }
 .sim-console {
