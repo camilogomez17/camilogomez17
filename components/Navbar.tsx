@@ -5,8 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-
+  { href: "/", label: "Resume" },
 ];
 
 export default function Navbar() {
