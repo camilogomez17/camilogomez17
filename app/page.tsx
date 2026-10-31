@@ -7,7 +7,7 @@ const skills = [
   { label: "Frontend", value: "HTML · CSS · JavaScript · npm · TypeScript · React · Next.js · Prettier · Electron" },
   { label: "Backend", value: "JavaScript · Node.js · Python · PostgreSQL · REST · OAuth" },
   { label: "DevOps", value: "Bash · Power Shell · Vim / Nano / Emacs · Linux · Docker · AWS" },
-  { label: "Version Control/Hosting", value: "Git · GitHub · Vercel · DNS" },
+  { label: "Version Control", value: "Git · GitHub · Vercel · DNS" },
   { label: "Cybersecurity", value: "IT · Networking · MacOS / Windows / Linux" }
 ];
 export const metadata = {
