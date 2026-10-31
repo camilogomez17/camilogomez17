@@ -4,15 +4,15 @@ const links = [
   { label: "EMAIL", href: "mailto:c6m1lo@proton.me" },
 ];
 const skills = [
-  { label: "Frontend", value: "HTML · CSS · Responsive design · Accessibility · TypeScript · JavaScript · React · Next.js" },
-  { label: "Backend", value: "Python · REST APIs · Server-side development" },
-  { label: "Data", value: "SQL · Relational databases · Data modeling" },
-  { label: "Tools", value: "Git · GitHub · Linux · Vercel" },
-  { label: "Engineering practices", value: "Debugging · Testing fundamentals · Clean code" },
+  { label: "Frontend", value: "HTML · CSS · JavaScript · npm · TypeScript · React · Next.js · Prettier · Electron" },
+  { label: "Backend", value: "JavaScript · Node.js · Python · PostgreSQL · REST · OAuth" },
+  { label: "DevOps", value: "Bash · Power Shell · Vim / Nano / Emacs · Linux · Docker · AWS" },
+  { label: "Version Control/Hosting", value: "Git · GitHub · Vercel · DNS" },
+  { label: "Cybersecurity", value: "IT · Networking · MacOS / Windows / Linux" }
 ];
 export const metadata = {
   title: "Camilo Valencia — Software Engineering Resume",
-  description: "Software engineering student at Marcy Labs, self taught front-end developer. Currently learning Python & back-end.",
+  description: "Future full-stack software engineering student at Marcy Labs, self taught front-end developer, currently learning Python & back-end.",
 };
 export default function HomePage() {
   return (
@@ -37,7 +37,7 @@ export default function HomePage() {
           <section className="sim-block" aria-labelledby="education-title">
             <p className="sim-label" id="education-title">EDUCATION</p>
             <h2>Self Taught</h2><p>Front-End Development</p><p
-              className="sim-muted">2021-2026</p>
+              className="sim-muted">2024-2026</p>
 
             <h2>Marcy Labs</h2><p>Software Engineering Fellowship</p><p className="sim-muted">2026—2027</p>
           </section>
