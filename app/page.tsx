@@ -19,7 +19,7 @@ const learningGoals = [
 ];
 export const metadata = {
   title: "Camilo Valencia — Software Engineering Resume",
-  description: "Software engineering student at Marcy Labs building frontend skills with TypeScript, React, and Next.js while learning Python backend development, APIs, and databases.",
+  description: "Software engineering student at Marcy Labs, self taught front-end developer. Currently learning Python & back-end.",
 };
 export default function HomePage() {
   return (
@@ -46,13 +46,13 @@ export default function HomePage() {
             <h2>Marcy Labs</h2><p>Software Engineering Fellowship</p><p className="sim-muted">2026—2027</p>
           </section>
           <section className="sim-block" aria-labelledby="skills-title">
-            <p className="sim-label" id="skills-title">SKILLS IN PROGRESS</p>
+            <p className="sim-label" id="skills-title">SKILLS</p>
             {skills.map((skill) => <div className="sim-skill-row" key={skill.label}><span>{skill.label}</span><span>{skill.value}</span></div>)}
           </section>
         </div>
         <div className="sim-rule" />
         <section className="sim-block" aria-labelledby="learning-title">
-          <p className="sim-label" id="learning-title">CURRENT LEARNING ROADMAP</p>
+          <p className="sim-label" id="learning-title"> SOFTWARE ENGINEER ROADMAP</p>
           {learningGoals.map((goal, index) => (
             <div className="sim-learning-row" key={goal.title}>
               <span className="sim-muted">{String(index + 1).padStart(2, "0")}</span>
@@ -62,10 +62,6 @@ export default function HomePage() {
           ))}
         </section>
         <div className="sim-rule" />
-        <section className="sim-block" aria-labelledby="objective-title">
-          <p className="sim-label" id="objective-title">CAREER OBJECTIVE</p>
-          <p>Develop strong full-stack engineering fundamentals, deepen practical experience with modern web technologies, and prepare to contribute to a software engineering team.</p>
-        </section>
       </section>
     </main>
   );
