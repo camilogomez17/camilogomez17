@@ -1,17 +1,15 @@
-.page :global(.bible-agent-intro) { max-width: 620px; margin-top: 14px; color: var(--text-secondary); line-height: 1.8; }
-.page :global(.agent-frame) { margin-top: 30px; border: 1px solid var(--border-default); background: var(--bg-secondary); }
-.page :global(.agent-frame-header) { min-height: 42px; padding: 0 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-default); color: var(--text-muted); font-size: 10px; letter-spacing: .1em; }
-.page :global(.agent-live-dot) { display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: var(--text-secondary); }
-.page :global(.agent-embed) { min-height: 620px; padding: 14px; }
-.page :global(.agent-embed iframe) {
-  width: 100%;
-  height: min(85vh, 1000px);
-  min-height: 750px;
-  border: 0;
-}
-.page :global(.agent-note) { padding: 12px 14px; border-top: 1px solid var(--border-default); color: var(--text-muted); font-size: 10px; line-height: 1.7; }
-@media (max-width: 620px) {
-  .page :global(.agent-embed) { min-height: 70vh; padding: 8px; }
-  .page :global(.agent-embed iframe) { min-height: 68vh; }
-  .page :global(.agent-frame-header) { font-size: 9px; }
-}
+.page :global(.agents-intro) { max-width: 650px; margin-top: 14px; color: var(--text-secondary); line-height: 1.8; }
+.page :global(.agent-grid) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 34px; }
+.page :global(.agent-option) { display: flex; min-height: 235px; flex-direction: column; align-items: flex-start; padding: 22px; border: 1px solid var(--border-default); background: var(--bg-secondary); transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.page :global(.agent-option:hover) { border-color: var(--text-muted); background: var(--bg-primary); transform: translateY(-2px); }
+.page :global(.option-topline) { display: flex; width: 100%; justify-content: space-between; align-items: center; }
+.page :global(.option-number), .page :global(.option-status) { color: var(--text-muted); font-size: 10px; letter-spacing: .1em; }
+.page :global(.option-status) { border: 1px solid var(--border-default); padding: 4px 7px; }
+.page :global(.option-status.available) { color: var(--text-primary); }
+.page :global(.option-tradition) { margin-top: 28px; color: var(--text-muted); font-size: 10px; letter-spacing: .12em; }
+.page :global(.agent-option h2) { margin-top: 7px; font-size: 20px; letter-spacing: .01em; }
+.page :global(.agent-option p) { max-width: 440px; margin-top: 8px; color: var(--text-secondary); font-size: 12px; line-height: 1.75; }
+.page :global(.option-action) { margin-top: auto; padding-top: 24px; color: var(--text-secondary); font-size: 10px; letter-spacing: .1em; }
+.page :global(.agent-option:hover .option-action) { color: var(--text-primary); }
+.page :global(.agents-footnote) { margin-top: 20px; color: var(--text-muted); font-size: 10px; line-height: 1.7; }
+@media (max-width: 620px) { .page :global(.agent-grid) { grid-template-columns: 1fr; } .page :global(.agent-option) { min-height: 210px; } }
