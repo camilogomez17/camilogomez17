@@ -2,7 +2,6 @@ import "./globals.css";
 
 import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
-import NavSearch from "@/components/NavSearch";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
@@ -14,7 +13,6 @@ const valencia = Cormorant_Garamond({
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  alternates: { canonical: "/" },
   title: {
     default: "Camilo Valencia — Software Engineer",
     template: "%s | Camilo Valencia",
@@ -39,7 +37,7 @@ export const metadata = {
   openGraph: {
     title: "Camilo Valencia — Software Engineering",
     description:
-      "Software engineering resume for Camilo Valencia. Frontend: TypeScript, React, and Next.js. Backend: Python, currently learning.",
+      "Software engineering portfolio for Camilo Valencia.",
     url: SITE_URL,
     siteName: "c6m1lo",
     images: [
@@ -60,15 +58,6 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
-  const searchItems = [
-    { label: "Home", href: "/" },
-    { label: "Projects", href: "/projects" },
-    { label: "Bible Agent", href: "/bible-agent" },
-    { label: "Support", href: "/support" },
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/tos" },
-  ];
-
   return (
     <html lang="en" suppressHydrationWarning className={valencia.variable}>
       <head>
@@ -85,7 +74,7 @@ export default function RootLayout({ children }) {
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9659879669905345"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
       </head>
       <body>
@@ -95,14 +84,11 @@ export default function RootLayout({ children }) {
 
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
-            <p>
-              <Link href="/">CAMILO</Link>
-            </p>
-            <div className="nav-left">
-              <NavSearch items={searchItems} />
-            </div>
             <div className="nav-links">
               <Link className="nav-link" href="/">
+                Home
+              </Link>
+              <Link className="nav-link" href="/resume">
                 Resume
               </Link>
               <Link className="nav-link" href="/projects">
