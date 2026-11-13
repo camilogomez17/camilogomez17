@@ -62,6 +62,8 @@ export const viewport = {
 export default function RootLayout({ children }) {
   const searchItems = [
     { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
+    { label: "Bible Agent", href: "/bible-agent" },
     { label: "Support", href: "/support" },
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms of Service", href: "/tos" },
@@ -102,6 +104,12 @@ export default function RootLayout({ children }) {
             <div className="nav-links">
               <Link className="nav-link" href="/">
                 Resume
+              </Link>
+              <Link className="nav-link" href="/projects">
+                Projects
+              </Link>
+              <Link className="nav-link" href="/bible-agent">
+                Bible Agent
               </Link>
             </div>
           </div>
