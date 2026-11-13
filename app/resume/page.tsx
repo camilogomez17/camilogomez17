@@ -17,8 +17,10 @@ const experience = [
   { role: "Spanish Data Annotation Specialist", company: "Uber AI Solutions", dates: "February 2026 — August 2026" },
   { role: "Cook", company: "KPOT", dates: "October 2025 — December 2025" },
   { role: "Clinical NLP Annotation Specialist", company: "Centific", dates: "June 2025 — August 2025" },
+  { role: "Legal Interpreter", company: "Kate Nussman Ellis Farhi & Earle, LLP", dates: "January 2024 - July 2024"},
   { role: "Certified Medical Interpreter", company: "Kelly Services", dates: "January 2024 — July 2024" },
-  { role: "Cook", company: "Chipotle", dates: "August 2020 — December 2023" },
+  { role: "Barista", company: "Gongcha Taiwan", dates: "June 2023 - August 2023"},
+  { role: "Cook", company: "Chipotle", dates: "August 2020 — December 2022" },
 ];
 
 export const metadata = {
