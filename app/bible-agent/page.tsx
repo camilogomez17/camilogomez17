@@ -1,4 +1,3 @@
-import Script from "next/script";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -26,10 +25,12 @@ export default function BibleAgentPage() {
           <span>INTERACTIVE SESSION</span>
         </div>
         <div className="agent-embed">
-          <div
-            className="agentplace-embed"
-            data-agent-url="https://c3rvkpmmirwh.run.agentplace.io/"
-            data-controls="input"
+          <iframe
+            src="https://c3rvkpmmirwh.run.agentplace.io/"
+            title="Bible Agent"
+            allow="microphone; clipboard-write"
+            loading="eager"
+            referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
         <p className="agent-note">
@@ -37,14 +38,6 @@ export default function BibleAgentPage() {
           authentication codes, or other sensitive personal information.
         </p>
       </div>
-
-
-      <Script
-        src="https://agentplace.io/admin/embed/v1.js"
-        strategy="afterInteractive"
-        data-agent-url="https://c3rvkpmmirwh.run.agentplace.io/"
-        data-controls="input"
-      />
     </section>
   );
 }
