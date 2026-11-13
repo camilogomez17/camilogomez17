@@ -7,7 +7,7 @@ const projects = [
     name: "Scripture Agents",
     category: "AI / Scripture study",
     description:
-      "An embedded conversational agent for exploring Scripture, asking questions, and studying biblical themes. Available for major religions and languages, with a focus on accessibility and user-friendly design.",
+      "An expanding collection of tradition-specific agents for exploring scripture, asking questions, and studying religious texts. Choose from Christian, Jewish, Muslim, and Buddhist perspectives.",
     release: "11/13/2026",
     href: "/Agents",
     action: "OPEN AGENT",
