@@ -8,8 +8,8 @@ const projects = [
     category: "AI / Scripture study",
     description:
       "An embedded conversational agent for exploring Scripture, asking questions, and studying biblical themes. Available for major religions and languages, with a focus on accessibility and user-friendly design.",
-    status: "IN DEVELOPMENT",
-    href: "/bible-agents",
+    release: "11/13/2026",
+    href: "/Agents",
     action: "OPEN AGENT",
   },
   {
@@ -18,7 +18,7 @@ const projects = [
     category: "EN-ES Interpretation",
     description:
       "Application to faciliate English-Spanish medical interpretation, with a focus on patient-provider communication and accurate translation of medical terminology. Along with privacy and security features to protect sensitive health information.",
-    status: "IN DEVELOPMENT",
+    release: "11/13/2026",
     href: "https://github.com/camilogomez17/medical-transcription-app.git",
     action: "OPEN REPO",
   },
@@ -28,7 +28,7 @@ const projects = [
     category: "Microphone Noise Reduction",
     description:
       "An application that uses a noise gate algorithm to reduce background noise in real-time audio input, improving the clarity of microphone recordings.",
-    status: "IN DEVELOPMENT",
+    release: "11/13/2026",
     href: "https://github.com/camilogomez17/noise_gate_mac.git",
     action: "OPEN APP",
   },
@@ -61,7 +61,7 @@ export default function ProjectsPage() {
               <div className="project-main">
                 <div className="project-meta">
                   <span>{project.category}</span>
-                  <span className="project-status">{project.status}</span>
+                  <span className="project-release">{project.release}</span>
                 </div>
                 <h2>{project.name}</h2>
                 <p>{project.description}</p>
