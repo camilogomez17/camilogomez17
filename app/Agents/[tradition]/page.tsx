@@ -1,57 +1,54 @@
 import Link from "next/link";
 import styles from "./page.module.css";
-
-const traditions: Record<string, { name: string; focus: string }> = {
-  jewish: { name: "Jewish", focus: "the Hebrew Bible and Jewish interpretive traditions" },
-  muslim: { name: "Muslim", focus: "the Qur’an and Islamic scholarship" },
-  buddhist: { name: "Buddhist", focus: "Buddhist texts, teachings, and traditions" },
-};
+import { getScriptureAgent, SCRIPTURE_AGENT_IDS } from "@/lib/scripture-agents";
 
 export function generateStaticParams() {
-  return Object.keys(traditions).map((tradition) => ({ tradition }));
+  return SCRIPTURE_AGENT_IDS.filter((id) => id !== "christian").map((tradition) => ({ tradition }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ tradition: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ tradition: string }> }) {
   const { tradition } = await params;
-  const selected = traditions[tradition];
-  return { title: selected ? `${selected.name} Scripture Agent` : "Agent unavailable" };
+  const selected = getScriptureAgent(tradition);
+  return { title: selected ? `${selected.name} Scripture Agent` : "Agent unavailable", description: selected?.summary ?? "Scripture Agents" };
 }
 
-export default async function PlaceholderAgentPage({
-  params,
-}: {
-  params: Promise<{ tradition: string }>;
-}) {
+export default async function TraditionAgentPage({ params }: { params: Promise<{ tradition: string }> }) {
   const { tradition } = await params;
-  const selected = traditions[tradition];
-
-  if (!selected) {
-    return (
-      <section className={styles.page}>
-        <span className="page-kicker">SCRIPTURE AGENTS</span>
-        <h1 className="page-title">Agent not found</h1>
-        <Link className="back-link" href="/Agents">← All agents</Link>
-      </section>
-    );
+  const selected = getScriptureAgent(tradition);
+  if (!selected || selected.id === "christian") {
+    return <section className={styles.page}><span className="page-kicker">SCRIPTURE AGENTS</span><h1 className="page-title">Agent not found</h1><Link className="back-link" href="/Agents">← All agents</Link></section>;
   }
-
   return (
     <section className={styles.page}>
-      <span className="page-kicker">SCRIPTURE AGENTS / {selected.name.toUpperCase()}</span>
-      <h1 className="page-title">{selected.name} Agent</h1>
-      <div className="placeholder-panel">
-        <span className="status">IN DEVELOPMENT</span>
-        <h2>This agent is not available yet.</h2>
-        <p>
-          This space is reserved for an agent focused on {selected.focus}.
-          It will be added as the project expands.
-        </p>
-        <Link className="back-link" href="/Agents">← Choose another agent</Link>
+      <header className="page-header">
+        <span className="page-kicker">SCRIPTURE AGENTS / {selected.tradition}</span>
+        <h1 className="page-title">{selected.name} Agent</h1>
+        <p className="agent-intro">{selected.focus}</p>
+      </header>
+      <div className="framework-panel">
+        <div className="framework-heading">
+          <span className="status">AGENT FRAMEWORK / IN DEVELOPMENT</span>
+          <h2>Dedicated study framework</h2><p>{selected.summary}</p>
+        </div>
+        <div className="framework-section">
+          <h3>Textual scope and instructions</h3>
+          <p className="framework-description">This agent has a separate instruction set designed to keep its tradition's texts, interpretive methods, and internal differences distinct.</p>
+          <pre className="instruction-preview">{selected.systemInstructions}</pre>
+        </div>
+        <div className="framework-section">
+          <h3>Knowledge sources</h3>
+          <p className="framework-description">These are proposed source collections for a future retrieval system. They are reference links, not yet connected or indexed in an automated knowledge base.</p>
+          <div className="source-list">
+            {selected.sources.map((source) => (
+              <a className="source-item" href={source.url} key={source.name} target="_blank" rel="noreferrer">
+                <span className="source-type">{source.role.replace("-", " ")}</span><strong>{source.name} ↗</strong><span>{source.description}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+        <p className="framework-note">The conversational agent is not connected yet. This page documents its independent configuration without presenting an unconnected placeholder as a functioning AI assistant.</p>
       </div>
+      <Link className="back-link" href="/Agents">← Choose another agent</Link>
     </section>
   );
 }
