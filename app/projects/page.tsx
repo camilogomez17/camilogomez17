@@ -12,26 +12,6 @@ const projects = [
     href: "/bible-agent",
     action: "OPEN AGENT",
   },
-  {
-    number: "02",
-    name: "Study.py",
-    category: "Python / Education",
-    description:
-      "An interactive learning experience designed to make technical concepts easier to practice through structured lessons and questions.",
-    status: "PROJECT",
-    href: "https://github.com/camilogomez17",
-    action: "VIEW GITHUB",
-  },
-  {
-    number: "03",
-    name: "Developer Portfolio",
-    category: "Next.js / TypeScript",
-    description:
-      "This site: a personal engineering portfolio built with Next.js, React, and TypeScript.",
-    status: "LIVE",
-    href: "https://github.com/camilogomez17/camilogomez17",
-    action: "VIEW SOURCE",
-  },
 ];
 
 export const metadata = {
