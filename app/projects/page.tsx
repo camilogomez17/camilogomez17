@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "./page.module.css";
 
 const projects = [
   {
@@ -40,7 +41,7 @@ export const metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="projects-page">
+    <div className={styles.page}>
       <header className="page-header">
         <span className="page-kicker">PORTFOLIO / SELECTED WORK</span>
         <h1 className="page-title">Projects</h1>
@@ -94,22 +95,6 @@ export default function ProjectsPage() {
         </a>
       </footer>
 
-      <style jsx>{`
-        .projects-intro { max-width: 560px; margin-top: 14px; color: var(--text-secondary); line-height: 1.8; }
-        .projects-list { display: grid; margin-top: 34px; border-top: 1px solid var(--border-default); }
-        .project-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 18px; align-items: start; padding: 24px 8px; border-bottom: 1px solid var(--border-default); transition: background .2s ease, padding .2s ease; }
-        .project-row:hover { background: var(--bg-secondary); padding-inline: 14px; }
-        .project-number { color: var(--text-muted); font-size: 11px; padding-top: 3px; }
-        .project-meta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; color: var(--text-muted); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
-        .project-status { color: var(--text-secondary); border: 1px solid var(--border-default); padding: 2px 7px; }
-        .project-main h2 { margin-top: 12px; font-size: 16px; letter-spacing: .02em; }
-        .project-main p { max-width: 590px; margin-top: 8px; color: var(--text-secondary); font-size: 12px; line-height: 1.8; }
-        .project-action { color: var(--text-secondary); font-size: 10px; letter-spacing: .1em; white-space: nowrap; padding-top: 3px; }
-        .project-row:hover .project-action { color: var(--text-primary); }
-        .projects-footnote { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 22px; color: var(--text-muted); font-size: 10px; letter-spacing: .1em; }
-        .projects-footnote a:hover { color: var(--text-primary); }
-        @media (max-width: 620px) { .project-row { grid-template-columns: 28px minmax(0, 1fr); gap: 10px; } .project-action { grid-column: 2; } }
-      `}</style>
     </div>
   );
 }
