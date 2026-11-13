@@ -1,0 +1,12 @@
+.page :global(.agent-intro) { max-width: 620px; margin-top: 14px; color: var(--text-secondary); line-height: 1.8; }
+.page :global(.agent-frame) { margin-top: 30px; border: 1px solid var(--border-default); background: var(--bg-secondary); }
+.page :global(.agent-frame-header) { min-height: 42px; padding: 0 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-default); color: var(--text-muted); font-size: 10px; letter-spacing: .1em; }
+.page :global(.agent-live-dot) { display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: var(--text-secondary); }
+.page :global(.agent-embed) { min-height: 620px; padding: 14px; }
+.page :global(.agent-embed iframe) { width: 100%; height: min(85vh, 1000px); min-height: 750px; border: 0; }
+.page :global(.agent-note) { padding: 12px 14px; border-top: 1px solid var(--border-default); color: var(--text-muted); font-size: 10px; line-height: 1.7; }
+@media (max-width: 620px) {
+  .page :global(.agent-embed) { min-height: 70vh; padding: 8px; }
+  .page :global(.agent-embed iframe) { min-height: 68vh; }
+  .page :global(.agent-frame-header) { font-size: 9px; }
+}
