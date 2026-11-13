@@ -4,12 +4,12 @@ import styles from "./page.module.css";
 const projects = [
   {
     number: "01",
-    name: "Bible Agent",
+    name: "Scripture Agents",
     category: "AI / Scripture study",
     description:
-      "An embedded conversational agent for exploring Scripture, asking questions, and studying biblical themes.",
+      "An embedded conversational agent for exploring Scripture, asking questions, and studying biblical themes. Available for major religions and languages, with a focus on accessibility and user-friendly design.",
     status: "IN DEVELOPMENT",
-    href: "/bible-agent",
+    href: "/bible-agents",
     action: "OPEN AGENT",
   },
   {
