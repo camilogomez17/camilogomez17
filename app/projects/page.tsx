@@ -12,6 +12,26 @@ const projects = [
     href: "/bible-agent",
     action: "OPEN AGENT",
   },
+  {
+    number: "02",
+    name: "Medical Translation App",
+    category: "EN-ES Interpretation",
+    description:
+      "Application to faciliate English-Spanish medical interpretation, with a focus on patient-provider communication and accurate translation of medical terminology. Along with privacy and security features to protect sensitive health information.",
+    status: "IN DEVELOPMENT",
+    href: "https://github.com/camilogomez17/medical-transcription-app.git",
+    action: "OPEN REPO",
+  },
+  {
+    number: "03",
+    name: "Noise Gate App",
+    category: "Microphone Noise Reduction",
+    description:
+      "An application that uses a noise gate algorithm to reduce background noise in real-time audio input, improving the clarity of microphone recordings.",
+    status: "IN DEVELOPMENT",
+    href: "https://github.com/camilogomez17/noise_gate_mac.git",
+    action: "OPEN APP",
+  },
 ];
 
 export const metadata = {
