@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 const GLYPHS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン";
 
 export default function MatrixRain() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -15,7 +15,7 @@ export default function MatrixRain() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let width = 0;
     let height = 0;
-    let columns = [];
+    let columns: number[] = [];
     let animationFrame = 0;
     const fontSize = 16;
 
