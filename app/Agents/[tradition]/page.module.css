@@ -1,0 +1,6 @@
+.page :global(.placeholder-panel) { max-width: 680px; margin-top: 34px; padding: 28px; border: 1px solid var(--border-default); background: var(--bg-secondary); }
+.page :global(.status) { color: var(--text-muted); font-size: 10px; letter-spacing: .12em; }
+.page :global(.placeholder-panel h2) { margin-top: 22px; font-size: 20px; }
+.page :global(.placeholder-panel p) { max-width: 520px; margin-top: 12px; color: var(--text-secondary); font-size: 13px; line-height: 1.8; }
+.page :global(.back-link) { display: inline-block; margin-top: 28px; color: var(--text-secondary); font-size: 11px; letter-spacing: .06em; }
+.page :global(.back-link:hover) { color: var(--text-primary); }
