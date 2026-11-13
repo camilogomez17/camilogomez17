@@ -1,30 +1,30 @@
 const links = [
   { label: "GITHUB", href: "https://github.com/camilogomez17" },
-  { label: "LINKEDIN", href: "https://www.linkedin.com/in/camilogomezvalencia" },
-  { label: "EMAIL", href: "mailto:c6m1lo@proton.me" },
+  { label: "EMAIL", href: "mailto:c6m1l00@gmail.com" },
 ];
 
 const skills = [
   { label: "Frontend", value: "HTML · CSS · JavaScript · TypeScript · React · Next.js" },
-  { label: "Backend", value: "Node.js · Express · Python · REST APIs" },
-  { label: "AI & Data", value: "Generative AI · Clinical NLP · Data annotation · Text classification · Dataset validation · Schema design" },
+  { label: "Backend", value: "Node.js · Express · Python · REST/FAST API · PostgreSQL" },
+  { label: "Services", value: "Vercel · AWS · OAuth · Stripe" },
   { label: "Tools", value: "VS Code · Git · GitHub · Quality assurance" },
   { label: "Languages", value: "English · Spanish" },
+  { label: "Systems", value: "Linux · Windows · macOS" },
 ];
 
 const experience = [
   {
-    role: "Medical Interpreter",
+    role: "Certified Medical Interpreter",
     company: "Propio Language Services",
     dates: "August 2024 — Present",
   },
   {
-    role: "Spanish (US) Data Annotator",
+    role: "Spanish Data Annotation Specialist",
     company: "Uber AI Solutions",
     dates: "February 2026 — August 2026",
   },
   {
-    role: "Line Cook / Prep Cook",
+    role: "Cook",
     company: "KPOT",
     dates: "October 2025 — December 2025",
   },
@@ -39,7 +39,7 @@ const experience = [
     dates: "January 2024 — July 2024",
   },
   {
-    role: "Crew Member",
+    role: "Cook",
     company: "Chipotle",
     dates: "August 2020 — December 2023",
   },
@@ -91,12 +91,6 @@ export default function HomePage() {
 
             <h2>Independent Study</h2>
             <p>Front-End Development</p>
-            <p className="sim-muted">2024 — 2026</p>
-
-            <div className="sim-rule" />
-            <p className="sim-label">PROFESSIONAL QUALIFICATION</p>
-            <h2>Certified Medical Interpreter</h2>
-            <p>Bilingual English / Spanish interpretation</p>
           </section>
 
           <section className="sim-block" aria-labelledby="skills-title">
