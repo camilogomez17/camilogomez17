@@ -108,9 +108,6 @@ export default function RootLayout({ children }) {
               <Link className="nav-link" href="/projects">
                 Projects
               </Link>
-              <Link className="nav-link" href="/bible-agent">
-                Bible Agent
-              </Link>
             </div>
           </div>
         </nav>
