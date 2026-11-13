@@ -18,9 +18,9 @@ const experience = [
   { role: "Cook", company: "KPOT", dates: "October 2025 — December 2025" },
   { role: "Clinical NLP Annotation Specialist", company: "Centific", dates: "June 2025 — August 2025" },
   { role: "Legal Interpreter", company: "Kate Nussman Ellis Farhi & Earle, LLP", dates: "January 2024 - July 2024"},
-  { role: "Certified Medical Interpreter", company: "Kelly Services", dates: "January 2024 — July 2024" },
-  { role: "Barista", company: "Gongcha Taiwan", dates: "June 2023 - August 2023"},
-  { role: "Cook", company: "Chipotle", dates: "August 2020 — December 2022" },
+  { role: "Certified Medical Interpreter", company: "Kelly Services", dates: "January 2023 — July 2024" },
+  { role: "Barista", company: "Gongcha Taiwan", dates: "June 2022 - August 2022"},
+  { role: "Cook", company: "Chipotle", dates: "August 2019 — December 2021" },
 ];
 
 export const metadata = {
