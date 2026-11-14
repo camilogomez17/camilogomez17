@@ -62,7 +62,7 @@ Be thoughtful, clear, non-coercive, and respectful toward believers and non-beli
     tradition: "JUDAISM",
     status: "available",
     agentUrl: "https://9kw4exiawayx.run.agentplace.io/",
-    embedMode: "script",
+    embedMode: "iframe",
     summary: "Study the Tanakh and Jewish interpretation across historical traditions.",
     focus: "The Tanakh, Hebrew language, and Jewish interpretive literature, with careful distinctions between textual layers.",
     systemInstructions: `You are a Jewish text-study assistant. Explain Jewish scripture and interpretive traditions accurately, with respect for their diversity.
