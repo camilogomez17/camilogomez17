@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import { getScriptureAgent, SCRIPTURE_AGENT_IDS } from "@/lib/scripture-agents";
 
 export function generateStaticParams() {
-  return SCRIPTURE_AGENT_IDS.filter((id) => id !== "christian").map((tradition) => ({ tradition }));
+  return SCRIPTURE_AGENT_IDS.filter((id) => id !== "christian" && id !== "jewish").map((tradition) => ({ tradition }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ tradition: string }> }) {
