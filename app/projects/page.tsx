@@ -4,16 +4,6 @@ import styles from "./page.module.css";
 const projects = [
   {
     number: "01",
-    name: "Scripture Agents",
-    category: "AI / Scripture study",
-    description:
-      "An expanding collection of tradition-specific agents for exploring scripture, asking questions, and studying religious texts. Choose from Christian, Jewish, Muslim, and Buddhist perspectives.",
-    release: "11/13/2026",
-    href: "/Agents",
-    action: "OPEN AGENT",
-  },
-  {
-    number: "02",
     name: "Medical Translation App",
     category: "EN-ES Interpretation",
     description:
@@ -23,7 +13,7 @@ const projects = [
     action: "OPEN REPO",
   },
   {
-    number: "03",
+    number: "02",
     name: "Noise Gate App",
     category: "Microphone Noise Reduction",
     description:
@@ -31,6 +21,26 @@ const projects = [
     release: "11/13/2026",
     href: "https://github.com/camilogomez17/noise_gate_mac.git",
     action: "OPEN APP",
+  },
+  {
+    number: "03",
+    name: "Agent Place",
+    category: "AI / Agent Platform",
+    description:
+      "Bible study app.",
+    release: "11/13/2026",
+    href: "https://c3rvkpmmirwh.run.agentplace.io",
+    action: "OPEN PLATFORM",
+  },
+    {
+    number: "04",
+    name: "Python Crunch",
+    category: "AI / Agent Platform",
+    description:
+      "Drill Python into your brain.",
+    release: "11/13/2026",
+    href: "#placeholder",
+    action: "OPEN PLATFORM",
   },
 ];
 
