@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 const links = [
   { label: "GITHUB", href: "https://github.com/camilogomez17" },
@@ -27,7 +27,12 @@ const experience = [
   { role: "Cook", company: "Chipotle", dates: "August 2019 — December 2021" },
 ];
 
-function TypedText({ children, className }) {
+type TypedTextProps = {
+  children: ReactNode;
+  className?: string;
+};
+
+function TypedText({ children, className }: TypedTextProps) {
   const text = String(children ?? "");
   const [visibleCount, setVisibleCount] = useState(0);
   const [wordsPerMinute] = useState(() => 70 + Math.floor(Math.random() * 31));
@@ -35,7 +40,7 @@ function TypedText({ children, className }) {
   useEffect(() => {
     setVisibleCount(0);
     let index = 0;
-    let timeoutId;
+    let timeoutId: ReturnType<typeof window.setTimeout> | undefined;
 
     const typeNextCharacter = () => {
       index += 1;
@@ -49,7 +54,11 @@ function TypedText({ children, className }) {
       timeoutId = window.setTimeout(typeNextCharacter, 12000 / wordsPerMinute);
     }
 
-    return () => window.clearTimeout(timeoutId);
+    return () => {
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
   }, [text, wordsPerMinute]);
 
   return (
