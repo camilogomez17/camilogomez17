@@ -40,7 +40,7 @@ function TypedText({ children, className }: TypedTextProps) {
   useEffect(() => {
     setVisibleCount(0);
     let index = 0;
-    let timeoutId: ReturnType<typeof window.setTimeout> | undefined;
+    let timeoutId: number | undefined;
 
     const typeNextCharacter = () => {
       index += 1;
