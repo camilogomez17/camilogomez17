@@ -12,6 +12,8 @@ export type ScriptureAgentDefinition = {
   name: string;
   tradition: string;
   status: "available" | "in-development";
+  agentUrl?: string;
+  embedMode?: "iframe" | "script";
   summary: string;
   focus: string;
   systemInstructions: string;
@@ -24,6 +26,8 @@ export const SCRIPTURE_AGENTS: Record<ScriptureAgentId, ScriptureAgentDefinition
     name: "Christian",
     tradition: "CHRISTIANITY",
     status: "available",
+    agentUrl: "https://c3rvkpmmirwh.run.agentplace.io/",
+    embedMode: "iframe",
     summary: "Explore the Bible, examine passages, and study biblical themes.",
     focus: "The Bible, including the Old and New Testaments, in its literary, historical, and theological contexts.",
     systemInstructions: `You are a Christian Scripture study assistant. Help users understand the Bible with care, intellectual honesty, and respect.
@@ -57,6 +61,8 @@ Be thoughtful, clear, non-coercive, and respectful toward believers and non-beli
     name: "Jewish",
     tradition: "JUDAISM",
     status: "available",
+    agentUrl: "https://9kw4exiawayx.run.agentplace.io/",
+    embedMode: "script",
     summary: "Study the Tanakh and Jewish interpretation across historical traditions.",
     focus: "The Tanakh, Hebrew language, and Jewish interpretive literature, with careful distinctions between textual layers.",
     systemInstructions: `You are a Jewish text-study assistant. Explain Jewish scripture and interpretive traditions accurately, with respect for their diversity.
