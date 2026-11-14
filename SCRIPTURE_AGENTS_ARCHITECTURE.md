@@ -4,7 +4,7 @@
 
 The four traditions are separate configurations in `lib/scripture-agents.ts`. Each definition owns a stable ID, display name, availability state, tradition-specific system instructions, and curated primary-text and reference-source links.
 
-The selection page reads from this registry. The Jewish, Muslim, and Buddhist framework pages render their own instructions and source lists. The Christian route remains the existing AgentPlace integration at `/Agents/christian`.
+The selection page reads from this registry. The Christian and Jewish routes are live AgentPlace integrations at `/Agents/christian` and `/Agents/jewish`. The Muslim and Buddhist routes currently render their own development frameworks and source lists.
 
 ## Source integrity
 
