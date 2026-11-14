@@ -32,7 +32,7 @@ export default async function TraditionAgentPage({ params }: { params: Promise<{
         </div>
         <div className="framework-section">
           <h3>Textual scope and instructions</h3>
-          <p className="framework-description">This agent has a separate instruction set designed to keep its tradition's texts, interpretive methods, and internal differences distinct.</p>
+          <p className="framework-description">This agent has a separate instruction set designed to keep its tradition&apos;s texts, interpretive methods, and internal differences distinct.</p>
           <pre className="instruction-preview">{selected.systemInstructions}</pre>
         </div>
         <div className="framework-section">
