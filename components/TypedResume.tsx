@@ -111,12 +111,6 @@ export default function TypedResume() {
           </div>
           <p className="professional-resume-company"><TypedText>Software Engineering Fellowship</TypedText></p>
         </article>
-        <article className="professional-resume-entry">
-          <div className="professional-resume-entry-heading">
-            <h3><TypedText>Independent Study</TypedText></h3>
-          </div>
-          <p className="professional-resume-company"><TypedText>Front-End Development</TypedText></p>
-        </article>
       </section>
 
       <section className="professional-resume-section" aria-labelledby="professional-skills">
