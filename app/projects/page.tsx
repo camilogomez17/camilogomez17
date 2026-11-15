@@ -14,8 +14,7 @@ const projects = [
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!<>[]{}?/\\|";
 
 function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
-  const [rendered, setRendered] = useState("");
-  const [settled, setSettled] = useState(false);
+  const [rendered, setRendered] = useState<{ value: string; settled: boolean }[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -23,18 +22,17 @@ function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
 
     async function animate() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setRendered(text);
-        setSettled(true);
+        setRendered(Array.from(text, (value) => ({ value, settled: true })));
         return;
       }
 
       await pause(delay);
-      let output = "";
+      let output: { value: string; settled: boolean }[] = [];
 
       for (const character of text) {
         if (cancelled) return;
         if (character === " ") {
-          output += character;
+          output = [...output, { value: character, settled: true }];
           setRendered(output);
           continue;
         }
@@ -43,23 +41,32 @@ function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
         for (let i = 0; i < changes; i += 1) {
           if (cancelled) return;
           const glyph = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-          setRendered(output + glyph);
+          setRendered([...output, { value: glyph, settled: false }]);
           await pause(24 + Math.floor(Math.random() * 34));
         }
 
-        output += character;
+        output = [...output, { value: character, settled: true }];
         setRendered(output);
         await pause(34);
       }
-
-      if (!cancelled) setSettled(true);
     }
 
     animate();
     return () => { cancelled = true; };
   }, [text, delay]);
 
-  return <span className={`${styles.scrambleText} ${settled ? styles.settled : ""}`} aria-hidden="true">{rendered}</span>;
+  return (
+    <span aria-hidden="true">
+      {rendered.map((character, index) => (
+        <span
+          className={`${styles.scrambleCharacter} ${character.settled ? styles.settled : ""}`}
+          key={index}
+        >
+          {character.value}
+        </span>
+      ))}
+    </span>
+  );
 }
 
 export default function ProjectsPage() {
