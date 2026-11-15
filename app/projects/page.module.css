@@ -63,8 +63,9 @@
 .projectLink:hover,
 .projectLink:focus-visible { color: #b8b8b8; }
 
-.scrambleText {
+.scrambleCharacter {
   color: #00ff66;
+  white-space: pre;
   transition: color 900ms ease;
 }
 
@@ -100,5 +101,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .projectLink { opacity: 1; transform: none; animation: none; }
-  .scrambleText { transition: none; }
+  .scrambleCharacter { transition: none; }
 }
