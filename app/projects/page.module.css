@@ -7,8 +7,8 @@
   overflow: hidden;
   margin-inline: calc(50% - 50vw);
   padding: clamp(112px, 19vh, 190px) 24px 100px;
-  color: #111;
-  background: #fff;
+  color: #fff;
+  background: #000;
 }
 
 .page::before {
@@ -16,7 +16,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 42%, rgba(0,0,0,.025), transparent 58%);
+  background: radial-gradient(ellipse at 50% 42%, rgba(0,255,102,.035), transparent 58%);
 }
 
 .content {
@@ -26,7 +26,7 @@
 
 .heading {
   margin: 0;
-  color: #080808;
+  color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(14px, 1.4vw, 17px);
   font-weight: 500;
@@ -46,7 +46,7 @@
 .projectLink {
   display: inline-block;
   min-height: 1.4em;
-  color: #161616;
+  color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(15px, 1.55vw, 18px);
   font-weight: 400;
@@ -61,7 +61,16 @@
   transition: color .2s ease;
 }
 .projectLink:hover,
-.projectLink:focus-visible { color: #888; }
+.projectLink:focus-visible { color: #b8b8b8; }
+
+.scrambleText {
+  color: #00ff66;
+  transition: color 900ms ease;
+}
+
+.settled {
+  color: #fff;
+}
 .projectLink:focus-visible {
   outline: 1px solid currentColor;
   outline-offset: 7px;
@@ -91,4 +100,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .projectLink { opacity: 1; transform: none; animation: none; }
+  .scrambleText { transition: none; }
 }
