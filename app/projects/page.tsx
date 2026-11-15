@@ -13,12 +13,12 @@ const projects = [
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!<>[]{}?/\\|";
 
-function ScrambleText({ text, delay = 0 }) {
+function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
   const [rendered, setRendered] = useState("");
 
   useEffect(() => {
     let cancelled = false;
-    const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const pause = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
     async function animate() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
