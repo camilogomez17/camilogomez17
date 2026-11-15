@@ -1,139 +1,224 @@
-.page :global(.projects-intro) {
-  max-width: 520px;
-  margin-top: 18px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.8;
+.page {
+  --neon-yellow: #fcee0a;
+  --neon-cyan: #00f0ff;
+  --panel: #0b0d0e;
+  --panel-raised: #111416;
+  --line: rgba(252, 238, 10, .25);
+  --muted: #777d80;
+  color: #e8eeee;
 }
 
-.page :global(.projects-list) {
-  display: grid;
-  margin-top: 64px;
-  border-top: 1px solid var(--border-default);
+.page :global(.netrunner-shell) {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 0 12px;
+  background:
+    linear-gradient(135deg, rgba(0,240,255,.035), transparent 34%),
+    linear-gradient(315deg, rgba(252,238,10,.025), transparent 40%);
 }
 
-.page :global(.project-row) {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: start;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--border-default);
-  animation: project-cascade-in 700ms cubic-bezier(.2, .7, .2, 1) both;
-}
-
-.page :global(.project-row:nth-child(1)) { animation-delay: 100ms; }
-.page :global(.project-row:nth-child(2)) { animation-delay: 220ms; }
-.page :global(.project-row:nth-child(3)) { animation-delay: 340ms; }
-.page :global(.project-row:nth-child(4)) { animation-delay: 460ms; }
-.page :global(.project-row:nth-child(5)) { animation-delay: 580ms; }
-.page :global(.project-row:nth-child(6)) { animation-delay: 700ms; }
-
-@keyframes project-cascade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-22px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.page :global(.project-number) {
-  padding-top: 3px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 10px;
-}
-
-.page :global(.project-meta) {
+.page :global(.system-bar) {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
   align-items: center;
-  color: var(--text-muted);
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(0,240,255,.25);
+  background: #090c0d;
+  color: #8d999b;
   font-size: 9px;
-  letter-spacing: .12em;
+  letter-spacing: .13em;
+}
+
+.page :global(.system-brand),
+.page :global(.system-state),
+.page :global(.system-footer span:last-child) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.page :global(.system-brand) { color: var(--neon-yellow); font-weight: 700; }
+.page :global(.system-brand i) {
+  width: 7px; height: 7px; display: inline-block;
+  background: var(--neon-yellow); box-shadow: 0 0 9px rgba(252,238,10,.65) !important;
+}
+.page :global(.system-state) { color: var(--neon-cyan); }
+.page :global(.system-state i),
+.page :global(.system-footer i) {
+  width: 6px; height: 6px; display: inline-block;
+  background: var(--neon-cyan); border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0,240,255,.7) !important;
+}
+.page :global(.system-center) { text-align: center; }
+
+.page :global(.deck-header) {
+  padding: 38px 18px 0;
+}
+
+.page :global(.deck-kicker),
+.page :global(.deck-overline),
+.page :global(.readout-label),
+.page :global(.readout-foot),
+.page :global(.deck-rule),
+.page :global(.project-index span),
+.page :global(.project-meta),
+.page :global(.project-status),
+.page :global(.project-action),
+.page :global(.projects-footnote),
+.page :global(.system-footer) {
+  font-size: 9px;
+  letter-spacing: .13em;
   text-transform: uppercase;
 }
 
+.page :global(.deck-kicker) { color: var(--neon-cyan); }
+.page :global(.deck-kicker span) {
+  display: inline-block; margin-right: 8px; padding: 3px 6px;
+  color: #080a0a; background: var(--neon-yellow); font-weight: 800;
+}
+
+.page :global(.deck-title-row) {
+  display: flex; justify-content: space-between; align-items: end;
+  gap: 24px; padding: 18px 0 28px;
+}
+
+.page :global(.deck-overline) { color: #8d999b; }
+.page :global(.deck-title-row h1) {
+  margin-top: 8px; color: #f4f7f2;
+  font-size: clamp(34px, 7vw, 62px); line-height: 1;
+  letter-spacing: -.075em; font-weight: 800;
+}
+.page :global(.deck-title-row h1 span) { color: var(--neon-yellow); }
+.page :global(.deck-description) {
+  max-width: 490px; margin-top: 15px; color: #9aa2a3;
+  font-size: 11px; line-height: 1.8;
+}
+
+.page :global(.deck-readout) {
+  flex: 0 0 116px; padding: 12px;
+  border-left: 2px solid var(--neon-yellow);
+  background: linear-gradient(110deg, rgba(252,238,10,.09), transparent);
+}
+.page :global(.readout-label),
+.page :global(.readout-foot) { display: block; color: #8d999b; font-size: 8px; }
+.page :global(.deck-readout strong) {
+  display: block; margin: 3px 0; color: var(--neon-yellow);
+  font-size: 38px; line-height: 1; letter-spacing: -.08em;
+}
+
+.page :global(.deck-rule) {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 9px 0; border-top: 1px solid var(--line);
+  color: var(--neon-yellow); font-size: 8px;
+}
+
+.page :global(.projects-list) {
+  display: grid; gap: 8px; padding: 10px 0 0;
+}
+
+.page :global(.project-row) {
+  position: relative; display: grid;
+  grid-template-columns: 58px minmax(0,1fr) 72px;
+  gap: 16px; align-items: stretch;
+  min-height: 142px; padding: 17px 16px;
+  border: 1px solid rgba(140,160,160,.18);
+  border-left: 2px solid rgba(0,240,255,.55);
+  background: linear-gradient(100deg, rgba(14,19,20,.98), rgba(8,11,12,.94));
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  animation: project-cascade-in 650ms cubic-bezier(.18,.72,.24,1) both;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.page :global(.project-row:nth-child(1)) { animation-delay: 100ms; }
+.page :global(.project-row:nth-child(2)) { animation-delay: 230ms; }
+.page :global(.project-row:nth-child(3)) { animation-delay: 360ms; }
+.page :global(.project-row:nth-child(4)) { animation-delay: 490ms; }
+.page :global(.project-row:hover) {
+  border-color: rgba(252,238,10,.65);
+  border-left-color: var(--neon-yellow);
+  background: linear-gradient(100deg, rgba(31,31,14,.98), rgba(9,13,14,.98));
+  transform: translateX(3px);
+}
+
+@keyframes project-cascade-in {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page :global(.project-index) {
+  display: flex; flex-direction: column; gap: 5px;
+  padding-top: 2px; border-right: 1px solid rgba(140,160,160,.15);
+}
+.page :global(.project-index span) { color: #657174; font-size: 8px; }
+.page :global(.project-index strong) {
+  color: var(--neon-yellow); font-size: 22px; letter-spacing: -.08em;
+}
+
+.page :global(.project-main) { min-width: 0; }
+.page :global(.project-meta) {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  color: var(--neon-cyan); font-size: 8px;
+}
+.page :global(.project-release) { color: #687477; }
 .page :global(.project-main h2) {
-  margin-top: 11px;
-  font-size: clamp(16px, 2vw, 19px);
-  font-weight: 500;
-  letter-spacing: -.025em;
-  transition: opacity .2s ease;
+  margin-top: 8px; color: #f2f5f1;
+  font-size: clamp(15px, 2vw, 18px); line-height: 1.3;
+  font-weight: 700; letter-spacing: -.025em;
 }
-
 .page :global(.project-main p) {
-  max-width: 560px;
-  margin-top: 9px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.8;
+  max-width: 560px; margin-top: 7px;
+  color: #929b9d; font-size: 10px; line-height: 1.7;
 }
-
 .page :global(.project-action) {
-  padding-top: 3px;
-  color: var(--text-muted);
-  font-size: 9px;
-  letter-spacing: .1em;
-  white-space: nowrap;
-  transition: color .2s ease;
+  display: inline-block; margin-top: 12px; color: var(--neon-yellow);
+  font-size: 8px; transition: color .2s ease;
 }
-
-.page :global(.project-row:hover .project-action) {
-  color: var(--text-primary);
+.page :global(.project-action b) { color: var(--neon-cyan); font-size: 12px; }
+.page :global(.project-status) {
+  display: flex; align-items: flex-start; justify-content: flex-end;
+  gap: 6px; padding-top: 3px; color: #7c898b; font-size: 8px;
 }
-
-.page :global(.project-row:hover .project-main h2) {
-  opacity: .72;
+.page :global(.status-light) {
+  width: 6px; height: 6px; margin-top: 3px; border-radius: 50%;
+  background: var(--neon-yellow); box-shadow: 0 0 7px rgba(252,238,10,.55) !important;
+}
+.page :global(.status-light.live) {
+  background: var(--neon-cyan); box-shadow: 0 0 7px rgba(0,240,255,.65) !important;
 }
 
 .page :global(.projects-footnote) {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
-  color: var(--text-muted);
-  font-size: 9px;
-  letter-spacing: .12em;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  margin-top: 18px; padding: 12px 2px;
+  border-top: 1px solid rgba(140,160,160,.17);
+  color: #657174; font-size: 8px;
 }
+.page :global(.projects-footnote b) { color: var(--neon-yellow); }
+.page :global(.projects-footnote a) { color: var(--neon-cyan); }
+.page :global(.projects-footnote a:hover) { color: var(--neon-yellow); }
 
-.page :global(.projects-footnote a) {
-  transition: color .2s ease;
-}
-
-.page :global(.projects-footnote a:hover) {
-  color: var(--text-primary);
+.page :global(.system-footer) {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  margin-top: 22px; padding-top: 10px;
+  border-top: 1px solid rgba(140,160,160,.12);
+  color: #4f5b5d; font-size: 8px;
 }
 
 @media (max-width: 620px) {
-  .page :global(.projects-list) {
-    margin-top: 44px;
-  }
-
+  .page :global(.system-center) { display: none; }
+  .page :global(.deck-header) { padding: 28px 8px 0; }
+  .page :global(.deck-title-row) { align-items: flex-start; gap: 12px; }
+  .page :global(.deck-readout) { flex-basis: 82px; padding: 8px; }
+  .page :global(.deck-readout strong) { font-size: 30px; }
+  .page :global(.readout-label), .page :global(.readout-foot) { font-size: 7px; }
   .page :global(.project-row) {
-    grid-template-columns: 24px minmax(0, 1fr);
-    gap: 12px;
-    padding: 25px 0;
+    grid-template-columns: 38px minmax(0,1fr);
+    gap: 12px; padding: 14px 11px;
   }
-
-  .page :global(.project-action) {
-    grid-column: 2;
-    margin-top: 2px;
-  }
+  .page :global(.project-status) { grid-column: 2; justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page :global(.project-row) {
-    animation: none;
-  }
-
-  .page :global(.project-main h2),
-  .page :global(.project-action) {
-    transition: none;
-  }
+  .page :global(.project-row) { animation: none; transition: none; }
 }
