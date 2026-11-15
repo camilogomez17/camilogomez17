@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
 import styles from "./page.module.css";
+import GlitchCharacter from "../../components/GlitchCharacter";
 
 const projects = [
   { name: "Transcription & Annotation", href: "https://github.com/camilogomez17/medical-transcription-app.git" },
@@ -62,7 +63,7 @@ function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
           className={`${styles.scrambleCharacter} ${character.settled ? styles.settled : ""}`}
           key={index}
         >
-          {character.value}
+          <GlitchCharacter character={character.value} />
         </span>
       ))}
     </span>
