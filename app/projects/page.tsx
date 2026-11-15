@@ -10,7 +10,7 @@ const projects = [
       "Application to faciliate English-Spanish medical interpretation, with a focus on patient-provider communication and accurate translation of medical terminology. Along with privacy and security features to protect sensitive health information.",
     release: "11/13/2026",
     href: "https://github.com/camilogomez17/medical-transcription-app.git",
-    action: "OPEN REPO",
+    action: "REPOSITORY",
   },
   {
     number: "02",
@@ -20,7 +20,7 @@ const projects = [
       "An application that uses a noise gate algorithm to reduce background noise in real-time audio input, improving the clarity of microphone recordings.",
     release: "11/13/2026",
     href: "https://github.com/camilogomez17/noise_gate_mac.git",
-    action: "OPEN APP",
+    action: "REPOSITORY",
   },
   {
     number: "03",
@@ -30,7 +30,7 @@ const projects = [
       "Bible study app.",
     release: "11/13/2026",
     href: "https://c3rvkpmmirwh.run.agentplace.io",
-    action: "OPEN PLATFORM",
+    action: "AGENT PLACE",
   },
     {
     number: "04",
@@ -39,8 +39,8 @@ const projects = [
     description:
       "Drill Python into your brain.",
     release: "11/13/2026",
-    href: "#placeholder",
-    action: "OPEN PLATFORM",
+    href: "https://m6spxjeqt2hf.run.agentplace.io",
+    action: "AGENT PLACE",
   },
 ];
 
