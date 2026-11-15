@@ -9,8 +9,8 @@
   font-family: var(--font-mono);
 }
 
-/* Monochrome cyberbrain archive: restrained tactical terminal, not neon styling. */
-.page :global(.netrunner-shell) {
+/* Minimal monochrome terminal interface. */
+.page :global(.terminal-shell) {
   position: relative;
   width: min(100%, 940px);
   margin: 0 auto;
