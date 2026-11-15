@@ -67,7 +67,7 @@ export default function ProjectsPage() {
     <main className={styles.page}>
       <section className={styles.content} aria-labelledby="projects-title">
         <h1 id="projects-title" className={styles.heading}>
-          <span className={styles.screenReaderOnly}>PROJECT</span>
+          <span className={styles.screenReaderOnly}>PROJECTS</span>
           <ScrambleText text="PROJECT" delay={220} />
         </h1>
         <nav className={styles.projectList} aria-label="Projects">
