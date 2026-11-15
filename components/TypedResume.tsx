@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import GlitchCharacter from "./GlitchCharacter";
 
 const links = [
   { label: "GitHub", href: "https://github.com/camilogomez17" },
@@ -63,7 +64,9 @@ function TypedText({ children, className }: TypedTextProps) {
 
   return (
     <span className={className} aria-label={text}>
-      {text.slice(0, visibleCount)}
+      {Array.from(text.slice(0, visibleCount)).map((character, index) => (
+        <GlitchCharacter character={character} key={`${index}-${character}`} />
+      ))}
       <span className="sr-only">{text.slice(visibleCount)}</span>
     </span>
   );
