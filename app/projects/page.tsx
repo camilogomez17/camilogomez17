@@ -3,141 +3,75 @@ import styles from "./page.module.css";
 
 const projects = [
   {
-    number: "01",
     name: "Medical Translation App",
-    category: "EN-ES INTERPRETATION",
-    description:
-      "Application to facilitate English-Spanish medical interpretation, focused on patient-provider communication, accurate medical terminology, and privacy-conscious handling of sensitive health information.",
-    release: "11/13/2026",
     href: "https://github.com/camilogomez17/medical-transcription-app.git",
-    action: "OPEN REPOSITORY",
-    type: "SOURCE",
   },
   {
-    number: "02",
     name: "Noise Gate App",
-    category: "AUDIO / SIGNAL PROCESSING",
-    description:
-      "Real-time noise gate for microphone input, reducing background noise and improving recording clarity.",
-    release: "11/13/2026",
     href: "https://github.com/camilogomez17/noise_gate_mac.git",
-    action: "OPEN REPOSITORY",
-    type: "SOURCE",
   },
   {
-    number: "03",
     name: "Agent Place",
-    category: "AI / SCRIPTURE AGENT",
-    description:
-      "An interactive Bible study experience powered by an AI agent.",
-    release: "11/13/2026",
     href: "https://c3rvkpmmirwh.run.agentplace.io",
-    action: "LAUNCH AGENT",
-    type: "LIVE",
   },
   {
-    number: "04",
     name: "Python Crunch",
-    category: "PYTHON / LEARNING SYSTEM",
-    description:
-      "An interactive environment designed to drill Python concepts through focused practice.",
-    release: "11/13/2026",
     href: "https://m6spxjeqt2hf.run.agentplace.io",
-    action: "LAUNCH AGENT",
-    type: "LIVE",
   },
 ];
 
 export const metadata = {
-  title: "Projects // Index",
-  description: "Software projects and experiments by Camilo Gomez Valencia.",
+  title: "Projects",
+  description: "Selected software projects.",
 };
 
 export default function ProjectsPage() {
   return (
-    <div className={styles.page}>
-      <div className="terminal-shell">
-        <div className="system-bar">
-          <span className="system-brand"><i /> SYSTEM INTERFACE</span>
-          <span className="system-center">PROJECT DIRECTORY</span>
-          <span className="system-state"><i /> SYSTEM READY</span>
+    <main className={styles.page}>
+      <div className={styles.chapel} aria-hidden="true">
+        <div className={styles.vault}>
+          <div className={styles.fresco}>
+            <span className={styles.frescoHalo} />
+            <span className={styles.frescoFigure} />
+          </div>
+          <div className={styles.vaultRib} />
         </div>
 
-        <header className="deck-header">
-          <div className="deck-kicker"><span>INDEX 01</span> / SOFTWARE / 2026</div>
-          <div className="deck-title-row">
-            <div>
-              <p className="deck-overline">SELECTED WORK // DEPLOYED SYSTEMS</p>
-              <h1>PROJECT<span>_</span>INDEX</h1>
-              <p className="deck-description">
-                A record of software systems, experiments, and deployed tools.
-                Select an entry to inspect its source or establish a live connection.
-              </p>
-            </div>
-            <div className="deck-readout" aria-label="Project count">
-              <span className="readout-label">RECORDS</span>
-              <strong>{String(projects.length).padStart(2, "0")}</strong>
-              <span className="readout-foot">PUBLIC ACCESS</span>
-            </div>
-          </div>
-          <div className="deck-rule"><span>PROJECT DIRECTORY</span><span>ACCESS: PUBLIC</span></div>
-        </header>
-
-        <section className="projects-list" aria-label="Project directory">
-          {projects.map((project) => {
-            const external = project.href.startsWith("http");
-            const content = (
-              <>
-                <div className="project-index">
-                  <span>FILE</span>
-                  <strong>{project.number}</strong>
-                </div>
-                <div className="project-main">
-                  <div className="project-meta">
-                    <span>{project.category}</span>
-                    <span className="project-release">{project.release}</span>
-                  </div>
-                  <h2>{project.name}</h2>
-                  <p>{project.description}</p>
-                  <span className="project-action">{project.action} <b aria-hidden="true">↗</b></span>
-                </div>
-                <div className="project-status">
-                  <span className={project.type === "LIVE" ? "status-light live" : "status-light"} />
-                  <span>{project.type}</span>
-                </div>
-              </>
-            );
-
-            return external ? (
-              <a
-                className="project-row"
-                href={project.href}
-                key={project.number}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${project.name} — ${project.action}`}
-              >
-                {content}
-              </a>
-            ) : (
-              <Link className="project-row" href={project.href} key={project.number}>
-                {content}
-              </Link>
-            );
-          })}
-        </section>
-
-        <footer className="projects-footnote">
-          <span>END OF INDEX <b>{"///"}</b> MORE IN DEVELOPMENT</span>
-          <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer">
-            GITHUB ↗
-          </a>
-        </footer>
-        <div className="system-footer">
-          <span>SYSTEM INTERFACE // BUILD 2026.11</span>
-          <span>STATUS: ONLINE <i /></span>
+        <div className={styles.architecture}>
+          <span className={styles.capital} />
+          <span className={styles.column} />
+          <span className={styles.base} />
+        </div>
+        <div className={styles.architectureRight}>
+          <span className={styles.capital} />
+          <span className={styles.column} />
+          <span className={styles.base} />
         </div>
       </div>
-    </div>
+
+      <section className={styles.gallery} aria-labelledby="projects-title">
+        <div className={styles.innerFrame}>
+          <header className={styles.heading}>
+            <span className={styles.ornament} aria-hidden="true">✦</span>
+            <h1 id="projects-title">PROJECT</h1>
+            <span className={styles.ornament} aria-hidden="true">✦</span>
+          </header>
+
+          <nav className={styles.projectList} aria-label="Projects">
+            {projects.map((project) => (
+              <Link
+                className={styles.projectLink}
+                href={project.href}
+                key={project.name}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {project.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </section>
+    </main>
   );
 }
