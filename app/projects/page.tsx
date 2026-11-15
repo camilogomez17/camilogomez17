@@ -49,7 +49,7 @@ const projects = [
 ];
 
 export const metadata = {
-  title: "Projects // Netrunner Archive",
+  title: "Projects // Ghost Network",
   description: "Software projects and experiments by Camilo Gomez Valencia.",
 };
 
@@ -58,29 +58,29 @@ export default function ProjectsPage() {
     <div className={styles.page}>
       <div className="netrunner-shell">
         <div className="system-bar">
-          <span className="system-brand"><i /> CAMILO.OS</span>
-          <span className="system-center">PERSONAL NETWORK // PROJECT DIRECTORY</span>
-          <span className="system-state"><i /> SYSTEM ONLINE</span>
+          <span className="system-brand"><i /> GHOST NETWORK</span>
+          <span className="system-center">SECURE CHANNEL // PROJECT ARCHIVE</span>
+          <span className="system-state"><i /> NETWORK CONNECTED</span>
         </div>
 
         <header className="deck-header">
-          <div className="deck-kicker"><span>NC-17</span> / NET ARCHIVE / 2026</div>
+          <div className="deck-kicker"><span>SECTION 01</span> / TACHIKOMA ARCHIVE / 2026</div>
           <div className="deck-title-row">
             <div>
-              <p className="deck-overline">INDEPENDENT DEVELOPMENT // SELECTED WORK</p>
-              <h1>PROJECT<span>_</span>INDEX</h1>
+              <p className="deck-overline">INDEPENDENT SYSTEMS // FIELD RECORDS</p>
+              <h1>PROJECT<span>_</span>ARCHIVE</h1>
               <p className="deck-description">
                 Software, experiments, and tools built to solve problems.
                 Select a file to access its repository or live deployment.
               </p>
             </div>
             <div className="deck-readout" aria-label="Project count">
-              <span className="readout-label">FILES INDEXED</span>
+              <span className="readout-label">RECORDS</span>
               <strong>{String(projects.length).padStart(2, "0")}</strong>
-              <span className="readout-foot">ACTIVE DIRECTORY</span>
+              <span className="readout-foot">PUBLIC ACCESS</span>
             </div>
           </div>
-          <div className="deck-rule"><span>DIRECTORY CONTENTS</span><span>AUTH: PUBLIC</span></div>
+          <div className="deck-rule"><span>ARCHIVE CONTENTS</span><span>CLEARANCE: OPEN</span></div>
         </header>
 
         <section className="projects-list" aria-label="Project directory">
@@ -128,14 +128,14 @@ export default function ProjectsPage() {
         </section>
 
         <footer className="projects-footnote">
-          <span>END OF DIRECTORY <b>{"///"}</b> MORE FILES IN DEVELOPMENT</span>
+          <span>END OF ARCHIVE <b>{"///"}</b> ADDITIONAL RECORDS PENDING</span>
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer">
-            GITHUB NODE ↗
+            SOURCE NODE ↗
           </a>
         </footer>
         <div className="system-footer">
-          <span>CAMILO.OS // BUILD 2026.11</span>
-          <span>CONNECTION ENCRYPTED <i /></span>
+          <span>GHOST NETWORK // BUILD 2026.11</span>
+          <span>CHANNEL SECURE <i /></span>
         </div>
       </div>
     </div>
