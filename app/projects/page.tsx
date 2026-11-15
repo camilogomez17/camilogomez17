@@ -15,6 +15,7 @@ const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!<>[]{}?/\\|";
 
 function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
   const [rendered, setRendered] = useState("");
+  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -23,6 +24,7 @@ function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
     async function animate() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setRendered(text);
+        setSettled(true);
         return;
       }
 
@@ -49,13 +51,15 @@ function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
         setRendered(output);
         await pause(34);
       }
+
+      if (!cancelled) setSettled(true);
     }
 
     animate();
     return () => { cancelled = true; };
   }, [text, delay]);
 
-  return <span aria-hidden="true">{rendered}</span>;
+  return <span className={`${styles.scrambleText} ${settled ? styles.settled : ""}`} aria-hidden="true">{rendered}</span>;
 }
 
 export default function ProjectsPage() {
