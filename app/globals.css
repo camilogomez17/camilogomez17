@@ -1425,18 +1425,23 @@ body:has(.matrix-home-page) .site-footer {
 }
 
 
+/* The resume is the page itself, not a card inside the global content wrapper. */
+body:has(.professional-resume) .app-main > .content {
+  display: contents;
+}
+
 /* ─── Traditional professional resume ───────────────────────────────────── */
 .professional-resume {
-  width: min(100%, 850px);
+  width: min(100%, 1000px);
   margin: 0 auto;
   padding: 48px clamp(22px, 6vw, 64px);
-  background: #fff;
+  background: transparent;
   color: #202020;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 1.55;
   letter-spacing: 0;
-  border: 1px solid #dedede;
+  border: 0;
 }
 .professional-resume h1,
 .professional-resume h2,
@@ -1614,9 +1619,9 @@ body:has(.matrix-home-page) .site-footer {
 
 /* ─── Professional resume: dark theme ───────────────────────────────────── */
 .professional-resume {
-  background: #101214;
+  background: transparent;
   color: #e5e7eb;
-  border-color: #30363d;
+  border-color: transparent;
 }
 .professional-resume h1,
 .professional-resume h2,
