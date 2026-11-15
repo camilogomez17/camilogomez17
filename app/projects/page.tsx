@@ -128,7 +128,7 @@ export default function ProjectsPage() {
         </section>
 
         <footer className="projects-footnote">
-          <span>END OF DIRECTORY <b>///</b> MORE FILES IN DEVELOPMENT</span>
+          <span>END OF DIRECTORY <b>{"///"}</b> MORE FILES IN DEVELOPMENT</span>
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer">
             GITHUB NODE ↗
           </a>
