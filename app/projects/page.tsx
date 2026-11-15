@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import styles from "./page.module.css";
 
 const projects = [
@@ -75,7 +75,7 @@ export default function ProjectsPage() {
               target="_blank"
               rel="noreferrer"
               aria-label={project.name}
-              style={{ "--cascade-index": index }}
+              style={{ "--cascade-index": index } as CSSProperties & { "--cascade-index": number }}
             >
               <ScrambleText text={project.name} delay={1050 + index * 520} />
             </Link>
