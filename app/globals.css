@@ -1682,3 +1682,31 @@ body:has(.professional-resume) .app-main > .content {
     border-color: #777 !important;
   }
 }
+
+/* Occasional four-glyph character glitches shared by the resume and projects pages. */
+.glitch-character {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+}
+.glitch-original {
+  display: inline-block;
+  transition: opacity 80ms linear;
+}
+.glitch-original.is-hidden { opacity: 0; }
+.glitch-replacement {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  white-space: nowrap;
+  font: inherit;
+  letter-spacing: inherit;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.glitch-green { color: #39ff78; text-shadow: 0 0 7px #39ff78aa; }
+.glitch-white { color: #fff; text-shadow: 0 0 5px #ffffff88; }
+@media (prefers-reduced-motion: reduce) {
+  .glitch-replacement { display: none !important; }
+  .glitch-original.is-hidden { opacity: 1; }
+}
