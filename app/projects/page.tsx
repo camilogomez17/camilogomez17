@@ -56,7 +56,7 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <div className={styles.page}>
-      <div className="netrunner-shell">
+      <div className="terminal-shell">
         <div className="system-bar">
           <span className="system-brand"><i /> SYSTEM INTERFACE</span>
           <span className="system-center">PROJECT DIRECTORY</span>
