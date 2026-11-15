@@ -1423,3 +1423,257 @@ body:has(.matrix-home-page) .site-footer {
     radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, .48) 100%),
     linear-gradient(to bottom, rgba(0, 0, 0, .2), transparent 18%, transparent 82%, rgba(0, 0, 0, .3));
 }
+
+
+/* ─── Traditional professional resume ───────────────────────────────────── */
+.professional-resume {
+  width: min(100%, 850px);
+  margin: 0 auto;
+  padding: 48px clamp(22px, 6vw, 64px);
+  background: #fff;
+  color: #202020;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.55;
+  letter-spacing: 0;
+  border: 1px solid #dedede;
+}
+.professional-resume h1,
+.professional-resume h2,
+.professional-resume h3 {
+  color: #171717;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0;
+}
+.professional-resume-header {
+  padding-bottom: 20px;
+  border-bottom: 2px solid #222;
+}
+.professional-resume-header h1 {
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1.15;
+  font-weight: 700;
+}
+.professional-resume-headline {
+  margin-top: 5px;
+  color: #444;
+  font-size: 15px;
+  font-weight: 600;
+}
+.professional-resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 18px;
+  margin-top: 12px;
+  color: #444;
+  font-size: 11px;
+}
+.professional-resume-contact a,
+.professional-resume-footer a {
+  color: #244d76;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.professional-resume-section {
+  margin-top: 22px;
+}
+.professional-resume-section > h2 {
+  margin: 0 0 11px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #999;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.professional-resume-section > p {
+  color: #333;
+  line-height: 1.65;
+}
+.professional-resume-entries {
+  display: grid;
+  gap: 13px;
+}
+.professional-resume-entry + .professional-resume-entry {
+  margin-top: 10px;
+}
+.professional-resume-entry-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.professional-resume-entry h3 {
+  font-size: 12px;
+  font-weight: 700;
+}
+.professional-resume-dates {
+  flex: 0 0 auto;
+  color: #555;
+  font-size: 10px;
+  text-align: right;
+}
+.professional-resume-company {
+  margin-top: 2px;
+  color: #444;
+  font-size: 11px;
+}
+.professional-resume-skills {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+.professional-resume-skill {
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  gap: 12px;
+}
+.professional-resume-skill dt {
+  color: #222;
+  font-weight: 700;
+}
+.professional-resume-skill dd {
+  margin: 0;
+  color: #333;
+}
+.professional-resume-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 1px solid #bbb;
+  color: #666;
+  font-size: 10px;
+}
+.professional-resume-footer nav {
+  display: flex;
+  gap: 14px;
+}
+@media (max-width: 560px) {
+  .professional-resume {
+    padding: 28px 20px;
+  }
+  .professional-resume-entry-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .professional-resume-dates {
+    text-align: left;
+  }
+  .professional-resume-skill {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+}
+@media print {
+  @page {
+    size: letter;
+    margin: .55in;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  body::after,
+  .top-nav,
+  .site-footer {
+    display: none !important;
+  }
+  .app-main {
+    padding: 0 !important;
+  }
+  .app-main > .content {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .professional-resume {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 10pt;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .professional-resume-section,
+  .professional-resume-entry {
+    break-inside: avoid;
+  }
+  .professional-resume a {
+    color: #000;
+    text-decoration: none;
+  }
+}
+
+
+/* ─── Professional resume: dark theme ───────────────────────────────────── */
+.professional-resume {
+  background: #101214;
+  color: #e5e7eb;
+  border-color: #30363d;
+}
+.professional-resume h1,
+.professional-resume h2,
+.professional-resume h3 {
+  color: #f3f4f6;
+}
+.professional-resume-header {
+  border-bottom-color: #d1d5db;
+}
+.professional-resume-headline,
+.professional-resume-contact,
+.professional-resume-section > p,
+.professional-resume-company {
+  color: #c4c9d1;
+}
+.professional-resume-contact a,
+.professional-resume-footer a {
+  color: #93c5fd;
+}
+.professional-resume-section > h2 {
+  border-bottom-color: #4b5563;
+}
+.professional-resume-dates,
+.professional-resume-footer {
+  color: #9ca3af;
+}
+.professional-resume-skill dt {
+  color: #e5e7eb;
+}
+.professional-resume-skill dd {
+  color: #c4c9d1;
+}
+.professional-resume-footer {
+  border-top-color: #4b5563;
+}
+@media print {
+  .professional-resume {
+    background: #fff !important;
+    color: #000 !important;
+    border: 0 !important;
+  }
+  .professional-resume h1,
+  .professional-resume h2,
+  .professional-resume h3,
+  .professional-resume-skill dt,
+  .professional-resume-skill dd,
+  .professional-resume-section > p,
+  .professional-resume-company,
+  .professional-resume-headline,
+  .professional-resume-contact,
+  .professional-resume-dates,
+  .professional-resume-footer {
+    color: #000 !important;
+  }
+  .professional-resume-header,
+  .professional-resume-section > h2,
+  .professional-resume-footer {
+    border-color: #777 !important;
+  }
+}
