@@ -49,7 +49,7 @@ const projects = [
 ];
 
 export const metadata = {
-  title: "Projects // Ghost Network",
+  title: "Projects // Index",
   description: "Software projects and experiments by Camilo Gomez Valencia.",
 };
 
@@ -58,17 +58,17 @@ export default function ProjectsPage() {
     <div className={styles.page}>
       <div className="netrunner-shell">
         <div className="system-bar">
-          <span className="system-brand"><i /> GHOST INTERFACE</span>
-          <span className="system-center">SECURE CHANNEL // PROJECT ARCHIVE</span>
-          <span className="system-state"><i /> NETWORK CONNECTED</span>
+          <span className="system-brand"><i /> SYSTEM INTERFACE</span>
+          <span className="system-center">PROJECT DIRECTORY</span>
+          <span className="system-state"><i /> SYSTEM READY</span>
         </div>
 
         <header className="deck-header">
-          <div className="deck-kicker"><span>SECTION 01</span> / CYBERBRAIN ARCHIVE / 2026</div>
+          <div className="deck-kicker"><span>INDEX 01</span> / SOFTWARE / 2026</div>
           <div className="deck-title-row">
             <div>
-              <p className="deck-overline">INDEPENDENT SYSTEMS // FIELD RECORDS</p>
-              <h1>PROJECT<span>_</span>ARCHIVE</h1>
+              <p className="deck-overline">SELECTED WORK // DEPLOYED SYSTEMS</p>
+              <h1>PROJECT<span>_</span>INDEX</h1>
               <p className="deck-description">
                 A record of software systems, experiments, and deployed tools.
                 Select an entry to inspect its source or establish a live connection.
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
               <span className="readout-foot">PUBLIC ACCESS</span>
             </div>
           </div>
-          <div className="deck-rule"><span>ARCHIVE CONTENTS</span><span>CLEARANCE: OPEN</span></div>
+          <div className="deck-rule"><span>PROJECT DIRECTORY</span><span>ACCESS: PUBLIC</span></div>
         </header>
 
         <section className="projects-list" aria-label="Project directory">
@@ -128,14 +128,14 @@ export default function ProjectsPage() {
         </section>
 
         <footer className="projects-footnote">
-          <span>END OF ARCHIVE <b>{"///"}</b> ADDITIONAL RECORDS PENDING</span>
+          <span>END OF INDEX <b>{"///"}</b> MORE IN DEVELOPMENT</span>
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer">
-            SOURCE NODE ↗
+            GITHUB ↗
           </a>
         </footer>
         <div className="system-footer">
-          <span>GHOST INTERFACE // BUILD 2026.11</span>
-          <span>CHANNEL SECURE <i /></span>
+          <span>SYSTEM INTERFACE // BUILD 2026.11</span>
+          <span>STATUS: ONLINE <i /></span>
         </div>
       </div>
     </div>
