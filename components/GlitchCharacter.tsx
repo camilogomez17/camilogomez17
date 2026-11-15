@@ -32,7 +32,7 @@ export default function GlitchCharacter({ character }: GlitchCharacterProps) {
       startTimer = window.setTimeout(() => {
         if (cancelled) return;
 
-        if (Math.random() < 0.002) {
+        if (Math.random() < 0.03) {
           let step = 0;
           const showNextGlyph = () => {
             if (cancelled) return;
