@@ -1610,3 +1610,70 @@ body:has(.matrix-home-page) .site-footer {
     text-decoration: none;
   }
 }
+
+
+/* ─── Professional resume: dark theme ───────────────────────────────────── */
+.professional-resume {
+  background: #101214;
+  color: #e5e7eb;
+  border-color: #30363d;
+}
+.professional-resume h1,
+.professional-resume h2,
+.professional-resume h3 {
+  color: #f3f4f6;
+}
+.professional-resume-header {
+  border-bottom-color: #d1d5db;
+}
+.professional-resume-headline,
+.professional-resume-contact,
+.professional-resume-section > p,
+.professional-resume-company {
+  color: #c4c9d1;
+}
+.professional-resume-contact a,
+.professional-resume-footer a {
+  color: #93c5fd;
+}
+.professional-resume-section > h2 {
+  border-bottom-color: #4b5563;
+}
+.professional-resume-dates,
+.professional-resume-footer {
+  color: #9ca3af;
+}
+.professional-resume-skill dt {
+  color: #e5e7eb;
+}
+.professional-resume-skill dd {
+  color: #c4c9d1;
+}
+.professional-resume-footer {
+  border-top-color: #4b5563;
+}
+@media print {
+  .professional-resume {
+    background: #fff !important;
+    color: #000 !important;
+    border: 0 !important;
+  }
+  .professional-resume h1,
+  .professional-resume h2,
+  .professional-resume h3,
+  .professional-resume-skill dt,
+  .professional-resume-skill dd,
+  .professional-resume-section > p,
+  .professional-resume-company,
+  .professional-resume-headline,
+  .professional-resume-contact,
+  .professional-resume-dates,
+  .professional-resume-footer {
+    color: #000 !important;
+  }
+  .professional-resume-header,
+  .professional-resume-section > h2,
+  .professional-resume-footer {
+    border-color: #777 !important;
+  }
+}
