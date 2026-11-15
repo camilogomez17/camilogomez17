@@ -3,28 +3,28 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 const links = [
-  { label: "GITHUB", href: "https://github.com/camilogomez17" },
-  { label: "EMAIL", href: "mailto:c6m1l00@gmail.com" },
+  { label: "GitHub", href: "https://github.com/camilogomez17" },
+  { label: "Email", href: "mailto:c6m1l00@gmail.com" },
 ];
 
 const skills = [
-  { label: "Frontend", value: "HTML · CSS · JavaScript · TypeScript · React · Next.js" },
-  { label: "Backend", value: "Node.js · Express · Python · REST/FAST API · PostgreSQL" },
-  { label: "Services", value: "Vercel · AWS · OAuth · Stripe" },
-  { label: "Tools", value: "VS Code · Git · GitHub · Quality assurance" },
-  { label: "Languages", value: "English · Spanish" },
-  { label: "Systems", value: "Linux · Windows · macOS" },
+  { label: "Frontend", value: "HTML, CSS, JavaScript, TypeScript, React, Next.js" },
+  { label: "Backend", value: "Node.js, Express, Python, REST APIs, FastAPI, PostgreSQL" },
+  { label: "Cloud & services", value: "Vercel, AWS, OAuth, Stripe" },
+  { label: "Tools", value: "VS Code, Git, GitHub, Quality Assurance" },
+  { label: "Languages", value: "English, Spanish" },
+  { label: "Operating systems", value: "Linux, Windows, macOS" },
 ];
 
 const experience = [
-  { role: "Certified Medical Interpreter", company: "Propio Language Services", dates: "August 2024 — Present" },
-  { role: "Spanish Data Annotation Specialist", company: "Uber AI Solutions", dates: "February 2026 — August 2026" },
-  { role: "Cook", company: "KPOT", dates: "October 2025 — December 2025" },
-  { role: "Clinical NLP Annotation Specialist", company: "Centific", dates: "June 2025 — August 2025" },
-  { role: "Legal Interpreter", company: "Kate Nussman Ellis Farhi & Earle, LLP", dates: "January 2024 - July 2024" },
-  { role: "Certified Medical Interpreter", company: "Kelly Services", dates: "January 2023 — July 2024" },
-  { role: "Barista", company: "Gongcha Taiwan", dates: "June 2022 - August 2022" },
-  { role: "Cook", company: "Chipotle", dates: "August 2019 — December 2021" },
+  { role: "Certified Medical Interpreter", company: "Propio Language Services", dates: "August 2024 – Present" },
+  { role: "Spanish Data Annotation Specialist", company: "Uber AI Solutions", dates: "February 2026 – August 2026" },
+  { role: "Cook", company: "KPOT", dates: "October 2025 – December 2025" },
+  { role: "Clinical NLP Annotation Specialist", company: "Centific", dates: "June 2025 – August 2025" },
+  { role: "Legal Interpreter", company: "Kate Nussman Ellis Farhi & Earle, LLP", dates: "January 2024 – July 2024" },
+  { role: "Certified Medical Interpreter", company: "Kelly Services", dates: "January 2023 – July 2024" },
+  { role: "Barista", company: "Gongcha Taiwan", dates: "June 2022 – August 2022" },
+  { role: "Cook", company: "Chipotle", dates: "August 2019 – December 2021" },
 ];
 
 type TypedTextProps = {
@@ -71,79 +71,76 @@ function TypedText({ children, className }: TypedTextProps) {
 
 export default function TypedResume() {
   return (
-    <div className="sim-page">
-      <header className="sim-topline">
-        <span><i className="sim-live-dot" /> <TypedText>SOFTWARE ENGINEERING / PORTFOLIO</TypedText></span>
-        <span><TypedText>NYC · 2026</TypedText></span>
+    <main className="professional-resume" aria-label="Professional resume">
+      <header className="professional-resume-header">
+        <h1><TypedText>Juan Camilo Gomez Valencia</TypedText></h1>
+        <p className="professional-resume-headline"><TypedText>Software Engineering Fellow</TypedText></p>
+        <div className="professional-resume-contact" aria-label="Contact information">
+          <span><TypedText>New York, NY</TypedText></span>
+          <a href="mailto:c6m1l00@gmail.com"><TypedText>c6m1l00@gmail.com</TypedText></a>
+          <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>github.com/camilogomez17</TypedText></a>
+        </div>
       </header>
 
-      <section className="sim-resume" aria-labelledby="resume-name">
-        <p className="sim-kicker"><TypedText>PORTFOLIO / SOFTWARE ENGINEERING</TypedText></p>
-        <h1 id="resume-name"><TypedText>Juan Camilo</TypedText><br /><span><TypedText>Gomez Valencia</TypedText></span></h1>
-        <div className="sim-intro">
-          <p><TypedText>Software engineering fellow at Marcy Labs with experience in front-end development, bilingual medical interpretation, and AI data annotation.</TypedText></p>
-          <p><TypedText>English / Spanish</TypedText></p>
-        </div>
+      <section className="professional-resume-section" aria-labelledby="professional-summary">
+        <h2 id="professional-summary"><TypedText>Professional Summary</TypedText></h2>
+        <p><TypedText>Software engineering fellow at Marcy Labs with a foundation in front-end development and experience in bilingual medical and legal interpretation, as well as AI data annotation. Building practical skills in modern web development, backend technologies, and software delivery.</TypedText></p>
+      </section>
 
-        <nav className="sim-links" aria-label="Contact links">
+      <section className="professional-resume-section" aria-labelledby="professional-experience">
+        <h2 id="professional-experience"><TypedText>Professional Experience</TypedText></h2>
+        <div className="professional-resume-entries">
+          {experience.map((item) => (
+            <article className="professional-resume-entry" key={item.company}>
+              <div className="professional-resume-entry-heading">
+                <h3><TypedText>{item.role}</TypedText></h3>
+                <span className="professional-resume-dates"><TypedText>{item.dates}</TypedText></span>
+              </div>
+              <p className="professional-resume-company"><TypedText>{item.company}</TypedText></p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="professional-resume-section" aria-labelledby="professional-education">
+        <h2 id="professional-education"><TypedText>Education</TypedText></h2>
+        <article className="professional-resume-entry">
+          <div className="professional-resume-entry-heading">
+            <h3><TypedText>Marcy Labs</TypedText></h3>
+            <span className="professional-resume-dates"><TypedText>September 2026 – Present</TypedText></span>
+          </div>
+          <p className="professional-resume-company"><TypedText>Software Engineering Fellowship</TypedText></p>
+        </article>
+        <article className="professional-resume-entry">
+          <div className="professional-resume-entry-heading">
+            <h3><TypedText>Independent Study</TypedText></h3>
+          </div>
+          <p className="professional-resume-company"><TypedText>Front-End Development</TypedText></p>
+        </article>
+      </section>
+
+      <section className="professional-resume-section" aria-labelledby="professional-skills">
+        <h2 id="professional-skills"><TypedText>Technical Skills</TypedText></h2>
+        <dl className="professional-resume-skills">
+          {skills.map((skill) => (
+            <div className="professional-resume-skill" key={skill.label}>
+              <dt><TypedText>{skill.label}</TypedText></dt>
+              <dd><TypedText>{skill.value}</TypedText></dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <footer className="professional-resume-footer">
+        <span><TypedText>Juan Camilo Gomez Valencia</TypedText></span>
+        <nav aria-label="Professional links">
           {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-              rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
-            >
-              <TypedText>{link.label}</TypedText><span aria-hidden="true"> ↗</span>
+            <a key={link.label} href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}>
+              <TypedText>{link.label}</TypedText>
             </a>
           ))}
         </nav>
-
-        <div className="sim-rule" />
-
-        <div className="sim-resume-grid">
-          <section className="sim-block" aria-labelledby="education-title">
-            <p className="sim-label" id="education-title"><TypedText>EDUCATION</TypedText></p>
-            <h2><TypedText>Marcy Labs</TypedText></h2>
-            <p><TypedText>Software Engineering Fellowship</TypedText></p>
-            <p className="sim-muted"><TypedText>September 2026 — Present</TypedText></p>
-            <h2><TypedText>Independent Study</TypedText></h2>
-            <p><TypedText>Front-End Development</TypedText></p>
-          </section>
-
-          <section className="sim-block" aria-labelledby="skills-title">
-            <p className="sim-label" id="skills-title"><TypedText>SKILLS</TypedText></p>
-            {skills.map((skill) => (
-              <div className="sim-skill-row" key={skill.label}>
-                <span><TypedText>{skill.label}</TypedText></span>
-                <span><TypedText>{skill.value}</TypedText></span>
-              </div>
-            ))}
-          </section>
-        </div>
-
-        <div className="sim-rule" />
-
-        <section className="sim-block" aria-labelledby="experience-title">
-          <p className="sim-label" id="experience-title"><TypedText>PROFESSIONAL EXPERIENCE</TypedText></p>
-          <div className="sim-experience-list">
-            {experience.map((item, index) => (
-              <article className="sim-experience-row" key={item.company}>
-                <span className="sim-experience-index"><TypedText>{String(index + 1).padStart(2, "0")}</TypedText></span>
-                <div>
-                  <h2><TypedText>{item.role}</TypedText></h2>
-                  <p><TypedText>{item.company}</TypedText></p>
-                </div>
-                <span className="sim-muted sim-experience-dates"><TypedText>{item.dates}</TypedText></span>
-              </article>
-            ))}
-          </div>
-        </section>
-      </section>
-
-      <footer className="sim-footer">
-        <span><TypedText>JUAN CAMILO GOMEZ VALENCIA</TypedText></span>
-        <span><TypedText>SOFTWARE ENGINEERING · 2026</TypedText></span>
       </footer>
-    </div>
+    </main>
   );
 }
