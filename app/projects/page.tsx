@@ -58,20 +58,20 @@ export default function ProjectsPage() {
     <div className={styles.page}>
       <div className="netrunner-shell">
         <div className="system-bar">
-          <span className="system-brand"><i /> GHOST NETWORK</span>
+          <span className="system-brand"><i /> GHOST INTERFACE</span>
           <span className="system-center">SECURE CHANNEL // PROJECT ARCHIVE</span>
           <span className="system-state"><i /> NETWORK CONNECTED</span>
         </div>
 
         <header className="deck-header">
-          <div className="deck-kicker"><span>SECTION 01</span> / TACHIKOMA ARCHIVE / 2026</div>
+          <div className="deck-kicker"><span>SECTION 01</span> / CYBERBRAIN ARCHIVE / 2026</div>
           <div className="deck-title-row">
             <div>
               <p className="deck-overline">INDEPENDENT SYSTEMS // FIELD RECORDS</p>
               <h1>PROJECT<span>_</span>ARCHIVE</h1>
               <p className="deck-description">
-                Software, experiments, and tools built to solve problems.
-                Select a file to access its repository or live deployment.
+                A record of software systems, experiments, and deployed tools.
+                Select an entry to inspect its source or establish a live connection.
               </p>
             </div>
             <div className="deck-readout" aria-label="Project count">
@@ -134,7 +134,7 @@ export default function ProjectsPage() {
           </a>
         </footer>
         <div className="system-footer">
-          <span>GHOST NETWORK // BUILD 2026.11</span>
+          <span>GHOST INTERFACE // BUILD 2026.11</span>
           <span>CHANNEL SECURE <i /></span>
         </div>
       </div>
