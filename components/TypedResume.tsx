@@ -4,7 +4,8 @@ import { useEffect, useState, type ReactNode } from "react";
 
 const links = [
   { label: "GitHub", href: "https://github.com/camilogomez17" },
-  { label: "Email", href: "mailto:c6m1l00@gmail.com" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/camilogomezvalencia/" },
+  { label: "Email", href: "mailto:c6m1lo@proton.me" },
 ];
 
 const skills = [
