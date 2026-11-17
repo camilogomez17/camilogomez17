@@ -3,12 +3,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import GlitchCharacter from "./GlitchCharacter";
 
-const links = [
-  { label: "GitHub", href: "https://github.com/camilogomez17" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/camilogomezvalencia/" },
-  { label: "Email", href: "mailto:c6m1lo@proton.me" },
-];
-
 const skills = [
   { label: "Frontend", value: "HTML, CSS, JavaScript, TypeScript, React, Next.js" },
   { label: "Backend", value: "Node.js, Express, Python," },
@@ -77,6 +71,7 @@ export default function TypedResume() {
           <span><TypedText>New York, NY</TypedText></span>
           <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
+          <a href="https://www.linkedin.com/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a>
         </div>
       </header>
 
@@ -122,17 +117,6 @@ export default function TypedResume() {
           ))}
         </dl>
       </section>
-
-      <footer className="professional-resume-footer">
-        <span><TypedText>Camilo Gomez</TypedText></span>
-        <nav aria-label="Professional links">
-          {links.map((link) => (
-            <a key={link.label} href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}>
-              <TypedText>{link.label}</TypedText>
-            </a>
-          ))}
-        </nav>
-      </footer>
     </main>
   );
 }
