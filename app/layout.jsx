@@ -105,7 +105,7 @@ export default function RootLayout({ children }) {
         <footer className="site-footer">
           <div className="content footer-row">
             <p>
-              © {new Date().getFullYear()} CAMILO GOMEZ. All rights reserved.
+              © {new Date().getFullYear()} All rights reserved.
             </p>
             <div className="footer-links">
               <a className="footer-link" href="/privacy">

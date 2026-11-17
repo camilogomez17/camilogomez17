@@ -5,11 +5,10 @@ export default function SupportPage() {
         <span className="kicker">Support</span>
         <h1 className="mt-5 text-4xl font-semibold sm:text-5xl">Get Help</h1>
         <p className="muted mt-4 max-w-2xl">
-          For site-related questions, corrections, or collaboration inquiries, contact me directly by
-          email.
+          For any site related issues or bug reports please contact:<br></br>
         </p>
-        <a className="primary-link mt-6 text-lg" href="mailto:c6m1lo@proton.me">
-          c6m1lo@proton.me
+        <a className="primary-link mt-6 text-lg" href="mailto:jgomezval@icloud.me">
+          jgomezval@icloud.com
         </a>
       </section>
     </div>
