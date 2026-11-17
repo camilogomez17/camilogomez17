@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import GlitchCharacter from "./GlitchCharacter";
 
 const skills = [
@@ -18,12 +18,12 @@ const experience = [
 ];
 
 type TypedTextProps = {
-  children: ReactNode;
+  children: string;
   className?: string;
 };
 
 function TypedText({ children, className }: TypedTextProps) {
-  const text = String(children ?? "");
+  const text = children;
   const [visibleCount, setVisibleCount] = useState(0);
   const [wordsPerMinute] = useState(() => 70 + Math.floor(Math.random() * 31));
 
@@ -69,9 +69,9 @@ export default function TypedResume() {
         <p className="professional-resume-headline"><TypedText>Software Engineering Fellow</TypedText></p>
         <div className="professional-resume-contact" aria-label="Contact information">
           <span><TypedText>New York, NY</TypedText></span>
-          <TypedText><a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a></TypedText>
-          <TypedText><a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a></TypedText>
-          <TypedText><a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a></TypedText>
+          <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
+          <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
+          <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a>
         </div>
       </header>
 
