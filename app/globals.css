@@ -213,12 +213,10 @@ pre {
 
 .top-nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0 0 auto;
   height: var(--nav-height);
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-subtle);
+  background: #000;
+  border-bottom: 1px solid #1b1b1b;
   z-index: 1000;
 }
 
@@ -227,7 +225,27 @@ pre {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  color: #f5f5f5;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+}
+
+.nav-brand span {
+  margin-left: 2px;
+  color: #666;
+}
+
+.nav-brand:hover {
+  color: #aaa;
 }
 
 .nav-left {
@@ -268,7 +286,9 @@ pre {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 18px;
+  justify-content: flex-end;
+  gap: clamp(16px, 3vw, 28px);
+  min-width: 0;
 }
 
 .nav-search {
@@ -355,17 +375,41 @@ pre {
 }
 
 .nav-link {
-  color: var(--text-muted);
-  padding: 10px 0;
-  border-top: 2px solid transparent;
-  letter-spacing: 0.08em;
-  font-size: 11px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--nav-height);
+  color: #777;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .12em;
   text-transform: uppercase;
+  white-space: nowrap;
+  transition: color .18s ease;
 }
 
-.nav-link:hover {
-  color: var(--accent-primary);
-  border-top-color: var(--accent-primary);
+.nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: #eee;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .18s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: #f5f5f5;
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
 }
 
 @media (max-width: 720px) {
@@ -406,9 +450,9 @@ pre {
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 
 .site-footer {
-  border-top: 1px solid var(--border-subtle);
-  background: var(--bg-primary);
-  padding: 18px 0;
+  border-top: 1px solid #1b1b1b;
+  background: #000;
+  padding: 22px 0;
 }
 
 .footer-row {
@@ -416,26 +460,52 @@ pre {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
+  gap: 14px 24px;
+  color: #666;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  line-height: 1.6;
   text-transform: uppercase;
+}
+
+.footer-copyright {
+  color: #777;
+  white-space: nowrap;
 }
 
 .footer-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 10px 22px;
   align-items: center;
 }
 
 .footer-link {
-  color: var(--text-muted);
+  color: #777;
+  white-space: nowrap;
+  transition: color .18s ease;
 }
 
-.footer-link:hover {
-  color: var(--text-secondary);
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: #f5f5f5;
+}
+
+@media (max-width: 560px) {
+  .site-footer {
+    padding: 18px 0;
+  }
+
+  .footer-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-links {
+    gap: 9px 16px;
+  }
 }
 
 /* ─── Terminal Home + Cards ──────────────────────────────────────────────── */
