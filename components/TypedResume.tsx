@@ -76,7 +76,7 @@ export default function TypedResume() {
         <div className="professional-resume-contact" aria-label="Contact information">
           <span><TypedText>New York, NY</TypedText></span>
           <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
-          <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>github.com/camilogomez17</TypedText></a>
+          <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
         </div>
       </header>
 

@@ -33,7 +33,7 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  keywords: ["Camilo Gomez", "C6m1lo", "software engineering", "resume", "TypeScript", "React", "Python"],
+  keywords: ["Camilo Gomez", "software engineering", "resume", "TypeScript", "React", "Python"],
   openGraph: {
     title: "Camilo Valencia — Software Engineering",
     description:
@@ -105,7 +105,7 @@ export default function RootLayout({ children }) {
         <footer className="site-footer">
           <div className="content footer-row">
             <p>
-              © {new Date().getFullYear()} CAMILO VALENCIA. All rights reserved.
+              © {new Date().getFullYear()} CAMILO GOMEZ. All rights reserved.
             </p>
             <div className="footer-links">
               <a className="footer-link" href="/privacy">
