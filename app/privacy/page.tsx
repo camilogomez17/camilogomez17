@@ -15,7 +15,7 @@ export default function PrivacyPage() {
           <article className="info-card">
             <h2 className="text-xl font-semibold">Who operates this site</h2>
             <p className="muted mt-2">
-              This is a personal portfolio and project website operated by Camilo Valencia. For privacy questions or requests, contact c6m1lo@proton.me.
+              This is a personal portfolio and project website operated by Juan Gomez. For privacy questions or requests, contact c6m1lo@proton.me.
             </p>
           </article>
 

@@ -11,11 +11,11 @@ const links = [
 
 const skills = [
   { label: "Frontend", value: "HTML, CSS, JavaScript, TypeScript, React, Next.js" },
-  { label: "Backend", value: "Node.js, Express, Python, PostgreSQL" },
-  { label: "Cloud & services", value: "Vercel, AWS, OAuth, Stripe" },
+  { label: "Backend", value: "Node.js, Express, Python," },
+  { label: "Cloud & services", value: "Vercel, OAuth, Stripe, AWS" },
   { label: "Tools", value: "VS Code, Git, GitHub, Quality Assurance" },
-  { label: "Languages", value: "English, Spanish" },
   { label: "Operating systems", value: "Linux, Windows, macOS" },
+  { label: "Languages", value: "English, Spanish" },
 ];
 
 const experience = [
@@ -71,7 +71,7 @@ export default function TypedResume() {
   return (
     <main className="professional-resume" aria-label="Professional resume">
       <header className="professional-resume-header">
-        <h1><TypedText>Juan C. Gomez V.</TypedText></h1>
+        <h1><TypedText>Camilo Gomez</TypedText></h1>
         <p className="professional-resume-headline"><TypedText>Software Engineering Fellow</TypedText></p>
         <div className="professional-resume-contact" aria-label="Contact information">
           <span><TypedText>New York, NY</TypedText></span>
@@ -82,7 +82,7 @@ export default function TypedResume() {
 
       <section className="professional-resume-section" aria-labelledby="professional-summary">
         <h2 id="professional-summary"><TypedText>Professional Summary</TypedText></h2>
-        <p><TypedText>Software engineering fellow at Marcy Labs with a foundation in front-end development and experience in bilingual medical and legal interpretation, as well as AI data annotation. Building practical skills in modern web development, backend technologies, and software delivery.</TypedText></p>
+        <p><TypedText>Software engineering fellow at Marcy Labs, with a background in React and TypeScript, as well as AI enhanced development for rapid development.</TypedText></p>
       </section>
 
       <section className="professional-resume-section" aria-labelledby="professional-experience">
@@ -124,7 +124,7 @@ export default function TypedResume() {
       </section>
 
       <footer className="professional-resume-footer">
-        <span><TypedText>Juan Camilo Gomez Valencia</TypedText></span>
+        <span><TypedText>Camilo Gomez</TypedText></span>
         <nav aria-label="Professional links">
           {links.map((link) => (
             <a key={link.label} href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}>

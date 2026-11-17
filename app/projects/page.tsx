@@ -6,10 +6,8 @@ import styles from "./page.module.css";
 import GlitchCharacter from "../../components/GlitchCharacter";
 
 const projects = [
-  { name: "Transcription & Annotation", href: "https://github.com/camilogomez17/medical-transcription-app.git" },
-  { name: "Noise Gate", href: "https://github.com/camilogomez17/noise_gate_mac.git" },
-  { name: "Bible Study", href: "https://c3rvkpmmirwh.run.agentplace.io" },
-  { name: "Python Study", href: "https://m6spxjeqt2hf.run.agentplace.io" },
+  { name: "Portfolio", href: "https://www.c6m1lo.com" },
+  { name: "Python Agent", href: "https://m6spxjeqt2hf.run.agentplace.io" },
 ];
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!<>[]{}?/\\|";
