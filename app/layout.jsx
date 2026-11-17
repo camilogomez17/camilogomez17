@@ -6,8 +6,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Camilo Valencia — Software Engineer",
-    template: "%s | Camilo Valencia",
+    default: "c6m1lo.com",
+    template: "%s | Camilo Gomez",
   },
   description:
     "Camilo Valencia is a software engineering student building web applications with TypeScript, React, and Next.js while learning Python for backend development.",
@@ -27,7 +27,7 @@ export const metadata = {
   },
   keywords: ["Camilo Gomez", "software engineering", "resume", "TypeScript", "React", "Python"],
   openGraph: {
-    title: "Camilo Valencia — Software Engineering",
+    title: "Camilo Gomez — Software Engineering",
     description:
       "Software engineering portfolio for Camilo Valencia.",
     url: SITE_URL,
