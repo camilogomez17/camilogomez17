@@ -11,7 +11,7 @@ const links = [
 
 const skills = [
   { label: "Frontend", value: "HTML, CSS, JavaScript, TypeScript, React, Next.js" },
-  { label: "Backend", value: "Node.js, Express, Python, REST APIs, FastAPI, PostgreSQL" },
+  { label: "Backend", value: "Node.js, Express, Python, PostgreSQL" },
   { label: "Cloud & services", value: "Vercel, AWS, OAuth, Stripe" },
   { label: "Tools", value: "VS Code, Git, GitHub, Quality Assurance" },
   { label: "Languages", value: "English, Spanish" },
@@ -19,14 +19,8 @@ const skills = [
 ];
 
 const experience = [
-  { role: "Certified Medical Interpreter", company: "Propio Language Services", dates: "August 2024 – Present" },
   { role: "Spanish Data Annotation Specialist", company: "Uber AI Solutions", dates: "February 2026 – August 2026" },
-  { role: "Cook", company: "KPOT", dates: "October 2025 – December 2025" },
   { role: "Clinical NLP Annotation Specialist", company: "Centific", dates: "June 2025 – August 2025" },
-  { role: "Legal Interpreter", company: "Kate Nussman Ellis Farhi & Earle, LLP", dates: "January 2024 – July 2024" },
-  { role: "Certified Medical Interpreter", company: "Kelly Services", dates: "January 2023 – July 2024" },
-  { role: "Barista", company: "Gongcha Taiwan", dates: "June 2022 – August 2022" },
-  { role: "Cook", company: "Chipotle", dates: "August 2019 – December 2021" },
 ];
 
 type TypedTextProps = {
@@ -77,11 +71,11 @@ export default function TypedResume() {
   return (
     <main className="professional-resume" aria-label="Professional resume">
       <header className="professional-resume-header">
-        <h1><TypedText>Juan Camilo Gomez Valencia</TypedText></h1>
+        <h1><TypedText>Juan C. Gomez V.</TypedText></h1>
         <p className="professional-resume-headline"><TypedText>Software Engineering Fellow</TypedText></p>
         <div className="professional-resume-contact" aria-label="Contact information">
           <span><TypedText>New York, NY</TypedText></span>
-          <a href="mailto:c6m1l00@gmail.com"><TypedText>c6m1l00@gmail.com</TypedText></a>
+          <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>github.com/camilogomez17</TypedText></a>
         </div>
       </header>
