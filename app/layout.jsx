@@ -101,25 +101,7 @@ export default function RootLayout({ children }) {
         <main id="main-content" className="app-main" tabIndex={-1}>
           <div className="content">{children}</div>
         </main>
-
-        <footer className="site-footer">
-          <div className="content footer-row">
-            <p>
-              © {new Date().getFullYear()} All rights reserved.
-            </p>
-            <div className="footer-links">
-              <a className="footer-link" href="/privacy">
-                Privacy Policy
-              </a>
-              <a className="footer-link" href="/support">
-                Support
-              </a>
-              <a className="footer-link" href="/tos">
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </footer>
+        
       </body>
     </html>
   );
