@@ -1,15 +1,7 @@
 import "./globals.css";
 
 import Link from "next/link";
-import { Cormorant_Garamond } from "next/font/google";
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
-
-const valencia = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-valencia",
-});
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -59,7 +51,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={valencia.variable}>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -84,6 +76,7 @@ export default function RootLayout({ children }) {
 
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
+            <Link className="nav-brand" href="/" aria-label="c6m1lo home">c6m1lo<span aria-hidden="true">/</span></Link>
             <div className="nav-links">
               <Link className="nav-link" href="/">
                 Home
@@ -101,7 +94,6 @@ export default function RootLayout({ children }) {
         <main id="main-content" className="app-main" tabIndex={-1}>
           <div className="content">{children}</div>
         </main>
-        
       </body>
     </html>
   );
