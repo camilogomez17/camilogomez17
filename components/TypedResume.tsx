@@ -20,9 +20,10 @@ const experience = [
 type TypedTextProps = {
   children: string;
   className?: string;
+  speedMultiplier?: number;
 };
 
-function TypedText({ children, className }: TypedTextProps) {
+function TypedText({ children, className, speedMultiplier = 1 }: TypedTextProps) {
   const text = children;
   const [visibleCount, setVisibleCount] = useState(0);
   const [wordsPerMinute] = useState(() => 70 + Math.floor(Math.random() * 31));
@@ -36,12 +37,12 @@ function TypedText({ children, className }: TypedTextProps) {
       index += 1;
       setVisibleCount(index);
       if (index < text.length) {
-        timeoutId = window.setTimeout(typeNextCharacter, 12000 / wordsPerMinute);
+        timeoutId = window.setTimeout(typeNextCharacter, 12000 / (wordsPerMinute * speedMultiplier));
       }
     };
 
     if (text.length > 0) {
-      timeoutId = window.setTimeout(typeNextCharacter, 12000 / wordsPerMinute);
+      timeoutId = window.setTimeout(typeNextCharacter, 12000 / (wordsPerMinute * speedMultiplier));
     }
 
     return () => {
@@ -49,7 +50,7 @@ function TypedText({ children, className }: TypedTextProps) {
         window.clearTimeout(timeoutId);
       }
     };
-  }, [text, wordsPerMinute]);
+  }, [text, wordsPerMinute, speedMultiplier]);
 
   return (
     <span className={className} aria-label={text}>
@@ -77,7 +78,7 @@ export default function TypedResume() {
 
       <section className="professional-resume-section" aria-labelledby="professional-summary">
         <h2 id="professional-summary"><TypedText>Professional Summary</TypedText></h2>
-        <p><TypedText>Software engineering fellow at Marcy Labs, with a background in front-end development with React and TypeScript, as well as LLM agents.</TypedText></p>
+        <p><TypedText speedMultiplier={2}>Software engineering fellow at Marcy Labs, with a background in front-end development with React and TypeScript, as well as LLM agents.</TypedText></p>
       </section>
 
       <section className="professional-resume-section" aria-labelledby="professional-experience">
