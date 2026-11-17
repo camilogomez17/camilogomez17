@@ -97,7 +97,7 @@ export default function RootLayout({ children }) {
 
         <footer className="site-footer">
           <div className="content footer-row">
-            <p>
+            <p className="footer-copyright">
               © {new Date().getFullYear()} CAMILO VALENCIA
             </p>
             <div className="footer-links">
