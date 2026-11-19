@@ -8,6 +8,7 @@ import GlitchCharacter from "../../components/GlitchCharacter";
 const projects = [
   { name: "Portfolio", href: "https://www.c6m1lo.com" },
   { name: "Python Agent", href: "https://m6spxjeqt2hf.run.agentplace.io" },
+  { name: "Alexandra Valencia", href: "https://www.alexandravalencia.com/" },
 ];
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!<>[]{}?/\\|";
