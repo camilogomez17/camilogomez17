@@ -74,6 +74,13 @@ export default function TypedResume() {
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
           <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a>
           <a href="https://www.alexandravalencia.com/" target="_blank" rel="noreferrer"><TypedText>Alexandra Valencia</TypedText></a>
+          <div className="professional-resume-location"><TypedText>New York, NY</TypedText></div>
+          
+          <div className="professional-resume-links">
+            <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
+            <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
+            <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a>
+          </div>
         </div>
       </header>
 
