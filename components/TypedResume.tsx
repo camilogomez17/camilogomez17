@@ -73,6 +73,7 @@ export default function TypedResume() {
           <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
           <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
           <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a>
+          <a href="https://www.alexandravalencia.com/" target="_blank" rel="noreferrer"><TypedText>Alexandra Valencia</TypedText></a>
         </div>
       </header>
 
