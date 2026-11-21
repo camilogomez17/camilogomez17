@@ -62,6 +62,56 @@ function TypedText({ children, className, speedMultiplier = 1 }: TypedTextProps)
   );
 }
 
+const contactLinks = [
+  { label: "Email", href: "mailto:jgomezval@icloud.com" },
+  { label: "GitHub", href: "https://github.com/camilogomez17" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/camilogomezvalencia" },
+  { label: "WhatsApp", href: "https://wa.me/16467341542?s=p" },
+];
+
+function TypedLinks() {
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [wordsPerMinute] = useState(() => 70 + Math.floor(Math.random() * 31));
+  const totalLength = contactLinks.reduce((sum, link) => sum + link.label.length, 0);
+
+  useEffect(() => {
+    let index = 0;
+    const intervalId = window.setInterval(() => {
+      index += 1;
+      setVisibleCount(index);
+      if (index >= totalLength) window.clearInterval(intervalId);
+    }, 12000 / wordsPerMinute);
+
+    return () => window.clearInterval(intervalId);
+  }, [totalLength, wordsPerMinute]);
+
+  let offset = 0;
+
+  return (
+    <div className="professional-resume-links">
+      {contactLinks.map((link) => {
+        const start = offset;
+        offset += link.label.length;
+        const count = Math.max(0, Math.min(link.label.length, visibleCount - start));
+        return (
+          <a
+            href={link.href}
+            key={link.label}
+            target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+            rel={link.href.startsWith("mailto:") ? undefined : "noreferrer"}
+            aria-label={link.label}
+          >
+            {Array.from(link.label.slice(0, count)).map((character, index) => (
+              <GlitchCharacter character={character} key={`${index}-${character}`} />
+            ))}
+            <span className="sr-only">{link.label.slice(count)}</span>
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function TypedResume() {
   return (
     <main className="professional-resume" aria-label="Professional resume">
@@ -71,12 +121,7 @@ export default function TypedResume() {
         <div className="professional-resume-contact" aria-label="Contact information">
           <span><TypedText>New York, NY</TypedText></span>
           
-          <div className="professional-resume-links">
-            <a href="mailto:jgomezval@icloud.com"><TypedText>Email</a>
-            <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="https://wa.me/16467341542?s=p" target="_blank" rel="noreferrer">WhatsApp</TypedText></a>
-          </div>
+          <TypedLinks />
         </div>
       </header>
 
