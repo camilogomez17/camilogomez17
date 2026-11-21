@@ -127,7 +127,7 @@ export default function TypedResume() {
 
       <section className="professional-resume-section" aria-labelledby="professional-summary">
         <h2 id="professional-summary"><TypedText>Professional Summary</TypedText></h2>
-        <p><TypedText speedMultiplier={2}>Software engineering fellow at Marcy Labs, with a background in front-end development with React and TypeScript, as well as LLM agents.</TypedText></p>
+        <p><TypedText speedMultiplier={2}>Marcy Labs Software Engineering Fellow and front-end developer.</TypedText></p>
       </section>
 
       <section className="professional-resume-section" aria-labelledby="professional-experience">
