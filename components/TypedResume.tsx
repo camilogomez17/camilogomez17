@@ -72,10 +72,10 @@ export default function TypedResume() {
           <span><TypedText>New York, NY</TypedText></span>
           
           <div className="professional-resume-links">
-            <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
-            <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer"><TypedText>GitHub</TypedText></a>
-            <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer"><TypedText>LinkedIn</TypedText></a>
-            <a href="https://wa.me/16467341542?s=p" target="_blank" rel="noreferrer"><TypedText>WhatsApp</TypedText></a>
+            <a href="mailto:jgomezval@icloud.com"><TypedText>Email</a>
+            <a href="https://github.com/camilogomez17" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/camilogomezvalencia" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://wa.me/16467341542?s=p" target="_blank" rel="noreferrer">WhatsApp</TypedText></a>
           </div>
         </div>
       </header>
