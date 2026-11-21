@@ -70,7 +70,6 @@ export default function TypedResume() {
         <p className="professional-resume-headline"><TypedText>Software Engineering Fellow</TypedText></p>
         <div className="professional-resume-contact" aria-label="Contact information">
           <span><TypedText>New York, NY</TypedText></span>
-          <div className="professional-resume-location"><TypedText>New York, NY</TypedText></div>
           
           <div className="professional-resume-links">
             <a href="mailto:jgomezval@icloud.com"><TypedText>Email</TypedText></a>
