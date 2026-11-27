@@ -10,6 +10,7 @@ const projects = [
   { name: "Python Agent", href: "https://m6spxjeqt2hf.run.agentplace.io" },
   { name: "Alexandra Valencia", href: "https://www.alexandravalencia.com/" },
   { name: "Hotel BlueThree", href: "https://hotelbluethree.vercel.app/" },
+  { name: "Household App", href: "https://householdapps.vercel.app/" },
 ];
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!<>[]{}?/\\|";
